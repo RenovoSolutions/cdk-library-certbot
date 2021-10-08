@@ -1,3 +1,5 @@
+import { execSync } from 'child_process';
+import * as path from 'path';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as cdk from '@aws-cdk/core';
@@ -55,10 +57,41 @@ export class Certbot extends cdk.Construct {
       });
     }
 
+    props.layers = (props.layers === undefined) ? [] : props.layers;
+
+    const functionDir = path.join(__dirname, '../function');
+
     this.handler = new lambda.Function(this, 'handler', {
       runtime: lambda.Runtime.PYTHON_3_8,
-      handler: 'main.handler',
-      code: lambda.Code.fromAsset('lambda/'),
+      code: lambda.Code.fromAsset(functionDir, {
+        bundling: {
+          image: lambda.Runtime.PYTHON_3_8.bundlingImage,
+          local: {
+            tryBundle(outputDir: string) {
+              try {
+                execSync('pip3 --version | grep "python 3.8"');
+              } catch {
+                return false;
+              }
+
+              try {
+                execSync(`pip install -r ${path.join(functionDir, 'requirements.txt')} -t ${path.join(outputDir)}`);
+              } catch {
+                return false;
+              }
+
+              try {
+                execSync(`cp -au ${functionDir}/* ${path.join(outputDir)}`);
+              } catch {
+                return false;
+              }
+
+              return true;
+            },
+          },
+        },
+      }),
+      handler: 'index.handler',
       environment: {
         LETSENCRYPT_DOMAINS: props.letsencryptDomains,
         LETSENCRYPT_EMAIL: props.letsencryptEmail,

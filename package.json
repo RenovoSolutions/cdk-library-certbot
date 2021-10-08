@@ -31,8 +31,8 @@
     "projen": "npx projen"
   },
   "author": {
-    "name": "Brandon Miller",
-    "email": "brandon@digital-reboot.com",
+    "name": "Renovo Solutions",
+    "email": "webmaster+cdk@renovo1.com",
     "organization": false
   },
   "devDependencies": {
@@ -60,12 +60,14 @@
   },
   "peerDependencies": {
     "@aws-cdk/aws-lambda": "^1.126.0",
+    "@aws-cdk/aws-lambda-python": "^1.126.0",
     "@aws-cdk/aws-s3": "^1.126.0",
     "@aws-cdk/core": "^1.126.0",
     "constructs": "^3.2.27"
   },
   "dependencies": {
     "@aws-cdk/aws-lambda": "^1.126.0",
+    "@aws-cdk/aws-lambda-python": "^1.126.0",
     "@aws-cdk/aws-s3": "^1.126.0",
     "@aws-cdk/core": "^1.126.0"
   },
