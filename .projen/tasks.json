@@ -113,7 +113,8 @@
       "env": {
         "OUTFILE": "package.json",
         "CHANGELOG": "dist/changelog.md",
-        "BUMPFILE": "dist/version.txt"
+        "BUMPFILE": "dist/version.txt",
+        "RELEASETAG": "dist/releasetag.txt"
       },
       "steps": [
         {
@@ -128,7 +129,8 @@
       "env": {
         "OUTFILE": "package.json",
         "CHANGELOG": "dist/changelog.md",
-        "BUMPFILE": "dist/version.txt"
+        "BUMPFILE": "dist/version.txt",
+        "RELEASETAG": "dist/releasetag.txt"
       },
       "steps": [
         {
@@ -141,53 +143,12 @@
       "description": "Publish this package to GitHub Releases",
       "requiredEnv": [
         "GITHUB_TOKEN",
-        "GITHUB_REPOSITORY"
+        "GITHUB_REPOSITORY",
+        "GITHUB_REF"
       ],
       "steps": [
         {
-          "exec": "errout=$(mktemp); gh release create v$(cat dist/version.txt) -R $GITHUB_REPOSITORY -F dist/changelog.md -t v$(cat dist/version.txt) 2> $errout && true; exitcode=$?; if [ $exitcode -ne 0 ] && ! grep -q \"Release.tag_name already exists\" $errout; then cat $errout; exit $exitcode; fi"
-        }
-      ]
-    },
-    "upgrade": {
-      "name": "upgrade",
-      "description": "upgrade dependencies",
-      "env": {
-        "CI": "0"
-      },
-      "steps": [
-        {
-          "exec": "npm-check-updates --upgrade --target=minor --reject='projen'"
-        },
-        {
-          "exec": "yarn install --check-files"
-        },
-        {
-          "exec": "yarn upgrade @aws-cdk/assert @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import jest jest-junit jsii jsii-diff jsii-docgen jsii-pacmak json-schema npm-check-updates standard-version ts-jest typescript constructs"
-        },
-        {
-          "exec": "npx projen"
-        }
-      ]
-    },
-    "upgrade-projen": {
-      "name": "upgrade-projen",
-      "description": "upgrade projen",
-      "env": {
-        "CI": "0"
-      },
-      "steps": [
-        {
-          "exec": "npm-check-updates --upgrade --target=minor --filter='projen'"
-        },
-        {
-          "exec": "yarn install --check-files"
-        },
-        {
-          "exec": "yarn upgrade projen"
-        },
-        {
-          "exec": "npx projen"
+          "exec": "errout=$(mktemp); gh release create $(cat dist/releasetag.txt) -R $GITHUB_REPOSITORY -F dist/changelog.md -t $(cat dist/releasetag.txt) --target $GITHUB_REF 2> $errout && true; exitcode=$?; if [ $exitcode -ne 0 ] && ! grep -q \"Release.tag_name already exists\" $errout; then cat $errout; exit $exitcode; fi"
         }
       ]
     },
@@ -251,6 +212,31 @@
         }
       ]
     },
+    "publish:pypi": {
+      "name": "publish:pypi",
+      "description": "Publish this package to PyPI",
+      "requiredEnv": [
+        "TWINE_USERNAME",
+        "TWINE_PASSWORD"
+      ],
+      "steps": [
+        {
+          "exec": "npx -p jsii-release@latest jsii-release-pypi"
+        }
+      ]
+    },
+    "publish:nuget": {
+      "name": "publish:nuget",
+      "description": "Publish this package to NuGet Gallery",
+      "requiredEnv": [
+        "NUGET_API_KEY"
+      ],
+      "steps": [
+        {
+          "exec": "npx -p jsii-release@latest jsii-release-nuget"
+        }
+      ]
+    },
     "docgen": {
       "name": "docgen",
       "description": "Generate API.md from .jsii manifest",
@@ -262,7 +248,7 @@
     },
     "release": {
       "name": "release",
-      "description": "Prepare a release from \"main\" branch",
+      "description": "Prepare a release from \"master\" branch",
       "env": {
         "RELEASE": "true"
       },
@@ -281,6 +267,72 @@
         },
         {
           "exec": "git diff --ignore-space-at-eol --exit-code"
+        }
+      ]
+    },
+    "upgrade": {
+      "name": "upgrade",
+      "description": "upgrade dependencies",
+      "env": {
+        "CI": "0"
+      },
+      "steps": [
+        {
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='projen'"
+        },
+        {
+          "exec": "yarn install --check-files"
+        },
+        {
+          "exec": "yarn upgrade @aws-cdk/assert @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import jest jest-junit jsii jsii-diff jsii-docgen jsii-pacmak json-schema npm-check-updates standard-version ts-jest typescript @aws-cdk/aws-lambda @aws-cdk/aws-s3 @aws-cdk/core constructs @aws-cdk/aws-lambda @aws-cdk/aws-s3 @aws-cdk/core"
+        },
+        {
+          "exec": "npx projen"
+        }
+      ]
+    },
+    "upgrade-projen": {
+      "name": "upgrade-projen",
+      "description": "upgrade projen",
+      "env": {
+        "CI": "0"
+      },
+      "steps": [
+        {
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "yarn install --check-files"
+        },
+        {
+          "exec": "yarn upgrade projen"
+        },
+        {
+          "exec": "npx projen"
         }
       ]
     }

@@ -1,18 +1,32 @@
-const { AwsCdkConstructLibrary } = require('projen');
+const { AwsCdkConstructLibrary, ProjectType, NpmAccess } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Brandon Miller',
   authorAddress: 'brandon@digital-reboot.com',
-  cdkVersion: '1.95.2',
-  defaultReleaseBranch: 'main',
-  name: 'cdk-library-certbot',
-  repositoryUrl: 'https://github.com/brandon/cdk-library-certbot.git',
-
-  // cdkDependencies: undefined,      /* Which AWS CDK modules (those that start with "@aws-cdk/") does this library require when consumed? */
-  // cdkTestDependencies: undefined,  /* AWS CDK modules required for testing. */
-  // deps: [],                        /* Runtime dependencies of this module. */
-  // description: undefined,          /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],                     /* Build dependencies for this module. */
-  // packageName: undefined,          /* The "name" in package.json. */
-  // release: undefined,              /* Add release management to this project. */
+  cdkVersion: '1.126.0',
+  defaultReleaseBranch: 'master',
+  name: '@renovosolutions/cdk-library-certbot',
+  description: 'AWS CDK Construct Library to manage Lets Encrypt certificate renewals with Certbot',
+  repositoryUrl: 'https://github.com/RenovoSolutions/cdk-library-certbot.git',
+  cdkDependencies: [
+    '@aws-cdk/core',
+    '@aws-cdk/aws-lambda',
+    '@aws-cdk/aws-s3'
+  ],
+  projectType: ProjectType.LIB,
+  releaseToNpm: true,
+  releaseWorkflow: true,
+  npmAccess: NpmAccess.PUBLIC,
+  cdkAssert: true,
+  mergify: false,
+  docgen: true,
+  eslint: true,
+  publishToPypi: {
+    distName: 'renovosolutions.aws-cdk-certbot',
+    module: 'certbot',
+  },
+  publishToNuget: {
+    dotNetNamespace: 'renovosolutions',
+    packageId: 'Renovo.AWSCDK.Certbot',
+  },
 });
 project.synth();
