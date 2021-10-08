@@ -10,7 +10,7 @@ const project = new AwsCdkConstructLibrary({
   cdkDependencies: [
     '@aws-cdk/core',
     '@aws-cdk/aws-lambda',
-    '@aws-cdk/aws-s3'
+    '@aws-cdk/aws-s3',
   ],
   projectType: ProjectType.LIB,
   releaseToNpm: true,
