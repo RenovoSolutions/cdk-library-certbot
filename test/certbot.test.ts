@@ -2,7 +2,7 @@ import { expect as expectCDK, countResources } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
 import { Certbot } from '../src/index';
 
-test('Simple test', () => {
+test('Default', () => {
   const app = new cdk.App();
   const stack = new cdk.Stack(app, 'TestStack');
 
@@ -12,5 +12,6 @@ test('Simple test', () => {
   });
 
   expectCDK(stack).to(countResources('AWS::Lambda::Function', 1));
-
+  expectCDK(stack).to(countResources('AWS::Events::Rule', 1));
+  expectCDK(stack).to(countResources('AWS::S3::Bucket', 1));
 });

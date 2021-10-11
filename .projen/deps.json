@@ -2,7 +2,7 @@
   "dependencies": [
     {
       "name": "@aws-cdk/assert",
-      "version": "^1.126.0",
+      "version": "^1.127.0",
       "type": "build"
     },
     {
@@ -90,23 +90,28 @@
       "type": "build"
     },
     {
-      "name": "@aws-cdk/aws-lambda-python",
-      "version": "^1.126.0",
+      "name": "@aws-cdk/aws-events-targets",
+      "version": "^1.127.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-events",
+      "version": "^1.127.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-lambda",
-      "version": "^1.126.0",
+      "version": "^1.127.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-s3",
-      "version": "^1.126.0",
+      "version": "^1.127.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "^1.126.0",
+      "version": "^1.127.0",
       "type": "peer"
     },
     {
@@ -115,23 +120,28 @@
       "type": "peer"
     },
     {
-      "name": "@aws-cdk/aws-lambda-python",
-      "version": "^1.126.0",
+      "name": "@aws-cdk/aws-events-targets",
+      "version": "^1.127.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-events",
+      "version": "^1.127.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-lambda",
-      "version": "^1.126.0",
+      "version": "^1.127.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-s3",
-      "version": "^1.126.0",
+      "version": "^1.127.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "^1.126.0",
+      "version": "^1.127.0",
       "type": "runtime"
     }
   ],
