@@ -1,4 +1,6 @@
 import * as path from 'path';
+import * as events from '@aws-cdk/aws-events';
+import * as targets from '@aws-cdk/aws-events-targets';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as cdk from '@aws-cdk/core';
@@ -101,6 +103,11 @@ export class Certbot extends cdk.Construct {
         PREFERRED_CHAIN: (props.preferredChain === undefined) ? 'None' : props.preferredChain,
       },
       layers: props.layers,
+    });
+
+    new events.Rule(this, 'trigger', {
+      schedule: events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }),
+      targets: [new targets.LambdaFunction(this.handler)],
     });
   }
 }
