@@ -56,6 +56,20 @@ public readonly handler: Function;
 
 #### Properties <a name="Properties"></a>
 
+##### `hostedZoneNames`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.hostedZoneNames"></a>
+
+```typescript
+public readonly hostedZoneNames: string[];
+```
+
+- *Type:* `string`[]
+
+Any additional Lambda layers to use with the created function.
+
+For example Lambda Extensions
+
+---
+
 ##### `letsencryptDomains`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.letsencryptDomains"></a>
 
 ```typescript
@@ -96,17 +110,41 @@ If no bucket is given one will be created automatically.
 
 ---
 
+##### `enableInsights`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.enableInsights"></a>
+
+```typescript
+public readonly enableInsights: boolean;
+```
+
+- *Type:* `boolean`
+
+Whether or not to enable Lambda Insights.
+
+---
+
+##### `insightsARN`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.insightsARN"></a>
+
+```typescript
+public readonly insightsARN: string;
+```
+
+- *Type:* `string`
+
+Insights layer ARN for your region.
+
+Defaults to US-EAST-1
+
+---
+
 ##### `layers`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.layers"></a>
 
 ```typescript
-public readonly layers: LayerVersion[];
+public readonly layers: ILayerVersion[];
 ```
 
-- *Type:* [`@aws-cdk/aws-lambda.LayerVersion`](#@aws-cdk/aws-lambda.LayerVersion)[]
+- *Type:* [`@aws-cdk/aws-lambda.ILayerVersion`](#@aws-cdk/aws-lambda.ILayerVersion)[]
 
-Any additional Lambda layers to use with the created function.
-
-For example Lambda Extensions
+Hosted zone names that will be required for DNS verification with certbot.
 
 ---
 
@@ -149,6 +187,18 @@ public readonly reIssueDays: number;
 The numbers of days left until the prior cert expires before issuing a new one.
 
 Default is 30 days
+
+---
+
+##### `snsTopic`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.snsTopic"></a>
+
+```typescript
+public readonly snsTopic: Topic;
+```
+
+- *Type:* [`@aws-cdk/aws-sns.Topic`](#@aws-cdk/aws-sns.Topic)
+
+The SNS topic to notify when a new cert is issued.
 
 ---
 
