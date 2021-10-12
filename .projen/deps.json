@@ -100,12 +100,32 @@
       "type": "peer"
     },
     {
+      "name": "@aws-cdk/aws-iam",
+      "version": "^1.127.0",
+      "type": "peer"
+    },
+    {
       "name": "@aws-cdk/aws-lambda",
       "version": "^1.127.0",
       "type": "peer"
     },
     {
+      "name": "@aws-cdk/aws-route53",
+      "version": "^1.127.0",
+      "type": "peer"
+    },
+    {
       "name": "@aws-cdk/aws-s3",
+      "version": "^1.127.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-sns-subscriptions",
+      "version": "^1.127.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-sns",
       "version": "^1.127.0",
       "type": "peer"
     },
@@ -130,12 +150,32 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-iam",
+      "version": "^1.127.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/aws-lambda",
       "version": "^1.127.0",
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-route53",
+      "version": "^1.127.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/aws-s3",
+      "version": "^1.127.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-sns-subscriptions",
+      "version": "^1.127.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-sns",
       "version": "^1.127.0",
       "type": "runtime"
     },

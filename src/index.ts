@@ -1,8 +1,12 @@
 import * as path from 'path';
 import * as events from '@aws-cdk/aws-events';
 import * as targets from '@aws-cdk/aws-events-targets';
+import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
+import * as r53 from '@aws-cdk/aws-route53';
 import * as s3 from '@aws-cdk/aws-s3';
+import * as sns from '@aws-cdk/aws-sns';
+import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 import * as cdk from '@aws-cdk/core';
 
 export interface ICertbotProps {
@@ -17,7 +21,11 @@ export interface ICertbotProps {
   /**
    * Any additional Lambda layers to use with the created function. For example Lambda Extensions
    */
-  layers?: lambda.LayerVersion[];
+  hostedZoneNames: string[];
+  /**
+   * Hosted zone names that will be required for DNS verification with certbot
+   */
+  layers?: lambda.ILayerVersion[];
   /**
    * The S3 bucket to place the resulting certificates in. If no bucket is given one will be created automatically.
    */
@@ -34,6 +42,18 @@ export interface ICertbotProps {
    * Set the preferred certificate chain. Default None.
    */
   preferredChain?: string;
+  /**
+   * The SNS topic to notify when a new cert is issued
+   */
+  snsTopic?: sns.Topic;
+  /**
+   * Whether or not to enable Lambda Insights
+   */
+  enableInsights?: boolean;
+  /**
+   * Insights layer ARN for your region. Defaults to US-EAST-1
+   */
+  insightsARN?: string;
 }
 
 export class Certbot extends cdk.Construct {
@@ -58,12 +78,92 @@ export class Certbot extends cdk.Construct {
       });
     }
 
-    props.layers = (props.layers === undefined) ? [] : props.layers;
-
     const functionDir = path.join(__dirname, '../function');
+
+    if (props.snsTopic === undefined) {
+      props.snsTopic = new sns.Topic(this, 'topic');
+      props.snsTopic.addSubscription(new subscriptions.EmailSubscription(props.letsencryptEmail));
+    }
+
+    props.layers = (props.layers === undefined) ? [] : props.layers;
+    props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
+    props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
+
+    let managedPolicies = [iam.ManagedPolicy.fromAwsManagedPolicyName('AWSLambdaBasicExecutionRole')];
+    if (props.enableInsights) {
+      managedPolicies.push(iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'));
+      props.layers.push(lambda.LayerVersion.fromLayerVersionArn(this, 'insightsLayer', props.insightsARN));
+    }
+
+    const snsPolicy = new iam.ManagedPolicy(this, 'snsPolicy', {
+      description: 'Allow the Certbot function to notify an SNS topic upon completion.',
+      statements: [
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ['sns:Publish'],
+          resources: [props.snsTopic.topicArn],
+        }),
+      ],
+    });
+
+    let hostedZones = [];
+    for (var domainName in props.hostedZoneNames) {
+      hostedZones.push(r53.HostedZone.fromLookup(this, 'zone' + domainName, {
+        domainName,
+        privateZone: false,
+      }).hostedZoneArn);
+    }
+
+    const r53Policy = new iam.ManagedPolicy(this, 'r53Policy', {
+      description: 'Allow the Certbot function to perform DNS verification.',
+      statements: [
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ['route53:ListHostedZones'],
+          resources: ['*'],
+        }),
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            'route53:GetChange',
+            'route53:ChangeResourceRecordSets',
+          ],
+          resources: ['arn:aws:route53:::change/*'].concat(hostedZones),
+        }),
+      ],
+    });
+
+    const acmPolicy = new iam.ManagedPolicy(this, 'acmPolicy', {
+      description: 'Allow the Certbot function to import and list certificates.',
+      statements: [
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            'acm:ListCertificates',
+            'acm:ImportCertificates',
+          ],
+          resources: ['*'],
+        }),
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ['acm:DescribeCertificates'],
+          resources: ['arn:aws:acm:' + cdk.Stack.of(this).region + ':' + cdk.Stack.of(this).account + ':certificate/*'],
+        }),
+      ],
+    });
+
+    managedPolicies.push(snsPolicy);
+    managedPolicies.push(r53Policy);
+    managedPolicies.push(acmPolicy);
+
+    const role = new iam.Role(this, 'role', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      managedPolicies,
+    });
 
     this.handler = new lambda.Function(this, 'handler', {
       runtime: lambda.Runtime.PYTHON_3_8,
+      role,
       code: lambda.Code.fromAsset(functionDir + '/function.zip', {
         // Not working with github actions
         // bundling: {
@@ -101,6 +201,7 @@ export class Certbot extends cdk.Construct {
         OBJECT_PREFIX: (props.objectPrefix === undefined) ? '' : props.objectPrefix,
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
         PREFERRED_CHAIN: (props.preferredChain === undefined) ? 'None' : props.preferredChain,
+        NOTIFICATION_SNS_ARN: props.snsTopic.topicArn,
       },
       layers: props.layers,
     });
