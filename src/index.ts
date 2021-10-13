@@ -202,7 +202,7 @@ export class Certbot extends cdk.Construct {
       environment: {
         LETSENCRYPT_DOMAINS: props.letsencryptDomains,
         LETSENCRYPT_EMAIL: props.letsencryptEmail,
-        CERTIFICATE_BUCKET: props.bucket.bucketArn,
+        CERTIFICATE_BUCKET: props.bucket.bucketName,
         OBJECT_PREFIX: (props.objectPrefix === undefined) ? '' : props.objectPrefix,
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
         PREFERRED_CHAIN: (props.preferredChain === undefined) ? 'None' : props.preferredChain,
