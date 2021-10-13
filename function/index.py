@@ -126,5 +126,3 @@ def handler(event, context):
       notify_via_sns(os.environ['NOTIFICATION_SNS_ARN'], domains, cert['certificate'])
     else:
       print('WARN: Dry run was used so ACM import and S3 upload arent tested.')
-
-handler('', '')
