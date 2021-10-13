@@ -1,4 +1,4 @@
-const { AwsCdkConstructLibrary, ProjectType, NpmAccess } = require('projen');
+const { AwsCdkConstructLibrary, ProjectType, NpmAccess, IgnoreFile } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
@@ -34,5 +34,13 @@ const project = new AwsCdkConstructLibrary({
     dotNetNamespace: 'renovosolutions',
     packageId: 'Renovo.AWSCDK.Certbot',
   },
+});
+const ignorePatterns = [
+  '.functionbundle/*',
+  '.venv/*',
+];
+ignorePatterns.forEach( (pattern) => {
+  project.gitignore.addPatterns(pattern);
+  project.npmignore.addPatterns(pattern);
 });
 project.synth();

@@ -47,7 +47,7 @@ def should_provision(domains):
   if existing_cert:
     now = datetime.datetime.now(datetime.timezone.utc)
     not_after = existing_cert['Certificate']['NotAfter']
-    return (not_after - now).days <= os.environ['REISSUE_DAYS']
+    return (not_after - now).days <= int(os.environ['REISSUE_DAYS'])
   else:
     return True
 
