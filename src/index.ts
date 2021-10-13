@@ -89,7 +89,7 @@ export class Certbot extends cdk.Construct {
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
     props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
 
-    let managedPolicies = [iam.ManagedPolicy.fromAwsManagedPolicyName('AWSLambdaBasicExecutionRole')];
+    let managedPolicies = [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')];
     if (props.enableInsights) {
       managedPolicies.push(iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'));
       props.layers.push(lambda.LayerVersion.fromLayerVersionArn(this, 'insightsLayer', props.insightsARN));
