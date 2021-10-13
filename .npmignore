@@ -21,3 +21,5 @@ tsconfig.tsbuildinfo
 /.eslintrc.json
 /tsconfig.eslint.json
 !.jsii
+.functionbundle/*
+.venv/*

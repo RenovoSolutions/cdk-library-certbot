@@ -47,5 +47,7 @@ junit.xml
 .jsii
 tsconfig.json
 !/API.md
+.functionbundle/*
+.venv/*
 !/.github/workflows/release.yml
 !/.github/workflows/upgrade-master.yml
