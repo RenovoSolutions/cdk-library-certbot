@@ -5,8 +5,10 @@ import certbot.main
 import datetime
 import os
 import subprocess
+import logging
 
 def upload_to_s3(local_path, keyname):
+  logging.info('Uploading files to S3')
   s3 = boto3.resource('s3')
   data = open(local_path, 'rb')
   s3.Bucket(os.environ['CERTIFICATE_BUCKET']).put_object(Key=f"{os.environ['OBJECT_PREFIX']}{keyname}", Body=data)
@@ -45,10 +47,18 @@ def provision_cert(email, domains):
 def should_provision(domains):
   existing_cert = find_existing_cert(domains)
   if existing_cert:
+    logging.info('Cert already exists. Checking date for reissue.')
     now = datetime.datetime.now(datetime.timezone.utc)
     not_after = existing_cert['Certificate']['NotAfter']
-    return (not_after - now).days <= int(os.environ['REISSUE_DAYS'])
+    reissue = (not_after - now).days <= int(os.environ['REISSUE_DAYS'])
+    if reissue:
+      logging.info(f'Cert will expire sometime in the next {os.environ['REISSUE_DAYS']} days so will be reissued.')
+      return reissue
+    else:
+      logging.info(f'Cert wont expire in next {os.environ['REISSUE_DAYS']} days so will NOT be reissued.')
+      return reissue
   else:
+    logging.info('Cert not found in ACM. Will issue new cert.')
     return True
 
 def find_existing_cert(domains):
@@ -68,6 +78,7 @@ def find_existing_cert(domains):
   return None
 
 def notify_via_sns(topic_arn, domains, certificate):
+  logging.info('Sending SNS notification')
   process = subprocess.Popen(['openssl', 'x509', '-noout', '-text'],
     stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf8')
   stdout, stderr = process.communicate(certificate)
@@ -79,6 +90,7 @@ def notify_via_sns(topic_arn, domains, certificate):
   )
 
 def upload_cert_to_acm(cert, domains):
+  logging.info('Importing cert to ACM')
   existing_cert = find_existing_cert(domains)
   certificate_arn = existing_cert['Certificate']['CertificateArn'] if existing_cert else None
 
