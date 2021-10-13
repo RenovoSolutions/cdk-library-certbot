@@ -140,13 +140,13 @@ export class Certbot extends cdk.Construct {
           effect: iam.Effect.ALLOW,
           actions: [
             'acm:ListCertificates',
-            'acm:ImportCertificates',
+            'acm:ImportCertificate',
           ],
           resources: ['*'],
         }),
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
-          actions: ['acm:DescribeCertificates'],
+          actions: ['acm:DescribeCertificate'],
           resources: ['arn:aws:acm:' + cdk.Stack.of(this).region + ':' + cdk.Stack.of(this).account + ':certificate/*'],
         }),
       ],
