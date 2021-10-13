@@ -37,7 +37,7 @@ const project = new AwsCdkConstructLibrary({
 });
 const ignorePatterns = [
   '.functionbundle/*',
-  '.venv/*'
+  '.venv/*',
 ];
 ignorePatterns.forEach( (pattern) => {
   project.gitignore.addPatterns(pattern);
