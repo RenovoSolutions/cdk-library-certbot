@@ -52,10 +52,10 @@ def should_provision(domains):
     not_after = existing_cert['Certificate']['NotAfter']
     reissue = (not_after - now).days <= int(os.environ['REISSUE_DAYS'])
     if reissue:
-      logging.info(f'Cert will expire sometime in the next {os.environ['REISSUE_DAYS']} days so will be reissued.')
+      logging.info(f'Cert will expire sometime in the next {os.environ["REISSUE_DAYS"]} days so will be reissued.')
       return reissue
     else:
-      logging.info(f'Cert wont expire in next {os.environ['REISSUE_DAYS']} days so will NOT be reissued.')
+      logging.info(f'Cert wont expire in next {os.environ["REISSUE_DAYS"]} days so will NOT be reissued.')
       return reissue
   else:
     logging.info('Cert not found in ACM. Will issue new cert.')
