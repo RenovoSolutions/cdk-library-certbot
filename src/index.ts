@@ -54,6 +54,10 @@ export interface ICertbotProps {
    * Insights layer ARN for your region. Defaults to US-EAST-1
    */
   insightsARN?: string;
+  /**
+   * The timeout duration for Lambda function
+   */
+  timeout?: cdk.Duration;
 }
 
 export class Certbot extends cdk.Construct {
@@ -86,6 +90,7 @@ export class Certbot extends cdk.Construct {
     }
 
     props.layers = (props.layers === undefined) ? [] : props.layers;
+    props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(90) : props.timeout;
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
     props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
 
@@ -204,6 +209,7 @@ export class Certbot extends cdk.Construct {
         NOTIFICATION_SNS_ARN: props.snsTopic.topicArn,
       },
       layers: props.layers,
+      timeout: props.timeout,
     });
 
     new events.Rule(this, 'trigger', {

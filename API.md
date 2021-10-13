@@ -202,3 +202,15 @@ The SNS topic to notify when a new cert is issued.
 
 ---
 
+##### `timeout`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* [`@aws-cdk/core.Duration`](#@aws-cdk/core.Duration)
+
+The timeout duration for Lambda function.
+
+---
+
