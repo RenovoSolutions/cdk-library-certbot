@@ -106,13 +106,13 @@ export class Certbot extends cdk.Construct {
       ],
     });
 
-    let hostedZones = [];
-    for (var domainName in props.hostedZoneNames) {
+    let hostedZones:string[] = [];
+    props.hostedZoneNames.forEach( (domainName) => {
       hostedZones.push(r53.HostedZone.fromLookup(this, 'zone' + domainName, {
         domainName,
         privateZone: false,
       }).hostedZoneArn);
-    }
+    });
 
     const r53Policy = new iam.ManagedPolicy(this, 'r53Policy', {
       description: 'Allow the Certbot function to perform DNS verification.',
