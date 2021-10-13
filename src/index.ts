@@ -166,6 +166,8 @@ export class Certbot extends cdk.Construct {
       managedPolicies,
     });
 
+    props.bucket.grantWrite(role);
+
     this.handler = new lambda.Function(this, 'handler', {
       runtime: lambda.Runtime.PYTHON_3_8,
       role,
