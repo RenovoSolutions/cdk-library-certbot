@@ -90,7 +90,7 @@ export class Certbot extends cdk.Construct {
     }
 
     props.layers = (props.layers === undefined) ? [] : props.layers;
-    props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(90) : props.timeout;
+    props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(180) : props.timeout;
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
     props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
 
