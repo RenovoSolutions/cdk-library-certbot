@@ -5,6 +5,8 @@ import certbot.main
 import datetime
 import os
 import subprocess
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
 
 def upload_to_s3(local_path, keyname):
   print('INFO: Uploading files to S3')
@@ -83,16 +85,30 @@ def find_existing_cert(domains):
 
   return None
 
+def get_cert_info(certificate):
+  cert = x509.load_pem_x509_certificate(str.encode(certificate), default_backend())
+  # could technically dig in and get all key info here, but this is the basics
+  cert_info = f"""
+Certificate info:
+  Serial Number: {cert.serial_number}
+  Issuer: {cert.issuer.rfc4514_string()}
+  Validity:
+    Not Before: {cert.not_valid_before}
+    Not After: {cert.not_valid_after}
+  Subject: {cert.subject.rfc4514_string()}
+  Subject Alternative Names: {" ".join([n.value for n in cert.extensions[6].value])}
+"""
+  return cert_info
+
+
 def notify_via_sns(topic_arn, domains, certificate):
   print('INFO: Sending SNS notification')
-  process = subprocess.Popen(['openssl', 'x509', '-noout', '-text'],
-    stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf8')
-  stdout, stderr = process.communicate(certificate)
+  cert = get_cert_info(certificate)
 
   client = boto3.client('sns')
   client.publish(TopicArn=topic_arn,
     Subject='Issued new LetsEncrypt certificate',
-    Message='Issued new certificates for domains: ' + domains + '\n\n' + stdout,
+    Message='Issued new certificates for domains: ' + domains + '\n\n' + cert,
   )
 
 def upload_cert_to_acm(cert, domains):
