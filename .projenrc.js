@@ -24,7 +24,7 @@ const project = new AwsCdkConstructLibrary({
     'cdk',
     'aws-cdk',
     'aws-cdk-construct',
-    'projen'
+    'projen',
   ],
   releaseToNpm: true,
   releaseWorkflow: true,

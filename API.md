@@ -202,6 +202,32 @@ Default is 30 days
 
 ---
 
+##### `runOnDeploy`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.runOnDeploy"></a>
+
+```typescript
+public readonly runOnDeploy: boolean;
+```
+
+- *Type:* `boolean`
+
+Whether or not to schedule a trigger to run the function after each deployment.
+
+---
+
+##### `runOnDeployWaitMinutes`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.runOnDeployWaitMinutes"></a>
+
+```typescript
+public readonly runOnDeployWaitMinutes: number;
+```
+
+- *Type:* `number`
+
+How many minutes to wait before running the post deployment Lambda trigger.
+
+Defaults to 10 minutes
+
+---
+
 ##### `schedule`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.schedule"></a>
 
 ```typescript
