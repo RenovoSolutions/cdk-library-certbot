@@ -58,6 +58,10 @@ export interface ICertbotProps {
    * The timeout duration for Lambda function
    */
   timeout?: cdk.Duration;
+  /**
+   * The architecture that Lambda will run on
+   */
+  architecture?: lambda.Architecture;
 }
 
 export class Certbot extends cdk.Construct {
@@ -91,6 +95,7 @@ export class Certbot extends cdk.Construct {
 
     props.layers = (props.layers === undefined) ? [] : props.layers;
     props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(180) : props.timeout;
+    props.architecture = (props.architecture === undefined) ? lambda.Architecture.X86_64 : props.architecture;
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
     props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
 
@@ -212,6 +217,7 @@ export class Certbot extends cdk.Construct {
       },
       layers: props.layers,
       timeout: props.timeout,
+      architecture: props.architecture
     });
 
     new events.Rule(this, 'trigger', {
