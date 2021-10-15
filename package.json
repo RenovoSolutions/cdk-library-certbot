@@ -90,7 +90,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.0",
+  "version": "0.0.23",
   "jest": {
     "testMatch": [
       "**/__tests__/**/*.ts?(x)",
