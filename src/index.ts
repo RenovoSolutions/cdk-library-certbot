@@ -243,16 +243,17 @@ export class Certbot extends cdk.Construct {
       const dateToCron = (date:Date) => {
         const minutesToAdd = props.runOnDeployWaitMinutes || 10;
         const future = new Date(date.getTime() + minutesToAdd * 60000);
-        const minutes = future.getMinutes();
-        const hours = future.getHours();
-        const days = future.getDate();
-        const months = future.getMonth() + 1;
-        const dayOfWeek = future.getDay();
+        const minutes = future.getUTCMinutes();
+        const hours = future.getUTCHours;
+        const days = future.getUTCDate();
+        const months = future.getUTCMonth() + 1;
+        const dayOfWeek = future.getUTCDay();
+        const years = future.getUTCFullYear();
 
-        return `${minutes} ${hours} ${days} ${months} ${dayOfWeek}`;
+        return `${minutes} ${hours} ${days} ${months} ${dayOfWeek} ${years}`;
       };
 
-      const oneTimeSchedule = events.Schedule.expression(dateToCron(new Date()));
+      const oneTimeSchedule = events.Schedule.expression('cron(' + dateToCron(new Date()) + ')');
 
       new events.Rule(this, 'triggerImmediate', {
         schedule: oneTimeSchedule,
