@@ -2,6 +2,43 @@
 
 A CDK Construct Library to automate the creation and renewal of Let's Encrypt certificates.
 
-This library creates a Lambda function that utilizes Certbot to create certificates. Upon completion of the scheduled creation those certs are imported to AWS Certificate Manager (ACM) and uploaded to S3 and the email used for the certs is sent a notification from SNS. The function is also assigned, by default, an every Sunday trigger to check if there is under 30 days remaining on the certificates that have been imported to ACM and if so it attempts to re-issues new certificates.
+## Features
+- Creates a lambda function that utilizes Certbot to request a certificate from Let's Encrypt
+- Uploads the resulting certificate data to S3 for later retrieval
+- Imports the certificate to AWS Certificate Manager for tracking expiration
+- Creates a trigger to re-run and re-new if the cert will expire in the next 30 days (customizable)
 
-This construct will create all required components but optionally allows the users to pass their own S3 bucket, SNS topic, enable Lambda insights, and other customization of items like schedule, lambda architecture, reissue days. See the [API](API.md) documentation for full details. You can also see example usage in this repo [example/example.ts](example/example.ts)
+## API Doc
+See [API](API.md)
+
+## References
+Original [gist](# Modified from original gist https://gist.github.com/arkadiyt/5d764c32baa43fc486ca16cb8488169a) that was modified for the Lambda code
+
+## Examples
+### Typescript
+```
+import * as cdk from '@aws-cdk/core';
+import { Certbot } from '@renovosolutions/cdk-library-certbot';
+import { Architecture } from '@aws-cdk/aws-lambda';
+
+export class CdkExampleCertsStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    let domains = [
+      'example.com',
+      'www.example.com'
+    ]
+
+    new Certbot(this, 'cert', {
+      letsencryptDomains: domains.join(','),
+      letsencryptEmail: 'webmaster+letsencrypt@example.com',
+      hostedZoneNames: [
+        'example.com'
+      ],
+      architecture: Architecture.ARM_64
+    })
+  }
+}
+
+```
