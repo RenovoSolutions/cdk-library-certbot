@@ -244,10 +244,10 @@ export class Certbot extends cdk.Construct {
         const minutesToAdd = props.runOnDeployWaitMinutes || 10;
         const future = new Date(date.getTime() + minutesToAdd * 60000);
         const minutes = future.getUTCMinutes();
-        const hours = future.getUTCHours;
+        const hours = future.getUTCHours();
         const days = future.getUTCDate();
         const months = future.getUTCMonth() + 1;
-        const dayOfWeek = future.getUTCDay();
+        const dayOfWeek = '?';
         const years = future.getUTCFullYear();
 
         return `${minutes} ${hours} ${days} ${months} ${dayOfWeek} ${years}`;
