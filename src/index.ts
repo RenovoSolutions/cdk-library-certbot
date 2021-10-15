@@ -62,6 +62,10 @@ export interface ICertbotProps {
    * The architecture that Lambda will run on
    */
   architecture?: lambda.Architecture;
+  /**
+   * The schedule for the certificate check trigger. Defaults to once every Sunday.
+   */
+  schedule?: events.Schedule;
 }
 
 export class Certbot extends cdk.Construct {
@@ -96,6 +100,7 @@ export class Certbot extends cdk.Construct {
     props.layers = (props.layers === undefined) ? [] : props.layers;
     props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(180) : props.timeout;
     props.architecture = (props.architecture === undefined) ? lambda.Architecture.X86_64 : props.architecture;
+    props.schedule = (props.schedule === undefined ) ? events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }) : props.schedule;
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
     props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
 
@@ -221,7 +226,7 @@ export class Certbot extends cdk.Construct {
     });
 
     new events.Rule(this, 'trigger', {
-      schedule: events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }),
+      schedule: props.schedule,
       targets: [new targets.LambdaFunction(this.handler)],
     });
   }

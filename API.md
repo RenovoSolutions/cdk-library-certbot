@@ -202,6 +202,20 @@ Default is 30 days
 
 ---
 
+##### `schedule`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.schedule"></a>
+
+```typescript
+public readonly schedule: Schedule;
+```
+
+- *Type:* [`@aws-cdk/aws-events.Schedule`](#@aws-cdk/aws-events.Schedule)
+
+The schedule for the certificate check trigger.
+
+Defaults to once every Sunday.
+
+---
+
 ##### `snsTopic`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.snsTopic"></a>
 
 ```typescript
