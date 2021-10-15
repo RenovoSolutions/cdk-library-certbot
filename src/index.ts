@@ -66,6 +66,14 @@ export interface ICertbotProps {
    * The schedule for the certificate check trigger. Defaults to once every Sunday.
    */
   schedule?: events.Schedule;
+  /**
+   * Whether or not to schedule a trigger to run the function after each deployment
+   */
+  runOnDeploy?: boolean;
+  /**
+   * How many minutes to wait before running the post deployment Lambda trigger. Defaults to 10 minutes
+   */
+  runOnDeployWaitMinutes?: number;
 }
 
 export class Certbot extends cdk.Construct {
@@ -101,6 +109,7 @@ export class Certbot extends cdk.Construct {
     props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(180) : props.timeout;
     props.architecture = (props.architecture === undefined) ? lambda.Architecture.X86_64 : props.architecture;
     props.schedule = (props.schedule === undefined ) ? events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }) : props.schedule;
+    props.runOnDeploy = (props.runOnDeploy === undefined ) ? true : props.runOnDeploy;
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
     props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
 
@@ -229,5 +238,26 @@ export class Certbot extends cdk.Construct {
       schedule: props.schedule,
       targets: [new targets.LambdaFunction(this.handler)],
     });
+
+    if (props.runOnDeploy) {
+      const dateToCron = (date:Date) => {
+        const minutesToAdd = props.runOnDeployWaitMinutes || 10;
+        const future = new Date(date.getTime() + minutesToAdd * 60000);
+        const minutes = future.getMinutes();
+        const hours = future.getHours();
+        const days = future.getDate();
+        const months = future.getMonth() + 1;
+        const dayOfWeek = future.getDay();
+
+        return `${minutes} ${hours} ${days} ${months} ${dayOfWeek}`;
+      };
+
+      const oneTimeSchedule = events.Schedule.expression(dateToCron(new Date()));
+
+      new events.Rule(this, 'triggerImmediate', {
+        schedule: oneTimeSchedule,
+        targets: [new targets.LambdaFunction(this.handler)],
+      });
+    }
   }
 }
