@@ -217,7 +217,7 @@ export class Certbot extends cdk.Construct {
       },
       layers: props.layers,
       timeout: props.timeout,
-      architecture: props.architecture
+      architecture: props.architecture,
     });
 
     new events.Rule(this, 'trigger', {
