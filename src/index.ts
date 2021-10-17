@@ -59,10 +59,6 @@ export interface ICertbotProps {
    */
   timeout?: cdk.Duration;
   /**
-   * The architecture that Lambda will run on
-   */
-  architecture?: lambda.Architecture;
-  /**
    * The schedule for the certificate check trigger. Defaults to once every Sunday.
    */
   schedule?: events.Schedule;
@@ -107,7 +103,6 @@ export class Certbot extends cdk.Construct {
 
     props.layers = (props.layers === undefined) ? [] : props.layers;
     props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(180) : props.timeout;
-    props.architecture = (props.architecture === undefined) ? lambda.Architecture.X86_64 : props.architecture;
     props.schedule = (props.schedule === undefined ) ? events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }) : props.schedule;
     props.runOnDeploy = (props.runOnDeploy === undefined ) ? true : props.runOnDeploy;
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
@@ -190,35 +185,7 @@ export class Certbot extends cdk.Construct {
     this.handler = new lambda.Function(this, 'handler', {
       runtime: lambda.Runtime.PYTHON_3_8,
       role,
-      code: lambda.Code.fromAsset(functionDir + '/function.zip', {
-        // Not working with github actions
-        // bundling: {
-        //   image: lambda.Runtime.PYTHON_3_8.bundlingImage,
-        //   local: {
-        //     tryBundle(outputDir: string) {
-        //       try {
-        //         execSync('pip3 --version | grep "python 3.8"');
-        //       } catch {
-        //         return false;
-        //       }
-
-        //       try {
-        //         execSync(`pip install -r ${path.join(functionDir, 'requirements.txt')} -t ${path.join(outputDir)}`);
-        //       } catch {
-        //         return false;
-        //       }
-
-        //       try {
-        //         execSync(`cp -au ${functionDir}/* ${path.join(outputDir)}`);
-        //       } catch {
-        //         return false;
-        //       }
-
-        //       return true;
-        //     },
-        //   },
-        // },
-      }),
+      code: lambda.Code.fromAsset(functionDir + '/function.zip'),
       handler: 'index.handler',
       environment: {
         LETSENCRYPT_DOMAINS: props.letsencryptDomains,
@@ -231,7 +198,6 @@ export class Certbot extends cdk.Construct {
       },
       layers: props.layers,
       timeout: props.timeout,
-      architecture: props.architecture,
     });
 
     new events.Rule(this, 'trigger', {
