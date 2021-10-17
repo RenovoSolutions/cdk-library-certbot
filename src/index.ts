@@ -211,7 +211,7 @@ export class Certbot extends cdk.Construct {
         const future = new Date(date.getTime() + minutesToAdd * 60000);
         const minutes = future.getUTCMinutes();
         const hours = future.getUTCHours();
-        const days = future.getUTCDay();
+        const days = future.getUTCDate();
         const months = future.getUTCMonth() + 1;
         const dayOfWeek = '?';
         const years = future.getUTCFullYear();
