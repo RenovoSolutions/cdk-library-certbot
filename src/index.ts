@@ -8,6 +8,7 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as sns from '@aws-cdk/aws-sns';
 import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 import * as cdk from '@aws-cdk/core';
+import * as oneTimeEvents from '@renovosolutions/cdk-library-one-time-event';
 
 export interface ICertbotProps {
   /**
@@ -206,23 +207,10 @@ export class Certbot extends cdk.Construct {
     });
 
     if (props.runOnDeploy) {
-      const dateToCron = (date:Date) => {
-        const minutesToAdd = props.runOnDeployWaitMinutes || 10;
-        const future = new Date(date.getTime() + minutesToAdd * 60000);
-        const minutes = future.getUTCMinutes();
-        const hours = future.getUTCHours();
-        const days = future.getUTCDate();
-        const months = future.getUTCMonth() + 1;
-        const dayOfWeek = '?';
-        const years = future.getUTCFullYear();
-
-        return `${minutes} ${hours} ${days} ${months} ${dayOfWeek} ${years}`;
-      };
-
-      const oneTimeSchedule = events.Schedule.expression('cron(' + dateToCron(new Date()) + ')');
-
       new events.Rule(this, 'triggerImmediate', {
-        schedule: oneTimeSchedule,
+        schedule: new oneTimeEvents.OnDeploy(this, 'schedule', {
+          offsetMinutes: 10,
+        }).schedule,
         targets: [new targets.LambdaFunction(this.handler)],
       });
     }

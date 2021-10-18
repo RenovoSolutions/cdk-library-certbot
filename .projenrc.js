@@ -18,6 +18,9 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-sns-subscriptions',
     '@aws-cdk/aws-route53',
   ],
+  deps: [
+    '@renovosolutions/cdk-library-one-time-event@^0.0.2',
+  ],
   keywords: [
     'letsencrypt',
     'certbot',
