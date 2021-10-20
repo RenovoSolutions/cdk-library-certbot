@@ -209,7 +209,7 @@ export class Certbot extends cdk.Construct {
     if (props.runOnDeploy) {
       new events.Rule(this, 'triggerImmediate', {
         schedule: new oneTimeEvents.OnDeploy(this, 'schedule', {
-          offsetMinutes: 10,
+          offsetMinutes: props.runOnDeployWaitMinutes || 10,
         }).schedule,
         targets: [new targets.LambdaFunction(this.handler)],
       });
