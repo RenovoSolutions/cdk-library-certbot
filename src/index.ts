@@ -22,11 +22,11 @@ export interface ICertbotProps {
   /**
    * Any additional Lambda layers to use with the created function. For example Lambda Extensions
    */
-  hostedZoneNames: string[];
+  layers?: lambda.ILayerVersion[];
   /**
    * Hosted zone names that will be required for DNS verification with certbot
    */
-  layers?: lambda.ILayerVersion[];
+   hostedZoneNames: string[];
   /**
    * The S3 bucket to place the resulting certificates in. If no bucket is given one will be created automatically.
    */
