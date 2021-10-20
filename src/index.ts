@@ -36,39 +36,53 @@ export interface ICertbotProps {
    */
   objectPrefix?: string;
   /**
-   * The numbers of days left until the prior cert expires before issuing a new one. Default is 30 days
+   * The numbers of days left until the prior cert expires before issuing a new one.
+   * 
+   * @default 30
    */
   reIssueDays?: number;
   /**
-   * Set the preferred certificate chain. Default None.
+   * Set the preferred certificate chain.
+   * 
+   * @default 'None'
    */
   preferredChain?: string;
   /**
-   * The SNS topic to notify when a new cert is issued
+   * The SNS topic to notify when a new cert is issued. If no topic is given one will be created automatically.
    */
   snsTopic?: sns.Topic;
   /**
    * Whether or not to enable Lambda Insights
+   * 
+   * @default false
    */
   enableInsights?: boolean;
   /**
-   * Insights layer ARN for your region. Defaults to US-EAST-1
+   * Insights layer ARN for your region. Defaults to layer for US-EAST-1
    */
   insightsARN?: string;
   /**
    * The timeout duration for Lambda function
+   * 
+   * @default cdk.Duraction.seconds(180)
    */
   timeout?: cdk.Duration;
   /**
-   * The schedule for the certificate check trigger. Defaults to once every Sunday.
+   * The schedule for the certificate check trigger.
+   * 
+   * @default events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' })
    */
   schedule?: events.Schedule;
   /**
    * Whether or not to schedule a trigger to run the function after each deployment
+   * 
+   * @default true
    */
   runOnDeploy?: boolean;
   /**
-   * How many minutes to wait before running the post deployment Lambda trigger. Defaults to 10 minutes
+   * How many minutes to wait before running the post deployment Lambda trigger
+   * 
+   * @default 10
    */
   runOnDeployWaitMinutes?: number;
 }
@@ -103,8 +117,6 @@ export class Certbot extends cdk.Construct {
     }
 
     props.layers = (props.layers === undefined) ? [] : props.layers;
-    props.timeout = (props.timeout === undefined) ? cdk.Duration.seconds(180) : props.timeout;
-    props.schedule = (props.schedule === undefined ) ? events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }) : props.schedule;
     props.runOnDeploy = (props.runOnDeploy === undefined ) ? true : props.runOnDeploy;
     props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
     props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
@@ -192,17 +204,17 @@ export class Certbot extends cdk.Construct {
         LETSENCRYPT_DOMAINS: props.letsencryptDomains,
         LETSENCRYPT_EMAIL: props.letsencryptEmail,
         CERTIFICATE_BUCKET: props.bucket.bucketName,
-        OBJECT_PREFIX: (props.objectPrefix === undefined) ? '' : props.objectPrefix,
+        OBJECT_PREFIX: props.objectPrefix || '',
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
-        PREFERRED_CHAIN: (props.preferredChain === undefined) ? 'None' : props.preferredChain,
+        PREFERRED_CHAIN: props.preferredChain || 'None',
         NOTIFICATION_SNS_ARN: props.snsTopic.topicArn,
       },
       layers: props.layers,
-      timeout: props.timeout,
+      timeout: props.timeout || cdk.Duration.seconds(180),
     });
 
     new events.Rule(this, 'trigger', {
-      schedule: props.schedule,
+      schedule: props.schedule || events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }),
       targets: [new targets.LambdaFunction(this.handler)],
     });
 
