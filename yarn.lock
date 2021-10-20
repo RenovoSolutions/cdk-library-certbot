@@ -1357,10 +1357,10 @@
   resolved "https://registry.yarnpkg.com/@oozcitak/util/-/util-8.3.8.tgz#10f65fe1891fd8cde4957360835e78fd1936bfdd"
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
-"@renovosolutions/cdk-library-one-time-event@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.2.tgz#01740c42f0f4103f87c866041fe45ca74f59db25"
-  integrity sha512-mpqnVKzna2FcML9liQMrc/oRxPpLxnqJV2AILQYAW0EmoGlXQUPuk78oZPvgKW0rqni2l32djcmxSYr0VJjpUg==
+"@renovosolutions/cdk-library-one-time-event@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.4.tgz#26c117631167f26a09697724550f9239bea5068a"
+  integrity sha512-vQvSwrez5MKPifLvJQCTROjIpA9JVQiwCDwNQeAE1v3+ASgGQsnLcyjBDUJJMVOj7WlxD6JR9BnVOdkHE8d7Nw==
   dependencies:
     "@aws-cdk/aws-events" "^1.128.0"
     "@aws-cdk/core" "^1.128.0"
