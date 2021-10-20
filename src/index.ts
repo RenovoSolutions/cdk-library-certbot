@@ -26,7 +26,7 @@ export interface ICertbotProps {
   /**
    * Hosted zone names that will be required for DNS verification with certbot
    */
-   hostedZoneNames: string[];
+  hostedZoneNames: string[];
   /**
    * The S3 bucket to place the resulting certificates in. If no bucket is given one will be created automatically.
    */
@@ -37,13 +37,13 @@ export interface ICertbotProps {
   objectPrefix?: string;
   /**
    * The numbers of days left until the prior cert expires before issuing a new one.
-   * 
+   *
    * @default 30
    */
   reIssueDays?: number;
   /**
    * Set the preferred certificate chain.
-   * 
+   *
    * @default 'None'
    */
   preferredChain?: string;
@@ -53,7 +53,7 @@ export interface ICertbotProps {
   snsTopic?: sns.Topic;
   /**
    * Whether or not to enable Lambda Insights
-   * 
+   *
    * @default false
    */
   enableInsights?: boolean;
@@ -63,25 +63,25 @@ export interface ICertbotProps {
   insightsARN?: string;
   /**
    * The timeout duration for Lambda function
-   * 
+   *
    * @default cdk.Duraction.seconds(180)
    */
   timeout?: cdk.Duration;
   /**
    * The schedule for the certificate check trigger.
-   * 
+   *
    * @default events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' })
    */
   schedule?: events.Schedule;
   /**
    * Whether or not to schedule a trigger to run the function after each deployment
-   * 
+   *
    * @default true
    */
   runOnDeploy?: boolean;
   /**
    * How many minutes to wait before running the post deployment Lambda trigger
-   * 
+   *
    * @default 10
    */
   runOnDeployWaitMinutes?: number;

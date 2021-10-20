@@ -64,9 +64,7 @@ public readonly hostedZoneNames: string[];
 
 - *Type:* `string`[]
 
-Any additional Lambda layers to use with the created function.
-
-For example Lambda Extensions
+Hosted zone names that will be required for DNS verification with certbot.
 
 ---
 
@@ -117,6 +115,7 @@ public readonly enableInsights: boolean;
 ```
 
 - *Type:* `boolean`
+- *Default:* false
 
 Whether or not to enable Lambda Insights.
 
@@ -132,7 +131,7 @@ public readonly insightsARN: string;
 
 Insights layer ARN for your region.
 
-Defaults to US-EAST-1
+Defaults to layer for US-EAST-1
 
 ---
 
@@ -144,7 +143,9 @@ public readonly layers: ILayerVersion[];
 
 - *Type:* [`@aws-cdk/aws-lambda.ILayerVersion`](#@aws-cdk/aws-lambda.ILayerVersion)[]
 
-Hosted zone names that will be required for DNS verification with certbot.
+Any additional Lambda layers to use with the created function.
+
+For example Lambda Extensions
 
 ---
 
@@ -169,10 +170,9 @@ public readonly preferredChain: string;
 ```
 
 - *Type:* `string`
+- *Default:* 'None'
 
 Set the preferred certificate chain.
-
-Default None.
 
 ---
 
@@ -183,10 +183,9 @@ public readonly reIssueDays: number;
 ```
 
 - *Type:* `number`
+- *Default:* 30
 
 The numbers of days left until the prior cert expires before issuing a new one.
-
-Default is 30 days
 
 ---
 
@@ -197,6 +196,7 @@ public readonly runOnDeploy: boolean;
 ```
 
 - *Type:* `boolean`
+- *Default:* true
 
 Whether or not to schedule a trigger to run the function after each deployment.
 
@@ -209,10 +209,9 @@ public readonly runOnDeployWaitMinutes: number;
 ```
 
 - *Type:* `number`
+- *Default:* 10
 
 How many minutes to wait before running the post deployment Lambda trigger.
-
-Defaults to 10 minutes
 
 ---
 
@@ -223,10 +222,9 @@ public readonly schedule: Schedule;
 ```
 
 - *Type:* [`@aws-cdk/aws-events.Schedule`](#@aws-cdk/aws-events.Schedule)
+- *Default:* events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' })
 
 The schedule for the certificate check trigger.
-
-Defaults to once every Sunday.
 
 ---
 
@@ -240,6 +238,8 @@ public readonly snsTopic: Topic;
 
 The SNS topic to notify when a new cert is issued.
 
+If no topic is given one will be created automatically.
+
 ---
 
 ##### `timeout`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.timeout"></a>
@@ -249,6 +249,7 @@ public readonly timeout: Duration;
 ```
 
 - *Type:* [`@aws-cdk/core.Duration`](#@aws-cdk/core.Duration)
+- *Default:* cdk.Duraction.seconds(180)
 
 The timeout duration for Lambda function.
 
