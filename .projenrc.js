@@ -46,9 +46,9 @@ const project = new AwsCdkConstructLibrary({
   },
   jestOptions: {
     jestConfig: {
-      timers: 'fake'
-    }
-  }
+      timers: 'fake',
+    },
+  },
 });
 const ignorePatterns = [
   '.functionbundle/*',
