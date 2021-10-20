@@ -44,6 +44,11 @@ const project = new AwsCdkConstructLibrary({
     dotNetNamespace: 'renovosolutions',
     packageId: 'Renovo.AWSCDK.Certbot',
   },
+  jestOptions: {
+    jestConfig: {
+      timers: 'fake',
+    },
+  },
 });
 const ignorePatterns = [
   '.functionbundle/*',
