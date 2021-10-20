@@ -1,6 +1,26 @@
-import { expect as expectCDK, countResources } from '@aws-cdk/assert';
+import { expect as expectCDK, countResources, SynthUtils } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
 import { Certbot } from '../src/index';
+
+jest.setSystemTime(new Date('2020-01-01').getTime());
+
+test('Snapshot', () => {
+  const app = new cdk.App();
+  const stack = new cdk.Stack(app, 'TestStack', {
+    env: {
+      account: '123456789012', // not a real account
+      region: 'us-east-1',
+    },
+  });
+
+  new Certbot(stack, 'Certbot', {
+    letsencryptDomains: 'test.local',
+    letsencryptEmail: 'test@test.local',
+    hostedZoneNames: ['example.com'],
+  });
+
+  expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
+});
 
 test('Default', () => {
   const app = new cdk.App();
