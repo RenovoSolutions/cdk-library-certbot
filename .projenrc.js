@@ -2,7 +2,7 @@ const { AwsCdkConstructLibrary, ProjectType, NpmAccess, IgnoreFile } = require('
 const project = new AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
-  cdkVersion: '1.129.0',
+  cdkVersion: '1.130.0',
   defaultReleaseBranch: 'master',
   name: '@renovosolutions/cdk-library-certbot',
   description: 'AWS CDK Construct Library to manage Lets Encrypt certificate renewals with Certbot',
