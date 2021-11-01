@@ -356,7 +356,7 @@
     "@aws-cdk/custom-resources" "1.130.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-events@1.130.0", "@aws-cdk/aws-events@^1.129.0", "@aws-cdk/aws-events@^1.130.0":
+"@aws-cdk/aws-events@1.130.0", "@aws-cdk/aws-events@^1.130.0":
   version "1.130.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-events/-/aws-events-1.130.0.tgz#537866ae5f6cc7076f5319c564623852f3ce9a28"
   integrity sha512-bc2kZjGnDIdT0W0NSpD/7MR71nSLQx/I/tLE/2tAckjiYrPrFnTIwkujlYfrJcQbMQ+6Kh59jcuhLYc0lR8ung==
@@ -650,7 +650,7 @@
     string-width "^4.2.3"
     table "^6.7.2"
 
-"@aws-cdk/core@1.130.0", "@aws-cdk/core@^1.129.0", "@aws-cdk/core@^1.130.0":
+"@aws-cdk/core@1.130.0", "@aws-cdk/core@^1.130.0":
   version "1.130.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.130.0.tgz#a3e0825d056e7a4d3cd3fe4a3b1ebc3f4d6f48bf"
   integrity sha512-AGTIC25bcRtRdF2ttPSfZOgUCTI3hJ5OgyF6jt3pPajQ+uEgdvkRQuJKYXd9dmEX+CxlaXcKl+mA5O+RSRVQ/A==
@@ -1357,13 +1357,13 @@
   resolved "https://registry.yarnpkg.com/@oozcitak/util/-/util-8.3.8.tgz#10f65fe1891fd8cde4957360835e78fd1936bfdd"
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
-"@renovosolutions/cdk-library-one-time-event@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.11.tgz#df7e4f9e3d99e458f3045aaf65c229065e01dcab"
-  integrity sha512-SelF0nrbDQiGFEnx30s0cHALP1Sd/gEjPfnlJojmLjQpYspYXSkrVOKDarktkXJ35wLg75t23cR2MAhTO8SjkA==
+"@renovosolutions/cdk-library-one-time-event@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.13.tgz#759368513d0600bb3c116b042a9657746ca5ddf3"
+  integrity sha512-OGrTdpbteOoh/Oeiam6tlyNJPzwuPBWopYxD3edDZeZc/X7rrE/BPj28cniD5eZkRmzB6KIsjg1VWGf7ehd+jg==
   dependencies:
-    "@aws-cdk/aws-events" "^1.129.0"
-    "@aws-cdk/core" "^1.129.0"
+    "@aws-cdk/aws-events" "^1.130.0"
+    "@aws-cdk/core" "^1.130.0"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -4603,10 +4603,10 @@ jsii-diff@^1.41.0:
     typescript "~3.9.10"
     yargs "^16.2.0"
 
-jsii-docgen@^3.8.14:
-  version "3.8.14"
-  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-3.8.14.tgz#b1e5b731118f43da1e7f29daf0765ecc99f45b24"
-  integrity sha512-DkVCpZrMofMtrm7jdBJ85XuXZjFCiuuMLHrQWSjnQg3CHqy8qtMquyC5O8qPg+VSkhJeTN8+rwM1MU20Ln7W7A==
+jsii-docgen@^3.8.15:
+  version "3.8.15"
+  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-3.8.15.tgz#affeba0cc4540e967cf14cc6a5d87ddda8978a21"
+  integrity sha512-53sJjbl8QxITyxLTyGrM83zfKaagWuEW7d9yl37Q5tjBzGayk3Lp2ScLtkO137sdsiFt/oq/vnjaWLUVU9TJRw==
   dependencies:
     "@jsii/spec" "^1.41.0"
     case "^1.6.3"
