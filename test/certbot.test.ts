@@ -14,7 +14,7 @@ test('Snapshot', () => {
   });
 
   new Certbot(stack, 'Certbot', {
-    letsencryptDomains: 'test.local',
+    letsencryptDomains: 'test.local, www.test.local',
     letsencryptEmail: 'test@test.local',
     hostedZoneNames: ['example.com'],
   });

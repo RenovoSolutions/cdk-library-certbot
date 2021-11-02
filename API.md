@@ -121,6 +121,30 @@ Whether or not to enable Lambda Insights.
 
 ---
 
+##### `functionDescription`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.functionDescription"></a>
+
+```typescript
+public readonly functionDescription: string;
+```
+
+- *Type:* `string`
+
+The description for the resulting Lambda function.
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* `string`
+
+The name of the resulting Lambda function.
+
+---
+
 ##### `insightsARN`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.insightsARN"></a>
 
 ```typescript
