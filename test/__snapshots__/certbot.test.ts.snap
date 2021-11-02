@@ -175,12 +175,13 @@ Object {
             ],
           },
         },
+        "Description": "Certbot Renewal Lambda for domain test.local",
         "Environment": Object {
           "Variables": Object {
             "CERTIFICATE_BUCKET": Object {
               "Ref": "Certbotbucket4B0141F9",
             },
-            "LETSENCRYPT_DOMAINS": "test.local",
+            "LETSENCRYPT_DOMAINS": "test.local, www.test.local",
             "LETSENCRYPT_EMAIL": "test@test.local",
             "NOTIFICATION_SNS_ARN": Object {
               "Ref": "CertbottopicCA144CF6",

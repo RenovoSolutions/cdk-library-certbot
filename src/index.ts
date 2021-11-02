@@ -85,6 +85,14 @@ export interface ICertbotProps {
    * @default 10
    */
   runOnDeployWaitMinutes?: number;
+  /**
+   * The description for the resulting Lambda function.
+   */
+  functionDescription?: string;
+  /**
+   * The name of the resulting Lambda function.
+   */
+  functionName?: string;
 }
 
 export class Certbot extends cdk.Construct {
@@ -94,6 +102,7 @@ export class Certbot extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: ICertbotProps) {
     super(scope, id);
 
+    // Create a bucket if one is not provided
     if (props.bucket === undefined) {
       props.bucket = new s3.Bucket(this, 'bucket', {
         objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
@@ -111,16 +120,20 @@ export class Certbot extends cdk.Construct {
 
     const functionDir = path.join(__dirname, '../function');
 
+    // Create an SNS topic if one is not provided
     if (props.snsTopic === undefined) {
       props.snsTopic = new sns.Topic(this, 'topic');
       props.snsTopic.addSubscription(new subscriptions.EmailSubscription(props.letsencryptEmail));
     }
 
-    props.layers = (props.layers === undefined) ? [] : props.layers;
-    props.runOnDeploy = (props.runOnDeploy === undefined ) ? true : props.runOnDeploy;
-    props.enableInsights = (props.enableInsights === undefined) ? false : props.enableInsights;
-    props.insightsARN = (props.insightsARN === undefined) ? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14' : props.insightsARN;
+    // Set property defaults
+    props.layers = props.layers ?? [];
+    props.runOnDeploy = props.runOnDeploy ?? true;
+    props.functionDescription = props.functionDescription ?? 'Certbot Renewal Lambda for domain ' + props.letsencryptDomains.split(',')[0];
+    props.enableInsights = props.enableInsights ?? false;
+    props.insightsARN = props.insightsARN ?? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14';
 
+    // Set up role policies
     let managedPolicies = [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')];
     if (props.enableInsights) {
       managedPolicies.push(iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'));
@@ -195,11 +208,14 @@ export class Certbot extends cdk.Construct {
 
     props.bucket.grantWrite(role);
 
+    // Create the Lambda function
     this.handler = new lambda.Function(this, 'handler', {
       runtime: lambda.Runtime.PYTHON_3_8,
       role,
       code: lambda.Code.fromAsset(functionDir + '/function.zip'),
       handler: 'index.handler',
+      functionName: props.functionName,
+      description: props.functionDescription,
       environment: {
         LETSENCRYPT_DOMAINS: props.letsencryptDomains,
         LETSENCRYPT_EMAIL: props.letsencryptEmail,
@@ -213,6 +229,7 @@ export class Certbot extends cdk.Construct {
       timeout: props.timeout || cdk.Duration.seconds(180),
     });
 
+    // Add function triggers
     new events.Rule(this, 'trigger', {
       schedule: props.schedule || events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' }),
       targets: [new targets.LambdaFunction(this.handler)],
