@@ -1366,10 +1366,10 @@
   resolved "https://registry.yarnpkg.com/@oozcitak/util/-/util-8.3.8.tgz#10f65fe1891fd8cde4957360835e78fd1936bfdd"
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
-"@renovosolutions/cdk-library-one-time-event@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.26.tgz#1ff533ff0ea047e4ce616f962e575dc21d9b8c33"
-  integrity sha512-exm+pXA4okyVxTuiJ7Tsmu57WGLI5S51qge1lyDcuLzNNyZqW+OPuxidN1DOH1cyMCUm2QsoM75naGT4AWKvJA==
+"@renovosolutions/cdk-library-one-time-event@^0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.27.tgz#50fc2adacc9dacbefb933e25b37cc2da23205759"
+  integrity sha512-bEB2FTWovJzwA/2e0votPPG7uTl1sk/XJ2Z3L0u4srDfV4uAOz4Nwvb26kpWNr3iYO0b3rUSc/kWPQEqDkLRGQ==
   dependencies:
     "@aws-cdk/aws-events" "^1.132.0"
     "@aws-cdk/core" "^1.132.0"
@@ -2774,9 +2774,9 @@ ecc-jsbn@~0.1.1:
     safer-buffer "^2.1.0"
 
 electron-to-chromium@^1.3.886:
-  version "1.3.893"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.893.tgz#9d804c68953b05ede35409dba0d73dd54c077b4d"
-  integrity sha512-ChtwF7qB03INq1SyMpue08wc6cve+ktj2UC/Y7se9vB+JryfzziJeYwsgb8jLaCA5GMkHCdn5M62PfSMWhifZg==
+  version "1.3.894"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.894.tgz#54554ecb40d40ddac7241c4a42887e86180015d8"
+  integrity sha512-WY8pA4irAZ4cm/Pr7YFPtPLVqj3nU6d0SbfoHF6M7HZNONfPdAnYAarumqQ75go2LuN72uO9wGuCEqnfya/ytg==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -2936,7 +2936,7 @@ eslint-import-resolver-typescript@^2.5.0:
     resolve "^1.20.0"
     tsconfig-paths "^3.9.0"
 
-eslint-module-utils@^2.7.0:
+eslint-module-utils@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.7.1.tgz#b435001c9f8dd4ab7f6d0efcae4b9696d4c24b7c"
   integrity sha512-fjoetBXQZq2tSTWZ9yWVl2KuFrTZZH3V+9iD1V1RfpDgxzJR+mPd/KZmMiA8gbPqdBzpNiEHOuT7IYEWxrH0zQ==
@@ -2945,19 +2945,19 @@ eslint-module-utils@^2.7.0:
     find-up "^2.1.0"
     pkg-dir "^2.0.0"
 
-eslint-plugin-import@^2.25.2:
-  version "2.25.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.25.2.tgz#b3b9160efddb702fc1636659e71ba1d10adbe9e9"
-  integrity sha512-qCwQr9TYfoBHOFcVGKY9C9unq05uOxxdklmBXLVvcwo68y5Hta6/GzCZEMx2zQiu0woKNEER0LE7ZgaOfBU14g==
+eslint-plugin-import@^2.25.3:
+  version "2.25.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.25.3.tgz#a554b5f66e08fb4f6dc99221866e57cfff824766"
+  integrity sha512-RzAVbby+72IB3iOEL8clzPLzL3wpDrlwjsTBAQXgyp5SeTqqY+0bFubwuo+y/HLhNZcXV4XqTBO4LGsfyHIDXg==
   dependencies:
     array-includes "^3.1.4"
     array.prototype.flat "^1.2.5"
     debug "^2.6.9"
     doctrine "^2.1.0"
     eslint-import-resolver-node "^0.3.6"
-    eslint-module-utils "^2.7.0"
+    eslint-module-utils "^2.7.1"
     has "^1.0.3"
-    is-core-module "^2.7.0"
+    is-core-module "^2.8.0"
     is-glob "^4.0.3"
     minimatch "^3.0.4"
     object.values "^1.1.5"
@@ -3841,7 +3841,7 @@ is-ci@^2.0.0:
   dependencies:
     ci-info "^2.0.0"
 
-is-core-module@^2.2.0, is-core-module@^2.5.0, is-core-module@^2.7.0:
+is-core-module@^2.2.0, is-core-module@^2.5.0, is-core-module@^2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.8.0.tgz#0321336c3d0925e497fd97f5d95cb114a5ccd548"
   integrity sha512-vd15qHsaqrRL7dtH6QNuy0ndJmRDrS9HAM1CAiSifNUFv4x1a0CCVsj18hJ1mShxIG6T2i1sO78MkP56r0nYRw==
@@ -4607,10 +4607,10 @@ jsii-diff@^1.43.0:
     typescript "~3.9.10"
     yargs "^16.2.0"
 
-jsii-docgen@^3.8.24:
-  version "3.8.24"
-  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-3.8.24.tgz#995740fd9158b6472029b249232d7a2c10f03ac8"
-  integrity sha512-LK9p4H2+sssZxdIAyZL02XJycmENy0GzrrbwfzPhlXjj/BJzK92nmJmf0u2gKwzQCa2Xbl6Z4Cc4/Bx2odJihg==
+jsii-docgen@^3.8.25:
+  version "3.8.25"
+  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-3.8.25.tgz#535db36d61967beb987bb49cd09e033e410a945e"
+  integrity sha512-CX7WHSofhkdJQ1f/2s4REhMXVIL8aV4trTeagF/ZI/A6hKky8339UKGNMgqDcg/4E+L5r9sdaSSAmnkBweCy+w==
   dependencies:
     "@jsii/spec" "^1.43.0"
     case "^1.6.3"
