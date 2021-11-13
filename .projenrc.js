@@ -29,6 +29,39 @@ const project = new AwsCdkConstructLibrary({
     'aws-cdk-construct',
     'projen',
   ],
+  depsUpgrade: true,
+  depsUpgradeOptions: {
+    workflowOptions: {
+      labels: ['auto-approve', 'deps-upgrade'],
+    },
+  },
+  githubOptions: {
+    mergify: true,
+    mergifyOptions: {
+      rules: [
+        {
+          name: 'Automatically merge dependency upgrade PRs without approval if they pass build',
+          actions: {
+            merge: {
+              method: 'squash',
+              commit_message: 'title+body',
+              strict: 'smart',
+              strict_method: 'merge',
+            },
+            delete_head_branch: {},
+          },
+          conditions: [
+            'label=auto-approve',
+            'label=deps-upgrade',
+            '-label~=(do-not-merge)',
+            'check-success=build',
+            'author=github-actions[bot]',
+            'title="chore(deps): upgrade dependencies"',
+          ],
+        },
+      ],
+    },
+  },
   releaseToNpm: true,
   releaseWorkflow: true,
   npmAccess: NpmAccess.PUBLIC,

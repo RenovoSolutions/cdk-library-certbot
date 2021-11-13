@@ -87,6 +87,7 @@ jobs:
             *Automatically created by projen via the "upgrade-master" workflow*
           branch: github-actions/upgrade-master
           title: "chore(deps): upgrade dependencies"
+          labels: auto-approve,deps-upgrade
           body: >-
             Upgrades project dependencies. See details in [workflow run].
 
