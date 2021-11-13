@@ -54,7 +54,7 @@ const project = new AwsCdkConstructLibrary({
             'label=auto-approve',
             'label=deps-upgrade',
             '-label~=(do-not-merge)',
-            'check-success=build',
+            'status-success=build',
             'author=github-actions[bot]',
             'title="chore(deps): upgrade dependencies"',
           ],
