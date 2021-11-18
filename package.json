@@ -48,16 +48,16 @@
     "eslint-plugin-import": "^2.25.3",
     "jest": "^27.3.1",
     "jest-junit": "^12",
-    "jsii": "^1.43.0",
-    "jsii-diff": "^1.43.0",
-    "jsii-docgen": "^3.8.28",
-    "jsii-pacmak": "^1.43.0",
+    "jsii": "^1.44.1",
+    "jsii-diff": "^1.44.1",
+    "jsii-docgen": "^3.8.31",
+    "jsii-pacmak": "^1.44.1",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^11",
     "projen": "^0.33.1",
     "standard-version": "^9",
     "ts-jest": "^27.0.7",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.2"
   },
   "peerDependencies": {
     "@aws-cdk/aws-events": "^1.132.0",
@@ -81,7 +81,7 @@
     "@aws-cdk/aws-sns": "^1.132.0",
     "@aws-cdk/aws-sns-subscriptions": "^1.132.0",
     "@aws-cdk/core": "^1.132.0",
-    "@renovosolutions/cdk-library-one-time-event": "^0.0.31"
+    "@renovosolutions/cdk-library-one-time-event": "^0.0.35"
   },
   "bundledDependencies": [],
   "keywords": [
