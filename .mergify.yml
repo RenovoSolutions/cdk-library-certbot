@@ -14,7 +14,7 @@ pull_request_rules:
       - label=auto-approve
       - label=deps-upgrade
       - -label~=(do-not-merge)
-      - check-success=build
+      - status-success=build
       - author=github-actions[bot]
       - 'title="chore(deps): upgrade dependencies"'
   - name: Automatic merge on approval and successful build
