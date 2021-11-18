@@ -40,15 +40,12 @@ const project = new AwsCdkConstructLibrary({
     mergifyOptions: {
       rules: [
         {
-          name: 'Automatically merge dependency upgrade PRs without approval if they pass build',
+          name: 'Automatically approve dependency upgrade PRs if they pass build',
           actions: {
-            merge: {
-              method: 'squash',
-              commit_message: 'title+body',
-              strict: 'smart',
-              strict_method: 'merge',
-            },
-            delete_head_branch: {},
+            review: {
+              type: 'APPROVE',
+              message: 'Automatically approved dependency upgrade PR'
+            }
           },
           conditions: [
             'label=auto-approve',
