@@ -10,6 +10,8 @@ A CDK Construct Library to automate the creation and renewal of Let's Encrypt ce
 - Imports the certificate to AWS Certificate Manager for tracking expiration
 - Creates a trigger to re-run and re-new if the cert will expire in the next 30 days (customizable)
 
+foo
+
 ## API Doc
 See [API](API.md)
 
