@@ -44,8 +44,8 @@ const project = new AwsCdkConstructLibrary({
           actions: {
             review: {
               type: 'APPROVE',
-              message: 'Automatically approved dependency upgrade PR'
-            }
+              message: 'Automatically approved dependency upgrade PR',
+            },
           },
           conditions: [
             'label=auto-approve',
