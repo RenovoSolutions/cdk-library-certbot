@@ -1366,10 +1366,10 @@
   resolved "https://registry.yarnpkg.com/@oozcitak/util/-/util-8.3.8.tgz#10f65fe1891fd8cde4957360835e78fd1936bfdd"
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
-"@renovosolutions/cdk-library-one-time-event@^0.0.36":
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.36.tgz#ea63bb90a449e547c7030037d47a8a445ca59016"
-  integrity sha512-4h1BKo9lmnWmyMLDhOZeXkWCmWx/zSadE2/AEWdR6muJppBK4kGNlH7MJ5E0Ahjo4u7vINt1NOBP2B5bb6SS5A==
+"@renovosolutions/cdk-library-one-time-event@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.38.tgz#6fb62c96b8a9ded3f445a5a51f1aec74f157c798"
+  integrity sha512-qPZDe8eCPseCB2tbrGof3S98URoaT6bcFe3BNpPqN2Lw+C62Xa+M4jEI/UE0JDIEnZ65I3OuKnvvqjFl8/m7Tg==
   dependencies:
     "@aws-cdk/aws-events" "^1.132.0"
     "@aws-cdk/core" "^1.132.0"
@@ -6164,9 +6164,9 @@ side-channel@^1.0.3, side-channel@^1.0.4:
     object-inspect "^1.9.0"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.5.tgz#9e3e8cc0c75a99472b44321033a7702e7738252f"
-  integrity sha512-KWcOiKeQj6ZyXx7zq4YxSMgHRlod4czeBQZrPb8OKcohcqAXShm7E20kEMle9WBt26hFcAf0qLOcp5zmY7kOqQ==
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.6.tgz#24e630c4b0f03fea446a2bd299e62b4a6ca8d0af"
+  integrity sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ==
 
 sisteransi@^1.0.5:
   version "1.0.5"
