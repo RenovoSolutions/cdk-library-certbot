@@ -367,7 +367,7 @@
     "@aws-cdk/custom-resources" "1.134.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-events@1.134.0", "@aws-cdk/aws-events@^1.133.0", "@aws-cdk/aws-events@^1.134.0":
+"@aws-cdk/aws-events@1.134.0", "@aws-cdk/aws-events@^1.134.0":
   version "1.134.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-events/-/aws-events-1.134.0.tgz#10c4034c1d6ba9cf9ea3923aba837458f4399952"
   integrity sha512-M0jmIwgIssB4Gi1m4h3Jeuu+KETmjijHHFGI0Xffxmu9myMvfKjfgyFLytQuz4/7UfaPH6vqkHCCp9/bJNLo2Q==
@@ -662,7 +662,7 @@
     string-width "^4.2.3"
     table "^6.7.3"
 
-"@aws-cdk/core@1.134.0", "@aws-cdk/core@^1.133.0", "@aws-cdk/core@^1.134.0":
+"@aws-cdk/core@1.134.0", "@aws-cdk/core@^1.134.0":
   version "1.134.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.134.0.tgz#cdcb94ffcfbfa04cdb9c585f008c995e1f8bad5c"
   integrity sha512-rdQYFTrGBemgy1C23r2s18ONXgnsp4dXyZMTTcy7e6QkF3JBTI4za2GUWY4XQaKnchGV9UhylPNFqh59hXzEUA==
@@ -1370,12 +1370,12 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.1.0.tgz#d5ca400d2990ee1e5658cf4dd5ac9de22756e50b"
-  integrity sha512-tdMKPqHbAXhBImCBME38R9xQO877+ArnvwkeKP+zZCsJg6i1ut6S0wJ7krwn5ZjUDT0j5hVxGRukKmVrJL3llg==
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.1.1.tgz#cc64689f47734a9c6aa5da998da380260750dd91"
+  integrity sha512-D3f+ZjdEtT0a1DuzgiZNDp+pkxwDCFoXHv0vNE6qL4uwKX4lMRPQNqRrWQKn2ji94idvv7RmWq1+rGc4R2k3BQ==
   dependencies:
-    "@aws-cdk/aws-events" "^1.133.0"
-    "@aws-cdk/core" "^1.133.0"
+    "@aws-cdk/aws-events" "^1.134.0"
+    "@aws-cdk/core" "^1.134.0"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -5743,10 +5743,10 @@ progress@^2.0.0, progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.33.1:
-  version "0.33.10"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.33.10.tgz#539b94148a10af93a4d72948ea9779ac5fbb1ab5"
-  integrity sha512-Eop4q6oOdsCe13eR1iMXt2gM34oF7PcXEAR5TNTQr+y39u4nsLaN8XZbZq5SVt7Qkjs7E83S7Lw9ARobTFz1EQ==
+projen@^0.34.16:
+  version "0.34.16"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.34.16.tgz#01947be523ca1da9b6fc72bb0c764114f1608d87"
+  integrity sha512-NZTa9k8VH5XL/BrTpDj3m2D3Xy1zMXHHEtm4UnhtFWem0QZtUxBVv74f+k1jKBKFkiTV1sinDgbCgeknkUTuBg==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
