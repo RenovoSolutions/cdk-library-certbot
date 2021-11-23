@@ -367,7 +367,7 @@
     "@aws-cdk/custom-resources" "1.133.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-events@1.133.0", "@aws-cdk/aws-events@^1.132.0", "@aws-cdk/aws-events@^1.133.0":
+"@aws-cdk/aws-events@1.133.0", "@aws-cdk/aws-events@^1.133.0":
   version "1.133.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-events/-/aws-events-1.133.0.tgz#86b6d25d141a10850e99a349b66f8b7504356da3"
   integrity sha512-zO8DUZroZaQnWGVKEfz2dodH9vCFgNVwaxb4ajqa6YZCHuockfTCI7XF43efmsTmys94+jYffXilUFvu1zn+aw==
@@ -662,7 +662,7 @@
     string-width "^4.2.3"
     table "^6.7.3"
 
-"@aws-cdk/core@1.133.0", "@aws-cdk/core@^1.132.0", "@aws-cdk/core@^1.133.0":
+"@aws-cdk/core@1.133.0", "@aws-cdk/core@^1.133.0":
   version "1.133.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.133.0.tgz#5e3027a1904c5173c0e3dff748f4f6db92c885db"
   integrity sha512-LOL5FnTsLdbzb1Wkzav1ylK9x8XLySpjDwuBVNuZC5H1+IV3ufXn3LU9zV5VR3u6pDQqblOKcrwFX/Z5RpnHjw==
@@ -1369,13 +1369,13 @@
   resolved "https://registry.yarnpkg.com/@oozcitak/util/-/util-8.3.8.tgz#10f65fe1891fd8cde4957360835e78fd1936bfdd"
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
-"@renovosolutions/cdk-library-one-time-event@^0.0.43":
-  version "0.0.43"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.0.43.tgz#b14061d58f929de5280a5212e14e4b72ac97c9f9"
-  integrity sha512-uigeBRS5FHfMK6wwlJlvp/04Na3QXuVMSXBpCSkDf85WPM1ZvzAcYrTvnc4Y4FKY77JyJN/jSQc+BW0oXZvwXw==
+"@renovosolutions/cdk-library-one-time-event@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.1.0.tgz#d5ca400d2990ee1e5658cf4dd5ac9de22756e50b"
+  integrity sha512-tdMKPqHbAXhBImCBME38R9xQO877+ArnvwkeKP+zZCsJg6i1ut6S0wJ7krwn5ZjUDT0j5hVxGRukKmVrJL3llg==
   dependencies:
-    "@aws-cdk/aws-events" "^1.132.0"
-    "@aws-cdk/core" "^1.132.0"
+    "@aws-cdk/aws-events" "^1.133.0"
+    "@aws-cdk/core" "^1.133.0"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
