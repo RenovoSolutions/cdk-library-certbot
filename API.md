@@ -9,7 +9,7 @@
 ```typescript
 import { Certbot } from '@renovosolutions/cdk-library-certbot'
 
-new Certbot(scope: Construct, id: string, props: ICertbotProps)
+new Certbot(scope: Construct, id: string, props: CertbotProps)
 ```
 
 ##### `scope`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.Certbot.parameter.scope"></a>
@@ -26,7 +26,7 @@ new Certbot(scope: Construct, id: string, props: ICertbotProps)
 
 ##### `props`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.Certbot.parameter.props"></a>
 
-- *Type:* [`@renovosolutions/cdk-library-certbot.ICertbotProps`](#@renovosolutions/cdk-library-certbot.ICertbotProps)
+- *Type:* [`@renovosolutions/cdk-library-certbot.CertbotProps`](#@renovosolutions/cdk-library-certbot.CertbotProps)
 
 ---
 
@@ -45,18 +45,19 @@ public readonly handler: Function;
 ---
 
 
+## Structs <a name="Structs"></a>
 
+### CertbotProps <a name="@renovosolutions/cdk-library-certbot.CertbotProps"></a>
 
-## Protocols <a name="Protocols"></a>
+#### Initializer <a name="[object Object].Initializer"></a>
 
-### ICertbotProps <a name="@renovosolutions/cdk-library-certbot.ICertbotProps"></a>
+```typescript
+import { CertbotProps } from '@renovosolutions/cdk-library-certbot'
 
-- *Implemented By:* [`@renovosolutions/cdk-library-certbot.ICertbotProps`](#@renovosolutions/cdk-library-certbot.ICertbotProps)
+const certbotProps: CertbotProps = { ... }
+```
 
-
-#### Properties <a name="Properties"></a>
-
-##### `hostedZoneNames`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.hostedZoneNames"></a>
+##### `hostedZoneNames`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.hostedZoneNames"></a>
 
 ```typescript
 public readonly hostedZoneNames: string[];
@@ -68,7 +69,7 @@ Hosted zone names that will be required for DNS verification with certbot.
 
 ---
 
-##### `letsencryptDomains`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.letsencryptDomains"></a>
+##### `letsencryptDomains`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.letsencryptDomains"></a>
 
 ```typescript
 public readonly letsencryptDomains: string;
@@ -82,7 +83,7 @@ Primary domain should be first.
 
 ---
 
-##### `letsencryptEmail`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.letsencryptEmail"></a>
+##### `letsencryptEmail`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.letsencryptEmail"></a>
 
 ```typescript
 public readonly letsencryptEmail: string;
@@ -94,7 +95,7 @@ The email to associate with the Let's Encrypt certificate request.
 
 ---
 
-##### `bucket`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.bucket"></a>
+##### `bucket`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.bucket"></a>
 
 ```typescript
 public readonly bucket: Bucket;
@@ -108,7 +109,7 @@ If no bucket is given one will be created automatically.
 
 ---
 
-##### `enableInsights`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.enableInsights"></a>
+##### `enableInsights`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.enableInsights"></a>
 
 ```typescript
 public readonly enableInsights: boolean;
@@ -121,7 +122,7 @@ Whether or not to enable Lambda Insights.
 
 ---
 
-##### `functionDescription`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.functionDescription"></a>
+##### `functionDescription`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.functionDescription"></a>
 
 ```typescript
 public readonly functionDescription: string;
@@ -133,7 +134,7 @@ The description for the resulting Lambda function.
 
 ---
 
-##### `functionName`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.functionName"></a>
+##### `functionName`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.functionName"></a>
 
 ```typescript
 public readonly functionName: string;
@@ -145,7 +146,7 @@ The name of the resulting Lambda function.
 
 ---
 
-##### `insightsARN`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.insightsARN"></a>
+##### `insightsARN`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.insightsARN"></a>
 
 ```typescript
 public readonly insightsARN: string;
@@ -159,7 +160,7 @@ Defaults to layer for US-EAST-1
 
 ---
 
-##### `layers`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.layers"></a>
+##### `layers`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.layers"></a>
 
 ```typescript
 public readonly layers: ILayerVersion[];
@@ -173,7 +174,7 @@ For example Lambda Extensions
 
 ---
 
-##### `objectPrefix`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.objectPrefix"></a>
+##### `objectPrefix`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.objectPrefix"></a>
 
 ```typescript
 public readonly objectPrefix: string;
@@ -187,7 +188,7 @@ Default is no prefix.
 
 ---
 
-##### `preferredChain`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.preferredChain"></a>
+##### `preferredChain`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.preferredChain"></a>
 
 ```typescript
 public readonly preferredChain: string;
@@ -200,7 +201,7 @@ Set the preferred certificate chain.
 
 ---
 
-##### `reIssueDays`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.reIssueDays"></a>
+##### `reIssueDays`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.reIssueDays"></a>
 
 ```typescript
 public readonly reIssueDays: number;
@@ -213,7 +214,7 @@ The numbers of days left until the prior cert expires before issuing a new one.
 
 ---
 
-##### `runOnDeploy`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.runOnDeploy"></a>
+##### `runOnDeploy`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.runOnDeploy"></a>
 
 ```typescript
 public readonly runOnDeploy: boolean;
@@ -226,7 +227,7 @@ Whether or not to schedule a trigger to run the function after each deployment.
 
 ---
 
-##### `runOnDeployWaitMinutes`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.runOnDeployWaitMinutes"></a>
+##### `runOnDeployWaitMinutes`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.runOnDeployWaitMinutes"></a>
 
 ```typescript
 public readonly runOnDeployWaitMinutes: number;
@@ -239,7 +240,7 @@ How many minutes to wait before running the post deployment Lambda trigger.
 
 ---
 
-##### `schedule`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.schedule"></a>
+##### `schedule`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.schedule"></a>
 
 ```typescript
 public readonly schedule: Schedule;
@@ -252,7 +253,7 @@ The schedule for the certificate check trigger.
 
 ---
 
-##### `snsTopic`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.snsTopic"></a>
+##### `snsTopic`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.snsTopic"></a>
 
 ```typescript
 public readonly snsTopic: Topic;
@@ -266,7 +267,7 @@ If no topic is given one will be created automatically.
 
 ---
 
-##### `timeout`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.ICertbotProps.property.timeout"></a>
+##### `timeout`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.timeout"></a>
 
 ```typescript
 public readonly timeout: Duration;
@@ -278,4 +279,6 @@ public readonly timeout: Duration;
 The timeout duration for Lambda function.
 
 ---
+
+
 
