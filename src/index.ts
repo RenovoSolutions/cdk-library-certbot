@@ -10,101 +10,103 @@ import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 import * as cdk from '@aws-cdk/core';
 import * as oneTimeEvents from '@renovosolutions/cdk-library-one-time-event';
 
-export interface ICertbotProps {
+export interface CertbotProps {
   /**
    * The comma delimited list of domains for which the Let's Encrypt certificate will be valid. Primary domain should be first.
    */
-  letsencryptDomains: string;
+  readonly letsencryptDomains: string;
   /**
    * The email to associate with the Let's Encrypt certificate request.
    */
-  letsencryptEmail: string;
+  readonly letsencryptEmail: string;
   /**
    * Any additional Lambda layers to use with the created function. For example Lambda Extensions
    */
-  layers?: lambda.ILayerVersion[];
+  readonly layers?: lambda.ILayerVersion[];
   /**
    * Hosted zone names that will be required for DNS verification with certbot
    */
-  hostedZoneNames: string[];
+  readonly hostedZoneNames: string[];
   /**
    * The S3 bucket to place the resulting certificates in. If no bucket is given one will be created automatically.
    */
-  bucket?: s3.Bucket;
+  readonly bucket?: s3.Bucket;
   /**
    * The prefix to apply to the final S3 key name for the certificates. Default is no prefix.
    */
-  objectPrefix?: string;
+  readonly objectPrefix?: string;
   /**
    * The numbers of days left until the prior cert expires before issuing a new one.
    *
    * @default 30
    */
-  reIssueDays?: number;
+  readonly reIssueDays?: number;
   /**
    * Set the preferred certificate chain.
    *
    * @default 'None'
    */
-  preferredChain?: string;
+  readonly preferredChain?: string;
   /**
    * The SNS topic to notify when a new cert is issued. If no topic is given one will be created automatically.
    */
-  snsTopic?: sns.Topic;
+  readonly snsTopic?: sns.Topic;
   /**
    * Whether or not to enable Lambda Insights
    *
    * @default false
    */
-  enableInsights?: boolean;
+  readonly enableInsights?: boolean;
   /**
    * Insights layer ARN for your region. Defaults to layer for US-EAST-1
    */
-  insightsARN?: string;
+  readonly insightsARN?: string;
   /**
    * The timeout duration for Lambda function
    *
    * @default cdk.Duraction.seconds(180)
    */
-  timeout?: cdk.Duration;
+  readonly timeout?: cdk.Duration;
   /**
    * The schedule for the certificate check trigger.
    *
    * @default events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' })
    */
-  schedule?: events.Schedule;
+  readonly schedule?: events.Schedule;
   /**
    * Whether or not to schedule a trigger to run the function after each deployment
    *
    * @default true
    */
-  runOnDeploy?: boolean;
+  readonly runOnDeploy?: boolean;
   /**
    * How many minutes to wait before running the post deployment Lambda trigger
    *
    * @default 10
    */
-  runOnDeployWaitMinutes?: number;
+  readonly runOnDeployWaitMinutes?: number;
   /**
    * The description for the resulting Lambda function.
    */
-  functionDescription?: string;
+  readonly functionDescription?: string;
   /**
    * The name of the resulting Lambda function.
    */
-  functionName?: string;
+  readonly functionName?: string;
 }
 
 export class Certbot extends cdk.Construct {
 
   public readonly handler: lambda.Function
 
-  constructor(scope: cdk.Construct, id: string, props: ICertbotProps) {
+  constructor(scope: cdk.Construct, id: string, props: CertbotProps) {
     super(scope, id);
+
+    let bucket: s3.Bucket;
 
     // Create a bucket if one is not provided
     if (props.bucket === undefined) {
-      props.bucket = new s3.Bucket(this, 'bucket', {
+      bucket = new s3.Bucket(this, 'bucket', {
         objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
         versioned: true,
@@ -116,28 +118,30 @@ export class Certbot extends cdk.Construct {
         enforceSSL: true,
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       });
+    } else {
+      bucket = props.bucket;
     }
 
     const functionDir = path.join(__dirname, '../function');
 
-    // Create an SNS topic if one is not provided
+    // Create an SNS topic if one is not provided and add the defined email to it
+    let snsTopic: sns.Topic = props.snsTopic ?? new sns.Topic(this, 'topic');
     if (props.snsTopic === undefined) {
-      props.snsTopic = new sns.Topic(this, 'topic');
-      props.snsTopic.addSubscription(new subscriptions.EmailSubscription(props.letsencryptEmail));
+      snsTopic.addSubscription(new subscriptions.EmailSubscription(props.letsencryptEmail));
     }
 
     // Set property defaults
-    props.layers = props.layers ?? [];
-    props.runOnDeploy = props.runOnDeploy ?? true;
-    props.functionDescription = props.functionDescription ?? 'Certbot Renewal Lambda for domain ' + props.letsencryptDomains.split(',')[0];
-    props.enableInsights = props.enableInsights ?? false;
-    props.insightsARN = props.insightsARN ?? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14';
+    let layers: lambda.ILayerVersion[] = props.layers ?? [];
+    let runOnDeploy: boolean = props.runOnDeploy ?? true;
+    let functionDescription: string = props.functionDescription ?? 'Certbot Renewal Lambda for domain ' + props.letsencryptDomains.split(',')[0];
+    let enableInsights: boolean = props.enableInsights ?? false;
+    let insightsARN: string = props.insightsARN ?? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14';
 
     // Set up role policies
     let managedPolicies = [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')];
-    if (props.enableInsights) {
+    if (enableInsights) {
       managedPolicies.push(iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'));
-      props.layers.push(lambda.LayerVersion.fromLayerVersionArn(this, 'insightsLayer', props.insightsARN));
+      layers.push(lambda.LayerVersion.fromLayerVersionArn(this, 'insightsLayer', insightsARN));
     }
 
     const snsPolicy = new iam.ManagedPolicy(this, 'snsPolicy', {
@@ -146,7 +150,7 @@ export class Certbot extends cdk.Construct {
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
           actions: ['sns:Publish'],
-          resources: [props.snsTopic.topicArn],
+          resources: [snsTopic.topicArn],
         }),
       ],
     });
@@ -206,7 +210,7 @@ export class Certbot extends cdk.Construct {
       managedPolicies,
     });
 
-    props.bucket.grantWrite(role);
+    bucket.grantWrite(role);
 
     // Create the Lambda function
     this.handler = new lambda.Function(this, 'handler', {
@@ -215,17 +219,17 @@ export class Certbot extends cdk.Construct {
       code: lambda.Code.fromAsset(functionDir + '/function.zip'),
       handler: 'index.handler',
       functionName: props.functionName,
-      description: props.functionDescription,
+      description: functionDescription,
       environment: {
         LETSENCRYPT_DOMAINS: props.letsencryptDomains,
         LETSENCRYPT_EMAIL: props.letsencryptEmail,
-        CERTIFICATE_BUCKET: props.bucket.bucketName,
+        CERTIFICATE_BUCKET: bucket.bucketName,
         OBJECT_PREFIX: props.objectPrefix || '',
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
         PREFERRED_CHAIN: props.preferredChain || 'None',
-        NOTIFICATION_SNS_ARN: props.snsTopic.topicArn,
+        NOTIFICATION_SNS_ARN: snsTopic.topicArn,
       },
-      layers: props.layers,
+      layers,
       timeout: props.timeout || cdk.Duration.seconds(180),
     });
 
@@ -235,7 +239,7 @@ export class Certbot extends cdk.Construct {
       targets: [new targets.LambdaFunction(this.handler)],
     });
 
-    if (props.runOnDeploy) {
+    if (runOnDeploy) {
       new events.Rule(this, 'triggerImmediate', {
         schedule: new oneTimeEvents.OnDeploy(this, 'schedule', {
           offsetMinutes: props.runOnDeployWaitMinutes || 10,
