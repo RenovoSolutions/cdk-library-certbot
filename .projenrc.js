@@ -58,6 +58,18 @@ const project = new AwsCdkConstructLibrary({
         },
       ],
     },
+    pullRequestLintOptions: {
+      semanticTitle: true,
+      semanticTitleOptions: {
+        types: [
+          'chore',
+          'docs',
+          'feat',
+          'fix',
+          'ci',
+        ],
+      },
+    },
   },
   releaseToNpm: true,
   releaseWorkflow: true,
