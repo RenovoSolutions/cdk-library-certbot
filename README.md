@@ -17,6 +17,9 @@ See [API](API.md)
 Original [gist](# Modified from original gist https://gist.github.com/arkadiyt/5d764c32baa43fc486ca16cb8488169a) that was modified for the Lambda code
 
 ## Examples
+
+This construct utilizes a Route 53 hosted zone lookup so it will require that your stack has [environment variables set for account and region](See https://docs.aws.amazon.com/cdk/latest/guide/environments.html for more details.).
+
 ### Typescript
 ```
 import * as cdk from '@aws-cdk/core';
@@ -37,10 +40,27 @@ export class CdkExampleCertsStack extends cdk.Stack {
       letsencryptEmail: 'webmaster+letsencrypt@example.com',
       hostedZoneNames: [
         'example.com'
-      ],
-      architecture: Architecture.ARM_64
+      ]
     })
   }
 }
 
+```
+## Python
+```
+from aws_cdk import (
+    core as cdk
+)
+from certbot import Certbot
+
+class CdkExampleCertsStack(cdk.Stack):
+
+    def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
+        super().__init__(scope, construct_id, **kwargs)
+
+        Certbot(self, "certbot",
+            letsencrypt_email="webmaster+letsencrypt@example.com",
+            letsencrypt_domains="example.com",
+            hosted_zone_names=["example.com"]
+        )
 ```
