@@ -1369,10 +1369,10 @@
   resolved "https://registry.yarnpkg.com/@oozcitak/util/-/util-8.3.8.tgz#10f65fe1891fd8cde4957360835e78fd1936bfdd"
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
-"@renovosolutions/cdk-library-one-time-event@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.2.2.tgz#9f731a48ad30c8d8b001593bc29e4bba32c82664"
-  integrity sha512-U80pSlE4QqGPxjvS9/p+V8H54PzcKuWiS9S1iFQRewIc8/6HVDUO7JMJA3zRo+CAaw70CNbNtrv7nsxbgZGp8Q==
+"@renovosolutions/cdk-library-one-time-event@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.2.3.tgz#79883bd55b24d963704d4942fbc4798eae231c2c"
+  integrity sha512-+j4lkgSgZf8M3LSTLSV9foYrk+CQGHC+iHGuU/mOAuSbcfVRf7xtlk1B+K2ZvBGHNUhSaZ7iKnvIBOWhIEmcvQ==
   dependencies:
     "@aws-cdk/aws-events" "^1.134.0"
     "@aws-cdk/core" "^1.134.0"
@@ -2573,9 +2573,9 @@ dateformat@^3.0.0:
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
 debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
-  integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
+  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
   dependencies:
     ms "2.1.2"
 
