@@ -2,7 +2,7 @@ const { AwsCdkConstructLibrary, ProjectType, NpmAccess, IgnoreFile } = require('
 const project = new AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
-  cdkVersion: '1.134.0',
+  cdkVersion: '2.0.0',
   defaultReleaseBranch: 'master',
   majorVersion: '2',
   releaseBranches: {
@@ -14,18 +14,13 @@ const project = new AwsCdkConstructLibrary({
   description: 'AWS CDK Construct Library to manage Lets Encrypt certificate renewals with Certbot',
   repositoryUrl: 'https://github.com/RenovoSolutions/cdk-library-certbot.git',
   cdkDependencies: [
-    '@aws-cdk/core',
-    '@aws-cdk/aws-lambda',
-    '@aws-cdk/aws-s3',
-    '@aws-cdk/aws-events',
-    '@aws-cdk/aws-events-targets',
-    '@aws-cdk/aws-iam',
-    '@aws-cdk/aws-sns',
-    '@aws-cdk/aws-sns-subscriptions',
-    '@aws-cdk/aws-route53',
+    'aws-cdk-lib',
   ],
   deps: [
-    '@renovosolutions/cdk-library-one-time-event',
+    'constructs@^10.0.0',
+  ],
+  deps: [
+    '@renovosolutions/cdk-library-one-time-event@^2.0.2',
   ],
   keywords: [
     'letsencrypt',
@@ -73,6 +68,7 @@ const project = new AwsCdkConstructLibrary({
           'feat',
           'fix',
           'ci',
+          'refactor',
         ],
       },
     },
@@ -96,6 +92,7 @@ const project = new AwsCdkConstructLibrary({
       timers: 'fake',
     },
   },
+  workflowNodeVersion: '14.17.0',
 });
 const ignorePatterns = [
   '.functionbundle/*',
