@@ -2,20 +2,6 @@
 
 exports[`Snapshot 1`] = `
 Object {
-  "Parameters": Object {
-    "AssetParametersc99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52cArtifactHash23964726": Object {
-      "Description": "Artifact hash for asset \\"c99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52c\\"",
-      "Type": "String",
-    },
-    "AssetParametersc99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52cS3Bucket0ABE1E94": Object {
-      "Description": "S3 bucket for asset \\"c99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52c\\"",
-      "Type": "String",
-    },
-    "AssetParametersc99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52cS3VersionKey1DFF3193": Object {
-      "Description": "S3 key for asset version \\"c99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52c\\"",
-      "Type": "String",
-    },
-  },
   "Resources": Object {
     "CertbotacmPolicy047B0647": Object {
       "Properties": Object {
@@ -138,42 +124,8 @@ Object {
       ],
       "Properties": Object {
         "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParametersc99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52cS3Bucket0ABE1E94",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersc99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52cS3VersionKey1DFF3193",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersc99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52cS3VersionKey1DFF3193",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "c99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52c.zip",
         },
         "Description": "Certbot Renewal Lambda for domain test.local",
         "Environment": Object {
@@ -289,7 +241,7 @@ Object {
             Object {
               "Action": Array [
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
                 "s3:Abort*",
               ],
               "Effect": "Allow",

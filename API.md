@@ -14,7 +14,7 @@ new Certbot(scope: Construct, id: string, props: CertbotProps)
 
 ##### `scope`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.Certbot.parameter.scope"></a>
 
-- *Type:* [`@aws-cdk/core.Construct`](#@aws-cdk/core.Construct)
+- *Type:* [`constructs.Construct`](#constructs.Construct)
 
 ---
 
@@ -40,7 +40,7 @@ new Certbot(scope: Construct, id: string, props: CertbotProps)
 public readonly handler: Function;
 ```
 
-- *Type:* [`@aws-cdk/aws-lambda.Function`](#@aws-cdk/aws-lambda.Function)
+- *Type:* [`aws-cdk-lib.aws_lambda.Function`](#aws-cdk-lib.aws_lambda.Function)
 
 ---
 
@@ -101,7 +101,7 @@ The email to associate with the Let's Encrypt certificate request.
 public readonly bucket: Bucket;
 ```
 
-- *Type:* [`@aws-cdk/aws-s3.Bucket`](#@aws-cdk/aws-s3.Bucket)
+- *Type:* [`aws-cdk-lib.aws_s3.Bucket`](#aws-cdk-lib.aws_s3.Bucket)
 
 The S3 bucket to place the resulting certificates in.
 
@@ -166,7 +166,7 @@ Defaults to layer for US-EAST-1
 public readonly layers: ILayerVersion[];
 ```
 
-- *Type:* [`@aws-cdk/aws-lambda.ILayerVersion`](#@aws-cdk/aws-lambda.ILayerVersion)[]
+- *Type:* [`aws-cdk-lib.aws_lambda.ILayerVersion`](#aws-cdk-lib.aws_lambda.ILayerVersion)[]
 
 Any additional Lambda layers to use with the created function.
 
@@ -246,7 +246,7 @@ How many minutes to wait before running the post deployment Lambda trigger.
 public readonly schedule: Schedule;
 ```
 
-- *Type:* [`@aws-cdk/aws-events.Schedule`](#@aws-cdk/aws-events.Schedule)
+- *Type:* [`aws-cdk-lib.aws_events.Schedule`](#aws-cdk-lib.aws_events.Schedule)
 - *Default:* events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' })
 
 The schedule for the certificate check trigger.
@@ -259,7 +259,7 @@ The schedule for the certificate check trigger.
 public readonly snsTopic: Topic;
 ```
 
-- *Type:* [`@aws-cdk/aws-sns.Topic`](#@aws-cdk/aws-sns.Topic)
+- *Type:* [`aws-cdk-lib.aws_sns.Topic`](#aws-cdk-lib.aws_sns.Topic)
 
 The SNS topic to notify when a new cert is issued.
 
@@ -273,8 +273,8 @@ If no topic is given one will be created automatically.
 public readonly timeout: Duration;
 ```
 
-- *Type:* [`@aws-cdk/core.Duration`](#@aws-cdk/core.Duration)
-- *Default:* cdk.Duraction.seconds(180)
+- *Type:* [`aws-cdk-lib.Duration`](#aws-cdk-lib.Duration)
+- *Default:* Duraction.seconds(180)
 
 The timeout duration for Lambda function.
 

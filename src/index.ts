@@ -1,14 +1,20 @@
 import * as path from 'path';
-import * as events from '@aws-cdk/aws-events';
-import * as targets from '@aws-cdk/aws-events-targets';
-import * as iam from '@aws-cdk/aws-iam';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as r53 from '@aws-cdk/aws-route53';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as sns from '@aws-cdk/aws-sns';
-import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
-import * as cdk from '@aws-cdk/core';
+
 import * as oneTimeEvents from '@renovosolutions/cdk-library-one-time-event';
+import {
+  aws_events as events,
+  aws_events_targets as targets,
+  aws_iam as iam,
+  aws_lambda as lambda,
+  aws_s3 as s3,
+  aws_route53 as r53,
+  aws_sns as sns,
+  aws_sns_subscriptions as subscriptions,
+  Duration,
+  RemovalPolicy,
+  Stack,
+} from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
 export interface CertbotProps {
   /**
@@ -64,9 +70,9 @@ export interface CertbotProps {
   /**
    * The timeout duration for Lambda function
    *
-   * @default cdk.Duraction.seconds(180)
+   * @default Duraction.seconds(180)
    */
-  readonly timeout?: cdk.Duration;
+  readonly timeout?: Duration;
   /**
    * The schedule for the certificate check trigger.
    *
@@ -95,11 +101,11 @@ export interface CertbotProps {
   readonly functionName?: string;
 }
 
-export class Certbot extends cdk.Construct {
+export class Certbot extends Construct {
 
   public readonly handler: lambda.Function
 
-  constructor(scope: cdk.Construct, id: string, props: CertbotProps) {
+  constructor(scope: Construct, id: string, props: CertbotProps) {
     super(scope, id);
 
     let bucket: s3.Bucket;
@@ -108,11 +114,11 @@ export class Certbot extends cdk.Construct {
     if (props.bucket === undefined) {
       bucket = new s3.Bucket(this, 'bucket', {
         objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
-        removalPolicy: cdk.RemovalPolicy.DESTROY,
+        removalPolicy: RemovalPolicy.DESTROY,
         versioned: true,
         lifecycleRules: [{
           enabled: true,
-          abortIncompleteMultipartUploadAfter: cdk.Duration.days(1),
+          abortIncompleteMultipartUploadAfter: Duration.days(1),
         }],
         encryption: s3.BucketEncryption.S3_MANAGED,
         enforceSSL: true,
@@ -135,7 +141,7 @@ export class Certbot extends cdk.Construct {
     let runOnDeploy: boolean = props.runOnDeploy ?? true;
     let functionDescription: string = props.functionDescription ?? 'Certbot Renewal Lambda for domain ' + props.letsencryptDomains.split(',')[0];
     let enableInsights: boolean = props.enableInsights ?? false;
-    let insightsARN: string = props.insightsARN ?? 'arn:aws:lambda:' + cdk.Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14';
+    let insightsARN: string = props.insightsARN ?? 'arn:aws:lambda:' + Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14';
 
     // Set up role policies
     let managedPolicies = [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')];
@@ -196,7 +202,7 @@ export class Certbot extends cdk.Construct {
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
           actions: ['acm:DescribeCertificate'],
-          resources: ['arn:aws:acm:' + cdk.Stack.of(this).region + ':' + cdk.Stack.of(this).account + ':certificate/*'],
+          resources: ['arn:aws:acm:' + Stack.of(this).region + ':' + Stack.of(this).account + ':certificate/*'],
         }),
       ],
     });
@@ -230,7 +236,7 @@ export class Certbot extends cdk.Construct {
         NOTIFICATION_SNS_ARN: snsTopic.topicArn,
       },
       layers,
-      timeout: props.timeout || cdk.Duration.seconds(180),
+      timeout: props.timeout || Duration.seconds(180),
     });
 
     // Add function triggers

@@ -1,13 +1,12 @@
 import { expect as expectCDK, countResources, SynthUtils } from '@aws-cdk/assert';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as cdk from '@aws-cdk/core';
+import { aws_s3 as s3, App, Stack } from 'aws-cdk-lib';
 import { Certbot } from '../src/index';
 
 jest.setSystemTime(new Date('2020-01-01').getTime());
 
 test('Snapshot', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack', {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
     env: {
       account: '123456789012', // not a real account
       region: 'us-east-1',
@@ -24,8 +23,8 @@ test('Snapshot', () => {
 });
 
 test('Default', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack', {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
     env: {
       account: '123456789012', // not a real account
       region: 'us-east-1',
@@ -49,8 +48,8 @@ test('Default', () => {
 });
 
 test('BucketPassedAsProp', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack', {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
     env: {
       account: '123456789012', // not a real account
       region: 'us-east-1',
@@ -77,8 +76,8 @@ test('BucketPassedAsProp', () => {
 });
 
 test('InsightsEnabled', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack', {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
     env: {
       account: '123456789012', // not a real account
       region: 'us-east-1',
@@ -103,8 +102,8 @@ test('InsightsEnabled', () => {
 });
 
 test('DoNotRunOnDeploy', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack', {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
     env: {
       account: '123456789012', // not a real account
       region: 'us-east-1',
