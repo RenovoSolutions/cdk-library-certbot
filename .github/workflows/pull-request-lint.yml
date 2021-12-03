@@ -28,4 +28,5 @@ jobs:
             fix
             ci
             refactor
+            test
           requireScope: false

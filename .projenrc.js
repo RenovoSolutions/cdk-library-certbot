@@ -69,6 +69,7 @@ const project = new AwsCdkConstructLibrary({
           'fix',
           'ci',
           'refactor',
+          'test',
         ],
       },
     },
