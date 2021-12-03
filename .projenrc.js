@@ -4,6 +4,12 @@ const project = new AwsCdkConstructLibrary({
   authorAddress: 'webmaster+cdk@renovo1.com',
   cdkVersion: '1.134.0',
   defaultReleaseBranch: 'master',
+  majorVersion: '2',
+  releaseBranches: {
+    v1: {
+      majorVersion: '1',
+    },
+  },
   name: '@renovosolutions/cdk-library-certbot',
   description: 'AWS CDK Construct Library to manage Lets Encrypt certificate renewals with Certbot',
   repositoryUrl: 'https://github.com/RenovoSolutions/cdk-library-certbot.git',
