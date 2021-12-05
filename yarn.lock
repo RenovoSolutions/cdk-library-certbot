@@ -697,9 +697,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.2.tgz#e473557550205ec05706b9ebcd24279c08ef53fd"
-  integrity sha512-nz18Do+/35Xv+A+1vD+v7qVfOFtOlNV+k/pQ66AHkVfqiUzsS3oPmMW5HJ7CMTmEwP+EdKKD3r32XjG4qhb7pg==
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.3.tgz#b01704411dc1dfc04e7d945cb4a42a4a3770de6d"
+  integrity sha512-6VE6DpIkxC6Vt/Kp19gmM6zzJ7c0hlZg+ZQ1pcnvRNuskZ8oIlOvVqAyz6hZuyOv1lPjefyK1uZV/veBgstbig==
   dependencies:
     aws-cdk-lib "^2.0.0"
     constructs "^10.0.0"
