@@ -1,4 +1,4 @@
-name: Upgrade to latest CDK version (v2)
+name: upgrade-cdk-v1
 on:
   schedule:
     - cron:  '0 4 * * *'
