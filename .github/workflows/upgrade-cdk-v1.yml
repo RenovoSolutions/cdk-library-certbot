@@ -12,4 +12,4 @@ jobs:
           ref: v1
       - name: Run upgrade script
         id: 'release_version'
-        run: npm run upgrade-cdk -- 1
+        run: npm run upgrade-cdk

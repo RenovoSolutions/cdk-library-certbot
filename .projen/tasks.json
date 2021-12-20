@@ -326,7 +326,7 @@
       "name": "upgrade-cdk",
       "steps": [
         {
-          "exec": "bash -c ./upgrade_cdk_version.bash"
+          "exec": "bash -c \"./upgrade_cdk_version.bash 2\""
         }
       ]
     },
