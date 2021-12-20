@@ -75,7 +75,7 @@ const project = new AwsCdkConstructLibrary({
     },
   },
   scripts: {
-    'upgrade-cdk': 'bash -c ./upgrade_cdk_version.bash',
+    'upgrade-cdk': 'bash -c "./upgrade_cdk_version.bash 2"',
   },
   releaseToNpm: true,
   releaseWorkflow: true,
