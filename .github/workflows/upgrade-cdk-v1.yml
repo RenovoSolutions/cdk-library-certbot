@@ -11,5 +11,5 @@ jobs:
         with:
           ref: v1
       - name: Run upgrade script
-        id: 'release_version'
+        id: 'upgrade_cdk_script'
         run: npm run upgrade-cdk

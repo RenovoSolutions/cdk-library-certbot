@@ -19,7 +19,7 @@ if [[  $release_version == $local_version ]]; then
 else
   echo "Upgrading CDK version from $local_version to $release_version"
   sed -i "s/cdkVersion: '$local_version'/cdkVersion: '$release_version'/g" .projenrc.js
-  npx projen && jest test && yarn build
+  yarn install && npx projen && jest test && yarn build
   if [[ $? -eq 0 ]]; then
     echo "CDK version upgraded built successfully"
     git config user.name "github-actions"
