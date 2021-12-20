@@ -1,4 +1,4 @@
-const { AwsCdkConstructLibrary, ProjectType, NpmAccess, IgnoreFile } = require('projen');
+const { AwsCdkConstructLibrary, NpmAccess } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
@@ -73,6 +73,9 @@ const project = new AwsCdkConstructLibrary({
         ],
       },
     },
+  },
+  scripts: {
+    'upgrade-cdk': 'bash -c ./upgrade_cdk_version.bash',
   },
   releaseToNpm: true,
   releaseWorkflow: true,
