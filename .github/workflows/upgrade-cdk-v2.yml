@@ -1,0 +1,14 @@
+name: Upgrade to latest CDK version (v2)
+on:
+  schedule:
+    - cron:  '0 4 * * *'
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Run upgrade script
+        id: 'release_version'
+        run: npm run upgrade-cdk -- 2

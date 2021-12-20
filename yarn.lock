@@ -681,9 +681,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.2":
-  version "2.0.16"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.16.tgz#db23cd16b95d2fdd69cfb4c2e6fc952056b55ad2"
-  integrity sha512-DCKkz2K9tGm5Z0eWnEv+4Z618fVt2Hvp0nev8wXwbPpjxyp2kUlVht4U42wQ7SkZBFjJKV1Wdwq74UOximu1Pg==
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.17.tgz#12479abc3935f5ddc9c187069b0de9f7bc610514"
+  integrity sha512-p+h8uAb9/mKDs0WjHiuE7JjkddcKgtIoouksveZuOfzgorK5X4M57KBanj2ZYvBxmJgl61m9B7xRnBf6aNH1gQ==
   dependencies:
     aws-cdk-lib "^2.0.0"
     constructs "^10.0.0"
@@ -5061,9 +5061,9 @@ progress@^2.0.0, progress@^2.0.3:
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
 projen@^0.34.16:
-  version "0.34.16"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.34.16.tgz#01947be523ca1da9b6fc72bb0c764114f1608d87"
-  integrity sha512-NZTa9k8VH5XL/BrTpDj3m2D3Xy1zMXHHEtm4UnhtFWem0QZtUxBVv74f+k1jKBKFkiTV1sinDgbCgeknkUTuBg==
+  version "0.34.28"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.34.28.tgz#4ea9d80d8e189f74ef22c819ff77c394e369e792"
+  integrity sha512-Xcx0aNB65vLCIRldk/Dj04uTjqyvAs7GTtBMpoc9HFDIAMaFgeyDZMz9g0ux6INXd9pWQToyfpYqVA+r9ppaWA==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
