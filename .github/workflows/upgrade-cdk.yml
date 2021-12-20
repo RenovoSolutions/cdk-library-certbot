@@ -1,4 +1,4 @@
-name: upgrade-cdk-v1
+name: upgrade-cdk
 on:
   workflow_dispatch: {}
   schedule:
@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: v1
+          ref: master
       - name: Set git identity
         run: |-
           git config user.name "github-actions"
@@ -48,7 +48,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: v1
+          ref: master
       - name: Set git identity
         run: |-
           git config user.name "github-actions"
@@ -79,8 +79,8 @@ jobs:
             ------
 
 
-            *Automatically created via the "upgrade-cdk-v1" workflow*
-          branch: github-actions/upgrade-cdk-v1
+            *Automatically created via the "upgrade-cdk" workflow*
+          branch: github-actions/upgrade-cdk
           title: "chore(deps): upgrade `aws-cdk` version"
           body: >-
             Upgrades project `aws-cdk` version. See details in [workflow run].
@@ -92,7 +92,7 @@ jobs:
             ------
 
 
-            *Automatically created via the "upgrade-cdk-v1" workflow*
+            *Automatically created via the "upgrade-cdk" workflow*
           author: github-actions <github-actions@github.com>
           committer: github-actions <github-actions@github.com>
           signoff: true
@@ -101,10 +101,10 @@ jobs:
         run: "curl -i --fail -X POST -H \"Accept: application/vnd.github.v3+json\" -H
           \"Authorization: token ${GITHUB_TOKEN}\"
           https://api.github.com/repos/${{ github.repository }}/check-runs -d
-          '{\"name\":\"build\",\"head_sha\":\"github-actions/upgrade-cdk-v1\",\
+          '{\"name\":\"build\",\"head_sha\":\"github-actions/upgrade-cdk\",\
           \"status\":\"completed\",\"conclusion\":\"${{
           needs.upgrade.outputs.conclusion }}\",\"output\":{\"title\":\"Created
-          via the upgrade-cdk-v1 workflow.\",\"summary\":\"Action run URL:
+          via the upgrade-cdk workflow.\",\"summary\":\"Action run URL:
           https://github.com/${{ github.repository }}/actions/runs/${{
           github.run_id }}\"}}'"
         env:
