@@ -2,7 +2,7 @@ const { AwsCdkConstructLibrary, NpmAccess } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
-  cdkVersion: '2.0.0',
+  cdkVersion: '2.2.0',
   defaultReleaseBranch: 'master',
   majorVersion: '2',
   releaseBranches: {
