@@ -19,11 +19,13 @@ if [[  $release_version == $local_version ]]; then
 else
   echo "Upgrading CDK version from $local_version to $release_version"
   sed -i "s/cdkVersion: '$local_version'/cdkVersion: '$release_version'/g" .projenrc.js
+  # remove the lock file so we can update appropriately for the new CDK version
+  rm yarn.lock
   npx projen
   if [[ $? -eq 0 ]]; then
     echo "CDK version upgraded successfully"
   else
-    echo "CDK version upgrade failed to build"
+    echo "CDK version upgrade failed"
     exit 1
   fi
 fi
