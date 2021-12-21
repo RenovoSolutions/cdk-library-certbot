@@ -322,6 +322,14 @@
         }
       ]
     },
+    "upgrade-cdk": {
+      "name": "upgrade-cdk",
+      "steps": [
+        {
+          "exec": "bash -c \"./upgrade_cdk_version.bash 1\""
+        }
+      ]
+    },
     "upgrade-projen": {
       "name": "upgrade-projen",
       "description": "upgrade projen",
