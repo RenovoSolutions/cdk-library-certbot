@@ -6,6 +6,10 @@ on:
 jobs:
   upgrade-cdk:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      conclusion: ${{ steps.build.outputs.conclusion }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -103,7 +107,7 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/check-runs -d
           '{\"name\":\"build\",\"head_sha\":\"github-actions/upgrade-cdk-v1\",\
           \"status\":\"completed\",\"conclusion\":\"${{
-          needs.upgrade.outputs.conclusion }}\",\"output\":{\"title\":\"Created
+          needs.upgrade-cdk.outputs.conclusion }}\",\"output\":{\"title\":\"Created
           via the upgrade-cdk-v1 workflow.\",\"summary\":\"Action run URL:
           https://github.com/${{ github.repository }}/actions/runs/${{
           github.run_id }}\"}}'"
