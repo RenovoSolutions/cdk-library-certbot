@@ -38,8 +38,6 @@ junit.xml
 !/.github/workflows/build.yml
 /dist/changelog.md
 /dist/version.txt
-!/.github/workflows/release.yml
-!/.github/workflows/release-v1.yml
 !/.github/pull_request_template.md
 !/test/
 !/tsconfig.dev.json
@@ -52,5 +50,7 @@ tsconfig.json
 !/API.md
 .functionbundle/*
 .venv/*
+!/.github/workflows/release.yml
+!/.github/workflows/release-v1.yml
 !/.github/workflows/upgrade-master.yml
 !/.github/workflows/upgrade-v1.yml
