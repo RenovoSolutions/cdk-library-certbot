@@ -2,7 +2,7 @@ const { AwsCdkConstructLibrary, ProjectType, NpmAccess, IgnoreFile } = require('
 const project = new AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
-  cdkVersion: '1.134.0',
+  cdkVersion: '1.137.0',
   defaultReleaseBranch: 'master',
   majorVersion: '2',
   releaseBranches: {
