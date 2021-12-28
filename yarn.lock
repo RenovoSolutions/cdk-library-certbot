@@ -681,9 +681,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.2":
-  version "2.0.23"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.23.tgz#b4f6bc3f2e826aac7deaa164701dbbbf9de3a76d"
-  integrity sha512-pDi2qANL+J51IHl68X3XtPxwzAzCK85VxN0v6a+7K//EQzHt5rE2CWLHVzEDnY0rti777A9jvMpGyUc004k5SQ==
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.24.tgz#0dc1301d2dc5c3fd4d31d572b345fec766519126"
+  integrity sha512-LXh52SPU0r3f9WaB5q5OkctLLom1lxhV/A9HknkJJ2Qi9q/6uDJOfmIE31oTefwvVUOCzQAPMsdeSTZkd8CLSQ==
   dependencies:
     aws-cdk-lib "^2.0.0"
     constructs "^10.0.0"
@@ -973,9 +973,9 @@ acorn@^7.1.1, acorn@^7.4.0:
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
 acorn@^8.2.4:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.6.0.tgz#e3692ba0eb1a0c83eaa4f37f5fa7368dd7142895"
-  integrity sha512-U1riIR+lBSNi3IbxtaHOIKdH8sLFv3NYfNv8sg7ZsNhcfl4HF2++BfqqrNAxoCLQW1iiylOj76ecnaUxz+z9yw==
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.7.0.tgz#90951fde0f8f09df93549481e5fc141445b791cf"
+  integrity sha512-V/LGr1APy+PXIwKebEWrkZPwoeoF+w1jiOBUmuxuiUIaOHtob8Qc9BTrYo7VuI5fR8tqsy+buA2WFooR5olqvQ==
 
 add-stream@^1.0.0:
   version "1.0.0"
@@ -1641,9 +1641,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^10.0.0:
-  version "10.0.14"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.14.tgz#d4775ca312cb4e681add872006df283b17362501"
-  integrity sha512-KdfVv4s66maPo5DZ/hldkbTxci8oXdnz7ztc6hHbaZMeuoVP8/p/qJrmah9jJrGan6TYQ2t2ujV0j1K8//Q22Q==
+  version "10.0.15"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.15.tgz#8463fbf982133f0ea2ffbae4abc94b55b03e029d"
+  integrity sha512-HmEqwXEF4rtgO9UcB+p8CYoA0OdQG/oATyHa/kwTDrqZ3DIRPdnc4I/h87uS7YZYptfgcmgsQTJkqtDd0TJh0w==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
