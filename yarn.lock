@@ -681,9 +681,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.2":
-  version "2.0.26"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.26.tgz#7d80cf4ea79aa44a1e325b23cda74e0f97aae636"
-  integrity sha512-nDC6Rwv6tZ4wF1SXOoUXGzoEUHGD40Kjq29PFHccSShuaTfpcN6EDMVacxv3JEJeEqypBIHip+lPI95RxwuqYQ==
+  version "2.0.27"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.27.tgz#a773e852773833ac39299d7e1dd0a95ca60d1f83"
+  integrity sha512-Aza4v72Nn3X921TpP+FzvZdF2/f0gOxl4euSeLtFk6u5n/oEcp84EL+OMLJXZPrungw11a/QGsEHUMa26wQSOw==
   dependencies:
     aws-cdk-lib "^2.0.0"
     constructs "^10.0.0"
@@ -786,10 +786,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^27.0.3":
-  version "27.0.3"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.0.3.tgz#0cf9dfe9009e467f70a342f0f94ead19842a783a"
-  integrity sha512-cmmwv9t7gBYt7hNKH5Spu7Kuu/DotGa+Ff+JGRKZ4db5eh8PnKS4LuebJ3YLUoyOyIHraTGyULn23YtEAm0VSg==
+"@types/jest@^27.4.0":
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.4.0.tgz#037ab8b872067cae842a320841693080f9cb84ed"
+  integrity sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==
   dependencies:
     jest-diff "^27.0.0"
     pretty-format "^27.0.0"
@@ -1641,9 +1641,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^10.0.0:
-  version "10.0.17"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.17.tgz#c71d82003435bac36a33abe15910a7db1596310a"
-  integrity sha512-mO9tUB/zaoYzVDjspro9TqZg3eSR0iL27WYiUIpMSPKpRaYVyJnP/Be60P1tGGAJfNb48mMMytw7XhfF+bYpTw==
+  version "10.0.19"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.19.tgz#8f4b6fec095894d27c7e51d17c73275255660ee0"
+  integrity sha512-+rqNGi8W/oSr9G/AJTbnvMWlDo6D/A1X6Qx1EhQjDWmKxXUpcs1BvK85ColF1h64DyNBuuoO5P/W6ZobdatyeQ==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
