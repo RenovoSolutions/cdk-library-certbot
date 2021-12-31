@@ -1462,10 +1462,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^27.0.3":
-  version "27.0.3"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.0.3.tgz#0cf9dfe9009e467f70a342f0f94ead19842a783a"
-  integrity sha512-cmmwv9t7gBYt7hNKH5Spu7Kuu/DotGa+Ff+JGRKZ4db5eh8PnKS4LuebJ3YLUoyOyIHraTGyULn23YtEAm0VSg==
+"@types/jest@^27.4.0":
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.4.0.tgz#037ab8b872067cae842a320841693080f9cb84ed"
+  integrity sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==
   dependencies:
     jest-diff "^27.0.0"
     pretty-format "^27.0.0"
@@ -2302,9 +2302,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^3.3.69:
-  version "3.3.172"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.172.tgz#04396a7b6a3aa544e05a0a401938ea72c0aab2d2"
-  integrity sha512-VspQBS+pHn/UkcR36RHSJR8kSUquPS2vN6zuEfx5/9ADETfrY9X8/8ecLALfehGzcvuxllU7s7dPQ+W4KDYd1w==
+  version "3.3.174"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.174.tgz#a18d741d747240232df388739b1f0e3035d448ce"
+  integrity sha512-aaAC4MObWU+QOWnb76IH0Zl+BPgGQdCs/RNJLeTjejHGZ3Eo0oto6QSsuei2V9T6VCE7kA2r8mBG359y8NIYaw==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
