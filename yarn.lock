@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@aws-cdk/assert@^2.3.0":
+"@aws-cdk/assert@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/assert/-/assert-2.4.0.tgz#fdd22837ac8eb9d19073f6397452364b0ce5ee2b"
   integrity sha512-xvJo3Fmcn462mvjelWECItpByQMNQUSwRHwdVVqIe6ej+t0Ln8LQgCXwXrLKFyLOSQj3vclkOjAfsmv5DEfEVQ==
@@ -681,9 +681,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.2":
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.34.tgz#619708bfe65a0c17f43c377b0bca8820acac0c1d"
-  integrity sha512-o2kYVOFgMENAh9yymu9oZQgX2GwIpWWRMsUF7/aIYMDDTa0T0SbkkK+K2PuT/w5e3wUQjhYapoOhRyLuft4v9w==
+  version "2.0.35"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.35.tgz#c7bf31265bfd218fbe7154bb187941ed1ddb9870"
+  integrity sha512-aIfa5RD0zkKnY+c5Zuxe1We+rEQR62p8bs8lFC/hqKX6nnj8nG6ZGijNMq3M4jwWOC6q+VYbdX/GXeLdNLSuxA==
   dependencies:
     aws-cdk-lib "^2.0.0"
     constructs "^10.0.0"
@@ -1179,7 +1179,7 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-cdk-lib@^2.0.0, aws-cdk-lib@^2.3.0:
+aws-cdk-lib@^2.0.0, aws-cdk-lib@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.4.0.tgz#fcd08689d911431b4e6f22e8e51d11bd6457c5df"
   integrity sha512-GszgLG2VWc3k4/FHxeJaCFD/fmMUhKdWqyJCJtsByGHJG70r1Oz9+OteO8ctVqaErDiDp4rcT0jjmXz76dw0vw==
@@ -1641,9 +1641,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^10.0.0:
-  version "10.0.26"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.26.tgz#4447f0f8bd3e4b4104b17b1f4ed37c2be63ee290"
-  integrity sha512-7YJJEp8KV3whQvu8wGp+yILCm8IXeLdFPRQAL0rbjHUd+VWU5LLzJmd+jBeBNkqD+CbCZFsJww8w/Wd1ozKRGQ==
+  version "10.0.27"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.27.tgz#0f158fdc5638b4a3ac22e360e4cf4d9f5513f1a4"
+  integrity sha512-XIfg8vL/OPvGi8owc2BpCoZCt/yeJafLtuQHxyUVYdyGbQOG/1BWXvq87yFPpNKJ2moaPcJp0mPNPFM0QTyzSw==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -3175,13 +3175,6 @@ is-ci@^2.0.0:
   integrity sha512-YfJT7rkpQB0updsdHLGWrvhBJfcfzNNawYDNIyQXJz0IViGf75O8EBPKSdvw2rF+LGCsX4FZ8tcr3b19LcZq4w==
   dependencies:
     ci-info "^2.0.0"
-
-is-core-module@^2.2.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.8.0.tgz#0321336c3d0925e497fd97f5d95cb114a5ccd548"
-  integrity sha512-vd15qHsaqrRL7dtH6QNuy0ndJmRDrS9HAM1CAiSifNUFv4x1a0CCVsj18hJ1mShxIG6T2i1sO78MkP56r0nYRw==
-  dependencies:
-    has "^1.0.3"
 
 is-core-module@^2.5.0, is-core-module@^2.8.0:
   version "2.8.1"
@@ -4960,7 +4953,7 @@ path-key@^3.0.0, path-key@^3.1.0:
   resolved "https://registry.yarnpkg.com/path-key/-/path-key-3.1.1.tgz#581f6ade658cbba65a0d3380de7753295054f375"
   integrity sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==
 
-path-parse@^1.0.6, path-parse@^1.0.7:
+path-parse@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
   integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
@@ -5328,15 +5321,7 @@ resolve.exports@^1.1.0:
   resolved "https://registry.yarnpkg.com/resolve.exports/-/resolve.exports-1.1.0.tgz#5ce842b94b05146c0e03076985d1d0e7e48c90c9"
   integrity sha512-J1l+Zxxp4XK3LUDZ9m60LRJF/mAe4z6a4xyabPHk7pvK5t35dACV32iIjJDFeWZFfZlO29w6SZ67knR0tHzJtQ==
 
-resolve@^1.1.6:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
-  integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
-  dependencies:
-    is-core-module "^2.2.0"
-    path-parse "^1.0.6"
-
-resolve@^1.10.0, resolve@^1.20.0:
+resolve@^1.1.6, resolve@^1.10.0, resolve@^1.20.0:
   version "1.21.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.21.0.tgz#b51adc97f3472e6a5cf4444d34bc9d6b9037591f"
   integrity sha512-3wCbTpk5WJlyE4mSOtDLhqQmGFi0/TD9VPwmiolnk8U0wRgMEktqCXd3vy5buTO3tljvalNvKrjHEfrd2WpEKA==
