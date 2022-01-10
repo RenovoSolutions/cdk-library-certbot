@@ -381,7 +381,7 @@
     "@aws-cdk/custom-resources" "1.138.2"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-events@1.138.2", "@aws-cdk/aws-events@^1.134.0", "@aws-cdk/aws-events@^1.138.2":
+"@aws-cdk/aws-events@1.138.2", "@aws-cdk/aws-events@^1.138.2":
   version "1.138.2"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-events/-/aws-events-1.138.2.tgz#b1faceab11ae0fada9ada33525ab72a1be470732"
   integrity sha512-hN91JtG+sju58YwpChPP6BkkRO0JE159A+xUAkUepli8/oSb9bdY23XFUAclIWtqwJHCPnFm+XWYWA7SEohELg==
@@ -676,7 +676,7 @@
     string-width "^4.2.3"
     table "^6.7.5"
 
-"@aws-cdk/core@1.138.2", "@aws-cdk/core@^1.134.0", "@aws-cdk/core@^1.138.2":
+"@aws-cdk/core@1.138.2", "@aws-cdk/core@^1.138.2":
   version "1.138.2"
   resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.138.2.tgz#e15329b042e519276ecf5a2aac9c55dd91758afe"
   integrity sha512-j3oiN2Wjrw4yV38QAKNSI5u2jNf51K7tOnp/97oNNJzQiQsWeINVxueNhpicO4iH8leWjMGQc5g5vp6gBxfgbQ==
@@ -1360,13 +1360,13 @@
   resolved "https://registry.yarnpkg.com/@oozcitak/util/-/util-8.3.8.tgz#10f65fe1891fd8cde4957360835e78fd1936bfdd"
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
-"@renovosolutions/cdk-library-one-time-event@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-0.2.5.tgz#541af05bd2d051a50228361522679d8ca588ecef"
-  integrity sha512-jAwFZjqzDAf3QeEnM8XoJk02yPENEDwMJzpIqkFFsSGq+VAz9cL3K0SpXXv15O/DjDNIRgOIHyTqJ1XLAlgZsQ==
+"@renovosolutions/cdk-library-one-time-event@^1.0.37":
+  version "1.0.37"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.37.tgz#0a4a463f08e1545ff9015563045bcdc7e1c840c9"
+  integrity sha512-UDb06/br4HI0mO++EhlwbB+usb6rE9e4aryDXd+dP2Q+3Zm32pm4l7Vmn5/rQmg2Y78uGXf+RdR25uYeQk3Tcg==
   dependencies:
-    "@aws-cdk/aws-events" "^1.134.0"
-    "@aws-cdk/core" "^1.134.0"
+    "@aws-cdk/aws-events" "^1.138.2"
+    "@aws-cdk/core" "^1.138.2"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -2704,9 +2704,9 @@ duplexer3@^0.1.4:
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
 electron-to-chromium@^1.4.17:
-  version "1.4.38"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.38.tgz#10ea58d73d36b13e78d5024f3b74a352d3958d01"
-  integrity sha512-WhHt3sZazKj0KK/UpgsbGQnUUoFeAHVishzHFExMxagpZgjiGYSC9S0ZlbhCfSH2L2i+2A1yyqOIliTctMx7KQ==
+  version "1.4.39"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.39.tgz#19c8e8ff712fe62bfdd4f3fe1c3b3fb4aa179ebb"
+  integrity sha512-bFH3gdRq/l7WlzSleiO6dwpZH3RhiJ8vlMq0tOJMfT+5nb+x397eJn2RHF6Ho/9GCKv+BkimNlUMHl9+Yh+Qcg==
 
 emittery@^0.8.1:
   version "0.8.1"
