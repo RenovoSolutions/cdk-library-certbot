@@ -97,7 +97,7 @@ export interface CertbotProps {
 
 export class Certbot extends cdk.Construct {
 
-  public readonly handler: lambda.Function
+  public readonly handler: lambda.Function;
 
   constructor(scope: cdk.Construct, id: string, props: CertbotProps) {
     super(scope, id);
