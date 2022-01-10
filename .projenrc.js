@@ -1,5 +1,5 @@
-const { AwsCdkConstructLibrary, NpmAccess } = require('projen');
-const project = new AwsCdkConstructLibrary({
+const { awscdk, javascript } = require('projen');
+const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
   cdkVersion: '2.5.0',
@@ -13,14 +13,8 @@ const project = new AwsCdkConstructLibrary({
   name: '@renovosolutions/cdk-library-certbot',
   description: 'AWS CDK Construct Library to manage Lets Encrypt certificate renewals with Certbot',
   repositoryUrl: 'https://github.com/RenovoSolutions/cdk-library-certbot.git',
-  cdkDependencies: [
-    'aws-cdk-lib',
-  ],
   deps: [
-    'constructs@^10.0.0',
-  ],
-  deps: [
-    '@renovosolutions/cdk-library-one-time-event@^2.0.2',
+    '@renovosolutions/cdk-library-one-time-event@^2.0.38',
   ],
   keywords: [
     'letsencrypt',
@@ -78,9 +72,8 @@ const project = new AwsCdkConstructLibrary({
     'upgrade-cdk': 'bash -c "./upgrade_cdk_version.bash 2"',
   },
   releaseToNpm: true,
-  releaseWorkflow: true,
-  npmAccess: NpmAccess.PUBLIC,
-  cdkAssert: true,
+  release: true,
+  npmAccess: javascript.NpmAccess.PUBLIC,
   docgen: true,
   eslint: true,
   publishToPypi: {
