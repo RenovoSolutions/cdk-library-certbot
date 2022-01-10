@@ -180,6 +180,7 @@
     },
     {
       "name": "@renovosolutions/cdk-library-one-time-event",
+      "version": "^1.0.37",
       "type": "runtime"
     },
     {
