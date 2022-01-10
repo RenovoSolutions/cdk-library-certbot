@@ -1,5 +1,5 @@
-import { expect as expectCDK, countResources, SynthUtils } from '@aws-cdk/assert';
 import { aws_s3 as s3, App, Stack } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 import { Certbot } from '../src/index';
 
 jest.setSystemTime(new Date('2020-01-01').getTime());
@@ -19,7 +19,7 @@ test('Snapshot', () => {
     hostedZoneNames: ['example.com'],
   });
 
-  expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
+  expect(Template.fromStack(stack)).toMatchSnapshot();
 });
 
 test('Default', () => {
@@ -37,14 +37,14 @@ test('Default', () => {
     hostedZoneNames: ['example.com'],
   });
 
-  expectCDK(stack).to(countResources('AWS::Lambda::Function', 1));
-  expectCDK(stack).to(countResources('AWS::Events::Rule', 2)); // one for ongoing checks and one for immediate creation
-  expectCDK(stack).to(countResources('AWS::S3::Bucket', 1));
-  expectCDK(stack).to(countResources('AWS::IAM::ManagedPolicy', 3)); // acm, sns, and r53
-  expectCDK(stack).to(countResources('AWS::IAM::Policy', 1)); // 1 inline policy for granting bucket write
-  expectCDK(stack).to(countResources('AWS::IAM::Role', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Topic', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Subscription', 1));
+  Template.fromStack(stack).resourceCountIs('AWS::Lambda::Function', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  Template.fromStack(stack).resourceCountIs('AWS::S3::Bucket', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Role', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Topic', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
 });
 
 test('BucketPassedAsProp', () => {
@@ -65,14 +65,14 @@ test('BucketPassedAsProp', () => {
     bucket,
   });
 
-  expectCDK(stack).to(countResources('AWS::Lambda::Function', 1));
-  expectCDK(stack).to(countResources('AWS::Events::Rule', 2)); // one for ongoing checks and one for immediate creation
-  expectCDK(stack).to(countResources('AWS::S3::Bucket', 1));
-  expectCDK(stack).to(countResources('AWS::IAM::ManagedPolicy', 3)); // acm, sns, and r53
-  expectCDK(stack).to(countResources('AWS::IAM::Policy', 1)); // 1 inline policy for granting bucket write
-  expectCDK(stack).to(countResources('AWS::IAM::Role', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Topic', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Subscription', 1));
+  Template.fromStack(stack).resourceCountIs('AWS::Lambda::Function', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  Template.fromStack(stack).resourceCountIs('AWS::S3::Bucket', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Role', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Topic', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
 });
 
 test('InsightsEnabled', () => {
@@ -91,14 +91,14 @@ test('InsightsEnabled', () => {
     enableInsights: true,
   });
 
-  expectCDK(stack).to(countResources('AWS::Lambda::Function', 1));
-  expectCDK(stack).to(countResources('AWS::Events::Rule', 2)); // one for ongoing checks and one for immediate creation
-  expectCDK(stack).to(countResources('AWS::S3::Bucket', 1));
-  expectCDK(stack).to(countResources('AWS::IAM::ManagedPolicy', 3)); // acm, sns, and r53
-  expectCDK(stack).to(countResources('AWS::IAM::Policy', 1)); // 1 inline policy for granting bucket write
-  expectCDK(stack).to(countResources('AWS::IAM::Role', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Topic', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Subscription', 1));
+  Template.fromStack(stack).resourceCountIs('AWS::Lambda::Function', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  Template.fromStack(stack).resourceCountIs('AWS::S3::Bucket', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Role', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Topic', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
 });
 
 test('DoNotRunOnDeploy', () => {
@@ -117,12 +117,12 @@ test('DoNotRunOnDeploy', () => {
     runOnDeploy: false,
   });
 
-  expectCDK(stack).to(countResources('AWS::Lambda::Function', 1));
-  expectCDK(stack).to(countResources('AWS::Events::Rule', 1)); // one for ongoing checks and one for immediate creation
-  expectCDK(stack).to(countResources('AWS::S3::Bucket', 1));
-  expectCDK(stack).to(countResources('AWS::IAM::ManagedPolicy', 3)); // acm, sns, and r53
-  expectCDK(stack).to(countResources('AWS::IAM::Policy', 1)); // 1 inline policy for granting bucket write
-  expectCDK(stack).to(countResources('AWS::IAM::Role', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Topic', 1));
-  expectCDK(stack).to(countResources('AWS::SNS::Subscription', 1));
+  Template.fromStack(stack).resourceCountIs('AWS::Lambda::Function', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::Events::Rule', 1); // one for ongoing checks, none for immediate creation
+  Template.fromStack(stack).resourceCountIs('AWS::S3::Bucket', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
+  Template.fromStack(stack).resourceCountIs('AWS::IAM::Role', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Topic', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
 });

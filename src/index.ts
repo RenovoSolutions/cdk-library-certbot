@@ -103,7 +103,7 @@ export interface CertbotProps {
 
 export class Certbot extends Construct {
 
-  public readonly handler: lambda.Function
+  public readonly handler: lambda.Function;
 
   constructor(scope: Construct, id: string, props: CertbotProps) {
     super(scope, id);
