@@ -2,7 +2,7 @@ const { awscdk, javascript } = require('projen');
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
-  cdkVersion: '2.5.0',
+  cdkVersion: '2.7.0',
   defaultReleaseBranch: 'master',
   majorVersion: '2',
   releaseBranches: {
@@ -14,7 +14,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   description: 'AWS CDK Construct Library to manage Lets Encrypt certificate renewals with Certbot',
   repositoryUrl: 'https://github.com/RenovoSolutions/cdk-library-certbot.git',
   deps: [
-    '@renovosolutions/cdk-library-one-time-event@^2.0.38',
+    '@renovosolutions/cdk-library-one-time-event@^2.0.40',
   ],
   keywords: [
     'letsencrypt',
