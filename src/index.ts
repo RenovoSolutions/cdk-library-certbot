@@ -99,6 +99,22 @@ export interface CertbotProps {
    * The name of the resulting Lambda function.
    */
   readonly functionName?: string;
+  /**
+   * The removal policy for the S3 bucket that is automatically created.
+   *
+   * Has no effect if a bucket is given as a property
+   *
+   * @default RemovalPolicy.RETAIN
+   */
+  readonly removalPolicy?: RemovalPolicy;
+  /**
+   * Whether or not to enable automatic object deletion if the provided bucket is deleted.
+   *
+   * Has no effect if a bucket is given as a property
+   *
+   * @default false
+   */
+  readonly enableObjectDeletion?: boolean;
 }
 
 export class Certbot extends Construct {
@@ -114,7 +130,8 @@ export class Certbot extends Construct {
     if (props.bucket === undefined) {
       bucket = new s3.Bucket(this, 'bucket', {
         objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
-        removalPolicy: RemovalPolicy.DESTROY,
+        removalPolicy: props.removalPolicy || RemovalPolicy.RETAIN,
+        autoDeleteObjects: props.enableObjectDeletion ?? false,
         versioned: true,
         lifecycleRules: [{
           enabled: true,

@@ -122,6 +122,21 @@ Whether or not to enable Lambda Insights.
 
 ---
 
+##### `enableObjectDeletion`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.enableObjectDeletion"></a>
+
+```typescript
+public readonly enableObjectDeletion: boolean;
+```
+
+- *Type:* `boolean`
+- *Default:* false
+
+Whether or not to enable automatic object deletion if the provided bucket is deleted.
+
+Has no effect if a bucket is given as a property
+
+---
+
 ##### `functionDescription`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.functionDescription"></a>
 
 ```typescript
@@ -211,6 +226,21 @@ public readonly reIssueDays: number;
 - *Default:* 30
 
 The numbers of days left until the prior cert expires before issuing a new one.
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* [`aws-cdk-lib.RemovalPolicy`](#aws-cdk-lib.RemovalPolicy)
+- *Default:* RemovalPolicy.RETAIN
+
+The removal policy for the S3 bucket that is automatically created.
+
+Has no effect if a bucket is given as a property
 
 ---
 
