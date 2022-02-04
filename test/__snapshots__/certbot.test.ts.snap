@@ -36,7 +36,7 @@ Object {
       "Type": "AWS::IAM::ManagedPolicy",
     },
     "Certbotbucket4B0141F9": Object {
-      "DeletionPolicy": "Delete",
+      "DeletionPolicy": "Retain",
       "Properties": Object {
         "BucketEncryption": Object {
           "ServerSideEncryptionConfiguration": Array [
@@ -75,7 +75,7 @@ Object {
         },
       },
       "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Delete",
+      "UpdateReplacePolicy": "Retain",
     },
     "CertbotbucketPolicy2B76343E": Object {
       "Properties": Object {
