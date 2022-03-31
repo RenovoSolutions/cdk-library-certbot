@@ -93,10 +93,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
 new javascript.UpgradeDependencies(project, {
   include: ['projen'],
-  taskName: "upgrade-projen",
+  taskName: 'upgrade-projen',
   labels: ['projen-upgrade'],
-  workflow: true
-})
+  workflow: true,
+});
 
 const ignorePatterns = [
   '.functionbundle/*',
