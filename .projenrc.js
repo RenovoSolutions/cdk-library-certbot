@@ -90,6 +90,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   workflowNodeVersion: '14.17.0',
 });
+
+new javascript.UpgradeDependencies(project, {
+  include: ['projen'],
+  taskName: "upgrade-projen",
+  labels: ['projen-upgrade'],
+  workflow: true
+})
+
 const ignorePatterns = [
   '.functionbundle/*',
   '.venv/*',
