@@ -13,6 +13,7 @@
     "compile": "npx projen compile",
     "default": "npx projen default",
     "docgen": "npx projen docgen",
+    "eject": "npx projen eject",
     "eslint": "npx projen eslint",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
@@ -29,7 +30,6 @@
     "test:watch": "npx projen test:watch",
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
-    "upgrade-cdk": "npx projen upgrade-cdk",
     "upgrade-projen": "npx projen upgrade-projen",
     "watch": "npx projen watch",
     "projen": "npx projen"
@@ -55,9 +55,10 @@
     "jsii": "^1.55.1",
     "jsii-diff": "^1.55.1",
     "jsii-docgen": "^3.8.31",
+    "jsii-pacmak": "^1.55.1",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^12",
-    "projen": "^0.50.29",
+    "projen": "^0.54.1",
     "standard-version": "^9",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"

@@ -29,6 +29,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     workflowOptions: {
       labels: ['auto-approve', 'deps-upgrade'],
     },
+    exclude: ['projen'],
   },
   githubOptions: {
     mergify: true,
@@ -68,9 +69,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
       },
     },
   },
-  scripts: {
-    'upgrade-cdk': 'bash -c "./upgrade_cdk_version.bash 2"',
-  },
+  stale: true,
   releaseToNpm: true,
   release: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
@@ -91,6 +90,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   workflowNodeVersion: '14.17.0',
 });
+
+new javascript.UpgradeDependencies(project, {
+  include: ['projen'],
+  taskName: 'upgrade-projen',
+  labels: ['projen-upgrade'],
+  workflow: true,
+});
+
 const ignorePatterns = [
   '.functionbundle/*',
   '.venv/*',
