@@ -68,9 +68,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
       },
     },
   },
-  scripts: {
-    'upgrade-cdk': 'bash -c "./upgrade_cdk_version.bash 2"',
-  },
+  stale: true,
   releaseToNpm: true,
   release: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
