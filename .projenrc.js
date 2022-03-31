@@ -96,6 +96,10 @@ new javascript.UpgradeDependencies(project, {
   taskName: 'upgrade-projen',
   labels: ['projen-upgrade'],
   workflow: true,
+  workflowOptions: {
+    schedule: javascript.UpgradeDependenciesSchedule.expressions(['0 2 * * 1']),
+  },
+  pullRequestTitle: 'chore(deps): upgrade projen',
 });
 
 const ignorePatterns = [

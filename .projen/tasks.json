@@ -335,7 +335,7 @@
     },
     "upgrade-projen": {
       "name": "upgrade-projen",
-      "description": "upgrade dependencies",
+      "description": "chore(deps): upgrade projen",
       "env": {
         "CI": "0"
       },
