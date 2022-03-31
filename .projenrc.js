@@ -29,6 +29,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     workflowOptions: {
       labels: ['auto-approve', 'deps-upgrade'],
     },
+    exclude: ['projen'],
   },
   githubOptions: {
     mergify: true,
