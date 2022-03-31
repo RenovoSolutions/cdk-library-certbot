@@ -335,7 +335,7 @@
     },
     "upgrade-projen": {
       "name": "upgrade-projen",
-      "description": "chore(deps): upgrade projen",
+      "description": "upgrade projen",
       "env": {
         "CI": "0"
       },
