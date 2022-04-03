@@ -672,9 +672,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.48":
-  version "2.0.93"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.93.tgz#cd1f62b1b8329ac2d1c9608f2fe9278ab4198591"
-  integrity sha512-P2UAzVJJqK6q0Z72U7dl+pmhHl4mSrtBslADZ1tUX0ojdAzb1gBjjM96/IfWCdL8+3bdaBJe+fe7VLoxc2I7sw==
+  version "2.0.94"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.94.tgz#1cc309374ae5ed9ff9e9416c18b65d3113678146"
+  integrity sha512-lmIReOKY5yKc1omnQrVtw743MruSr7JO8WrRfZX5S+jpy6Z72mbP7cQ62VjYTzlb3HbbEjcje+58T99xS7HnYw==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
