@@ -305,25 +305,25 @@
           "exec": "yarn upgrade npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor"
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='projen'"
         },
         {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor"
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='projen'"
         },
         {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor"
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='projen'"
         },
         {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor"
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='projen'"
         },
         {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor"
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='projen'"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade"
+          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit jsii jsii-diff jsii-docgen jsii-pacmak json-schema npm-check-updates standard-version ts-jest typescript @aws-cdk/aws-events-targets @aws-cdk/aws-events @aws-cdk/aws-iam @aws-cdk/aws-lambda @aws-cdk/aws-route53 @aws-cdk/aws-s3 @aws-cdk/aws-sns-subscriptions @aws-cdk/aws-sns @aws-cdk/core constructs @aws-cdk/aws-events-targets @aws-cdk/aws-events @aws-cdk/aws-iam @aws-cdk/aws-lambda @aws-cdk/aws-route53 @aws-cdk/aws-s3 @aws-cdk/aws-sns-subscriptions @aws-cdk/aws-sns @aws-cdk/core @renovosolutions/cdk-library-one-time-event @aws-cdk/assert @aws-cdk/assertions"
         },
         {
           "exec": "npx projen"
@@ -338,6 +338,45 @@
       "steps": [
         {
           "exec": "bash -c \"./upgrade_cdk_version.bash 1\""
+        }
+      ]
+    },
+    "upgrade-projen": {
+      "name": "upgrade-projen",
+      "description": "upgrade projen",
+      "env": {
+        "CI": "0"
+      },
+      "steps": [
+        {
+          "exec": "yarn upgrade npm-check-updates"
+        },
+        {
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --filter='projen'"
+        },
+        {
+          "exec": "yarn install --check-files"
+        },
+        {
+          "exec": "yarn upgrade projen"
+        },
+        {
+          "exec": "npx projen"
+        },
+        {
+          "spawn": "post-upgrade"
         }
       ]
     },

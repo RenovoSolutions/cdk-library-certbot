@@ -8,6 +8,8 @@
     ".github/workflows/release-v1.yml",
     ".github/workflows/release.yml",
     ".github/workflows/upgrade-master.yml",
+    ".github/workflows/upgrade-projen-master.yml",
+    ".github/workflows/upgrade-projen-v1.yml",
     ".github/workflows/upgrade-v1.yml",
     ".gitignore",
     ".mergify.yml",

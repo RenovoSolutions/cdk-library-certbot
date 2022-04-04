@@ -27,4 +27,6 @@ jobs:
             feat
             fix
             ci
+            refactor
+            test
           requireScope: false

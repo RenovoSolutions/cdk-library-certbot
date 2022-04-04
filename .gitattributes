@@ -9,6 +9,8 @@
 /.github/workflows/release-v1.yml linguist-generated
 /.github/workflows/release.yml linguist-generated
 /.github/workflows/upgrade-master.yml linguist-generated
+/.github/workflows/upgrade-projen-master.yml linguist-generated
+/.github/workflows/upgrade-projen-v1.yml linguist-generated
 /.github/workflows/upgrade-v1.yml linguist-generated
 /.gitignore linguist-generated
 /.mergify.yml linguist-generated

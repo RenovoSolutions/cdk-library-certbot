@@ -31,6 +31,7 @@
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
     "upgrade-cdk": "npx projen upgrade-cdk",
+    "upgrade-projen": "npx projen upgrade-projen",
     "watch": "npx projen watch",
     "projen": "npx projen"
   },
