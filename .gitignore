@@ -52,5 +52,7 @@ junit.xml
 .jsii
 tsconfig.json
 !/API.md
+!/.github/workflows/upgrade-projen-master.yml
+!/.github/workflows/upgrade-projen-v1.yml
 .functionbundle/*
 .venv/*
