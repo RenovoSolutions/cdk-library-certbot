@@ -664,9 +664,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.48":
-  version "2.0.100"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.100.tgz#23f32e5e95ff76ac71751bc12905229dd101afdb"
-  integrity sha512-iLc9bXfCqaDK+g0/h7E44l1X5GOXmjx5v/BUUcQkPWWW9c0OuL8TfL+/SmPAhcqCSUj66nUFIhJH5nMf9nB/2Q==
+  version "2.0.101"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.101.tgz#1f28d5bd32bcf32a5e3712ebb6203de1462de968"
+  integrity sha512-5d3uRzF4TJuWKTfufOWIJlGcA7nGIY0pIVyZrmqzRygnuSaN8bwUFeT7lwUBhvDgrPO0dGHMYcl0nt5J8JeYWQ==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -815,9 +815,9 @@
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
 "@types/prettier@^2.1.5":
-  version "2.4.4"
-  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.4.4.tgz#5d9b63132df54d8909fce1c3f8ca260fdd693e17"
-  integrity sha512-ReVR2rLTV1kvtlWFyuot+d1pkpG2Fw/XKE3PDAdj57rbM97ttSp9JZ2UsP+2EHTylra9cUf6JA7tGwW1INzUrA==
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.6.0.tgz#efcbd41937f9ae7434c714ab698604822d890759"
+  integrity sha512-G/AdOadiZhnJp0jXCaBQU449W2h716OW/EoXeYkCytxKL06X1WCXB4DZpp8TpZ8eyIJVS1cw4lrlkkSYU21cDw==
 
 "@types/stack-utils@^2.0.0":
   version "2.0.1"
