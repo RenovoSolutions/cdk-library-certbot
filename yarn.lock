@@ -1382,9 +1382,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^1.0.37":
-  version "1.0.107"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.107.tgz#9d96d2d3f0b6b006a3303047dd0bcf4c87628f15"
-  integrity sha512-F7VrSBCqqFtrOpxAQt40O7mRL05X0RnpckWZseZ2Nwh/Jxmku0h6drVRelb4JLngEwObhy/QfIlAGNuauzedpQ==
+  version "1.0.108"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.108.tgz#16b7be6046fbc59abe691aa3e5430b79ae8b1122"
+  integrity sha512-KPlr/lbBkZsVv4C8Cr30ZVaVOysxfJkKiphDyGNHvKepeASOPinrsC1abHc+G26P3Km4RTWtjsHCexlOpGua2Q==
   dependencies:
     "@aws-cdk/aws-events" "^1.153.0"
     "@aws-cdk/core" "^1.153.0"
@@ -2298,9 +2298,9 @@ console-control-strings@^1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^3.3.69:
-  version "3.3.276"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.276.tgz#40ed09fa7cc527b13e8f1bd2a10b2cc6bbf2fc7d"
-  integrity sha512-zux3sqiP+FUhuKsCZTtWF8dLvp+4ZQ7V2m79FLTD16R0CE7/mNbQku768OxCuSETPKvPydV0Qz+LXf4rzaVZnw==
+  version "3.3.277"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.277.tgz#ff6982ee02b34aea352b5ce81e76ec436134bb05"
+  integrity sha512-IRNEvf52mx204aJwHmlvgL62HatZQrmMGilWL2tdt+EXfnMloSQzvi+WyYe/f4uvp8o8ITRQBS4yuBtBqFjX/g==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
