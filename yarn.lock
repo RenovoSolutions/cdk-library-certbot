@@ -1419,9 +1419,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@renovosolutions/cdk-library-one-time-event@^1.0.37":
-  version "1.0.149"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.149.tgz#08b711b9a314ba8d2cb7405040836ed44be51b7e"
-  integrity sha512-2bZUrZ1HpwyXGPLK1N6KzgbmU/J4D18wan2LW2v3EKJryKmOpMpVNc3cnf+N4j17TCo560oxnHCkzh1A9iJe3A==
+  version "1.0.151"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.151.tgz#c87673008d619b849bd88316e5b7779678bf71e5"
+  integrity sha512-Gyl4U7HN4qJf2lDdX/OEHhTa7mU9RrToAUwAjuwtfnjKlQezvFVtOuW02jXFVm2QV0YMQfxAM2r2q4hLsqRZKw==
   dependencies:
     "@aws-cdk/aws-events" "^1.159.0"
     "@aws-cdk/core" "^1.159.0"
@@ -2359,9 +2359,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^3.3.69:
-  version "3.4.28"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.28.tgz#98da5c17894c9df900b08cd49e3e340a7e549968"
-  integrity sha512-gaTG5K85eEeMUlspTYOZjquLc56143wkbc9wQzpooQz0WtTkh8ovit4Sft8Goi/VuGabTgUnpO7A+NqL2Ku74g==
+  version "3.4.29"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.29.tgz#3e3b8cfe50918fa50f5c9632643335e80394ef7d"
+  integrity sha512-UDtkc4luNV5ixUGEfmVAteZjlcg+HIwb9F//dYsuTXb2P5elDVDl16Mh10TY7Vtx4CUHX3IzxQWLWYxT78unLA==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -6660,9 +6660,9 @@ typescript@~3.9.10:
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
 
 uglify-js@^3.1.4:
-  version "3.15.5"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.15.5.tgz#2b10f9e0bfb3f5c15a8e8404393b6361eaeb33b3"
-  integrity sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.16.0.tgz#b778ba0831ca102c1d8ecbdec2d2bdfcc7353190"
+  integrity sha512-FEikl6bR30n0T3amyBh3LoiBdqHRy/f4H80+My34HOesOKyHfOsxAPAxOoqC0JUnC1amnO0IwkYC3sko51caSw==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
