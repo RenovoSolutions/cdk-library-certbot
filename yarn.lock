@@ -717,9 +717,9 @@
     config-chain "^1.1.11"
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.48":
-  version "2.0.239"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.239.tgz#b7f4b59440469c72e0eb947c6c541f20ac08ec13"
-  integrity sha512-uu2Y93VmyKHlsibAAH8U6q/xcT4XeoGn9ELLgxid0sAjEo7AYkp3nW6wH4Sr6kTM3El3nVzZkDgCl0Bkqkx8Jg==
+  version "2.0.240"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.0.240.tgz#266e06eac002fc38daa0afc71cf7612b08edff3d"
+  integrity sha512-KDanbybpElQZlQg4aFR3G55rTnBZ2SnnIvmra5eZlL0HqZCmqBI+FJd/dLLoQ9gZQWlRQ9be+pPhxG7ro6nVjQ==
 
 "@sindresorhus/is@^5.2.0":
   version "5.3.0"
@@ -2092,9 +2092,9 @@ eastasianwidth@^0.2.0:
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
 electron-to-chromium@^1.4.202:
-  version "1.4.244"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.244.tgz#ae9b56ed4ae2107e3a860dad80ed662c936e369e"
-  integrity sha512-E21saXLt2eTDaTxgUtiJtBUqanF9A32wZasAwDZ8gvrqXoxrBrbwtDCx7c/PQTLp81wj4X0OLDeoGQg7eMo3+w==
+  version "1.4.245"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.245.tgz#a065d4af1ab0ab5803d7531759556ab366b46000"
+  integrity sha512-kUN8QXmqHAN8phxjF3QpHeX7CbXGXadSngx9r1O/S9jt+uC0O/vjPi/9+8/Mk3sKewLLMrjpBJZMfVpPCdkG3g==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -5878,10 +5878,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^4.8.2:
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.2.tgz#e3b33d5ccfb5914e4eeab6699cf208adee3fd790"
-  integrity sha512-C0I1UsrrDHo2fYI5oaCGbSejwX4ch+9Y5jTQELvovfmFkK3HHSZJB8MSJcWLmCUBzQBchCrZ9rMRV6GuNrvGtw==
+typescript@^4.8.3:
+  version "4.8.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.3.tgz#d59344522c4bc464a65a730ac695007fdb66dd88"
+  integrity sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==
 
 typescript@~3.9.10:
   version "3.9.10"
