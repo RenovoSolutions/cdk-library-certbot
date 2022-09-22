@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Upgrade CDK Version
         id: 'upgrade_cdk_version'
-        uses: renovosolutions/gh-action-awscdk-projen-version-bump@v2.3.0
+        uses: renovosolutions/gh-action-awscdk-projen-version-bump@v2.5.1
         with:
           major-version: 2
           ref: master
