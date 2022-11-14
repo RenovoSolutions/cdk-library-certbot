@@ -1437,9 +1437,9 @@
     config-chain "^1.1.11"
 
 "@renovosolutions/cdk-library-one-time-event@^1.0.37":
-  version "1.0.277"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.277.tgz#735df30f5b9db0d09f698d1b7f61941896c3e89a"
-  integrity sha512-TUBFwB/sn1zxteT4HqLWlSjA+ucYg2SceVLDoUfk5Wf+KZOARJt3QvgHT8vdgNOgPuvwkUd/qbiQadlkQQCJpw==
+  version "1.0.279"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.279.tgz#9d3e7f2ca94adc4f51db0fe7f5c1172f1c0059f3"
+  integrity sha512-Cq5p80hbFY6IDQXu19vXbdRfQPFznYW1Ct2wi0S64oH31gwTNKcCAiSr27yEg8M+e61O5RDUJTs87Xo/ZFv2rQ==
   dependencies:
     "@aws-cdk/aws-events" "^1.180.0"
     "@aws-cdk/core" "^1.180.0"
@@ -1801,9 +1801,9 @@ ajv@^6.10.0, ajv@^6.12.4:
     uri-js "^4.2.2"
 
 ajv@^8.0.1, ajv@^8.11.0:
-  version "8.11.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
-  integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
+  version "8.11.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.2.tgz#aecb20b50607acf2569b6382167b65a96008bb78"
+  integrity sha512-E4bfmKAhGiSTvMfL1Myyycaub+cUEU2/IvpylXkUu7CHBkBj1f/ikdzbD7YQ6FKUbixDxeYvB/xY4fvyroDlQg==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -2394,9 +2394,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^3.3.69:
-  version "3.4.150"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.150.tgz#32c739448b9488d9f5ea111f91d2ffcccf2e042f"
-  integrity sha512-YdHenLdhGdGcCHP/VWFOH3w26cpiByPdy+DWSkAK6ocZiURLvmC3MpcfJGLvo1NmNoksO8wxD97CGyF8QJCjHg==
+  version "3.4.154"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.154.tgz#476c52e05732aec53d53990e979e0cb44fdf448e"
+  integrity sha512-9A+TAilHLqyk2sPh09XkNuXX6K+alsfcOcxPINd5Vyzzh6vqzUvgrlTF0kOwXEJUlZBEdAYDiScVTpd3q6EFwA==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -3993,9 +3993,9 @@ is-weakref@^1.0.2:
     call-bind "^1.0.2"
 
 is-yarn-global@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/is-yarn-global/-/is-yarn-global-0.4.0.tgz#714d94453327db9ea98fbf1a0c5f2b88f59ddd5c"
-  integrity sha512-HneQBCrXGBy15QnaDfcn6OLoU8AQPAa0Qn0IeJR/QCo4E8dNZaGGwxpCwWyEBQC5QvFonP8d6t60iGpAHVAfNA==
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/is-yarn-global/-/is-yarn-global-0.4.1.tgz#b312d902b313f81e4eaf98b6361ba2b45cd694bb"
+  integrity sha512-/kppl+R+LO5VmhYSEWARUFjodS25D68gvj8W7z0I7OWhUla5xWu8KL6CtB2V0R6yqhnRgbcaREMr4EEM6htLPQ==
 
 isarray@~1.0.0:
   version "1.0.0"
@@ -5258,9 +5258,9 @@ npm-bundled@^3.0.0:
     npm-normalize-package-bin "^3.0.0"
 
 npm-check-updates@^16:
-  version "16.3.25"
-  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.3.25.tgz#58217d203040191c752cee2a35428aeb54f97a28"
-  integrity sha512-zrjx6P7LGHYS5e3TNuSqkWQc9m1KLjJIxFERGANN+xEY826NQYG08RwucUD9nRxIlRE9PsGCcMsJJTYJu1DHbA==
+  version "16.4.0"
+  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.4.0.tgz#d11a1811d7a6d3be5ca0ac9521093d525777b564"
+  integrity sha512-+oa0E40MvB5l1NbRFqutI8WR4hgSnxzEg0/SFCjS1Hl5L7c1HJo6Rs65yhZMUbet/F0ZpJBx2Uipo+BJ1xD5Zw==
   dependencies:
     chalk "^5.1.2"
     cli-table "^0.3.11"
