@@ -1437,9 +1437,9 @@
     config-chain "^1.1.11"
 
 "@renovosolutions/cdk-library-one-time-event@^1.0.37":
-  version "1.0.280"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.280.tgz#6ea7cdcae9ed1295d1eaa278cafd443ee3e6cc51"
-  integrity sha512-6VSID/Is8+2qAJWpgb8V1BR+N23ryPf2NRYijmgQ/QdSmt0FfeWOEE4L/re7WkWXsInU8RWdsl8yFwp24aQdKQ==
+  version "1.0.281"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.281.tgz#fca6e3de83f8b201258c3a2e6107af313adce6fb"
+  integrity sha512-/D78+EhOJpDp2exMuE6A4i9J1x8W1coXHj+5qRKHjq1Uk05v7bJ4Tj2g9EP0hYsikE4TXSuw5eSelYM9ftq8Hg==
   dependencies:
     "@aws-cdk/aws-events" "^1.180.0"
     "@aws-cdk/core" "^1.180.0"
@@ -2394,9 +2394,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^3.3.69:
-  version "3.4.154"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.154.tgz#476c52e05732aec53d53990e979e0cb44fdf448e"
-  integrity sha512-9A+TAilHLqyk2sPh09XkNuXX6K+alsfcOcxPINd5Vyzzh6vqzUvgrlTF0kOwXEJUlZBEdAYDiScVTpd3q6EFwA==
+  version "3.4.155"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.155.tgz#fa683f37d704cb1255b13dd8f5a8bda5f1486bf8"
+  integrity sha512-T1wzP+6ppBAq1aBzw8HWX6XNvvkDy76/3JaQVGK/71w0w1/TRZVSzHHMXVQ2dOlO5ZzVjRRs+6yX1IIV22OSeA==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -3675,9 +3675,9 @@ http-proxy-agent@^5.0.0:
     debug "4"
 
 http2-wrapper@^2.1.10:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/http2-wrapper/-/http2-wrapper-2.1.11.tgz#d7c980c7ffb85be3859b6a96c800b2951ae257ef"
-  integrity sha512-aNAk5JzLturWEUiuhAN73Jcbq96R7rTitAoXV54FYMatvihnpD2+6PUgU4ce3D/m5VDbw+F5CsyKSF176ptitQ==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/http2-wrapper/-/http2-wrapper-2.2.0.tgz#b80ad199d216b7d3680195077bd7b9060fa9d7f3"
+  integrity sha512-kZB0wxMo0sh1PehyjJUWRFEd99KC5TLjZ2cULC4f9iqJBAmKQQXEICjxl5iPJRwP40dpeHFqqhm7tYCvODpqpQ==
   dependencies:
     quick-lru "^5.1.1"
     resolve-alpn "^1.2.0"
@@ -4284,9 +4284,9 @@ jest-mock@^27.5.1:
     "@types/node" "*"
 
 jest-pnp-resolver@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
-  integrity sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.3.tgz#930b1546164d4ad5937d5540e711d4d38d4cad2e"
+  integrity sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==
 
 jest-regex-util@^27.5.1:
   version "27.5.1"
@@ -6671,10 +6671,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^4.8.4:
-  version "4.8.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
-  integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
+typescript@^4.9.3:
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.3.tgz#3aea307c1746b8c384435d8ac36b8a2e580d85db"
+  integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
 
 typescript@~3.9.10:
   version "3.9.10"
