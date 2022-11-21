@@ -1422,9 +1422,9 @@
   integrity sha512-T8TbSnGsxo6TDBJx/Sgv/BlVJL3tshxZP7Aq5R1mSnM5OcHY2dQaxLMu2+E8u3gN0MLOzdjurqN4ZRVuzQycOQ==
 
 "@pnpm/network.ca-file@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@pnpm/network.ca-file/-/network.ca-file-1.0.1.tgz#16f88d057c68cd5419c1ef3dfa281296ea80b047"
-  integrity sha512-gkINruT2KUhZLTaiHxwCOh1O4NVnFT0wLjWFBHmTz9vpKag/C/noIMJXBxFe4F0mYpUVX2puLwAieLYFg2NvoA==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@pnpm/network.ca-file/-/network.ca-file-1.0.2.tgz#2ab05e09c1af0cdf2fcf5035bea1484e222f7983"
+  integrity sha512-YcPQ8a0jwYU9bTdJDpXjMi7Brhkr1mXsXrUJvjqM2mQDgkRiz8jFaQGOdaLxgjtUfQgZhKy/O3cG/YwmgKaxLA==
   dependencies:
     graceful-fs "4.2.10"
 
@@ -5680,10 +5680,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.65.22:
-  version "0.65.22"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.65.22.tgz#f558c4a00083c77fa90c5444b91ae30080706e29"
-  integrity sha512-ZigysLJlMD0T3uMQkHDtsLcC+immJA9X4O4tk8PLf0tpu1BHW99FxLvEW53MSVzlQlcjF+0WSeIQmRt1aluyOQ==
+projen@^0.65.30:
+  version "0.65.30"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.65.30.tgz#f02dba326810e23b3e96091b588bd8da7dad1ce8"
+  integrity sha512-uX0J9fwleJfG6kugR8INBqM9qd94j25hacBT5072PuBf6RkcRpGQyYXG5yKjNQSSNuHjYqHnKZ2QpwAWYIZPbg==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
