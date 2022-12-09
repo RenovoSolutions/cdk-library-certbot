@@ -749,9 +749,9 @@
     config-chain "^1.1.11"
 
 "@renovosolutions/cdk-library-one-time-event@^2.0.48":
-  version "2.1.67"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.1.67.tgz#6961486628957e0d6f6aa0c98112378873c7e581"
-  integrity sha512-qEqxEwmjcwkCKSCcqDNzzFAhwsAcrDiL/ETuinIwvKVLq9wrUKLuFyQqTF0hYjEhcwjDZ9BxnJrNypqATl7rpQ==
+  version "2.1.68"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.1.68.tgz#eef8697ae38fe7982f1314d909e5544bb8e3667e"
+  integrity sha512-117CxKtTuYrvVdXVk4eqMKjw6iANdnRPvR4GVz8usBc3wAQn9ffLS/RoMNyFP8ol3iiXBvYpc2FCRSxdJNjsjw==
 
 "@sindresorhus/is@^5.2.0":
   version "5.3.0"
