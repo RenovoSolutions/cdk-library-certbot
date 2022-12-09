@@ -1437,9 +1437,9 @@
     config-chain "^1.1.11"
 
 "@renovosolutions/cdk-library-one-time-event@^1.0.37":
-  version "1.0.293"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.293.tgz#8a378fc4c206156dfc4faf650108c96ec4f1559e"
-  integrity sha512-PpBfBCJqKYzmDWB+VBouOseQPiL3ztF7Rg4T+PI9LU3j0ffVRg0vyplljdQXV6wLiR5sFFdR72OSB7DOmrQaQA==
+  version "1.0.294"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-1.0.294.tgz#689eb3b9af780d5e8f9e22f5ab4f26f15cd7be01"
+  integrity sha512-O/4+IdRDnxiMoXpxEIoYVEVzOlJZZfR7Qad91RESCX7b6g1dYHwWR97z5IsZmMM16x37l85YHl9FgZ1dzWQ5eQ==
   dependencies:
     "@aws-cdk/aws-events" "^1.182.0"
     "@aws-cdk/core" "^1.182.0"
