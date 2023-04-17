@@ -362,7 +362,7 @@ Object {
     },
     "CertbottriggerImmediate08D06D4E": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 1 1 ? 2020)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
