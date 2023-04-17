@@ -130,6 +130,24 @@
         }
       ]
     },
+    "install": {
+      "name": "install",
+      "description": "Install project dependencies and update lockfile (non-frozen)",
+      "steps": [
+        {
+          "exec": "yarn install --check-files"
+        }
+      ]
+    },
+    "install:ci": {
+      "name": "install:ci",
+      "description": "Install project dependencies using frozen lockfile",
+      "steps": [
+        {
+          "exec": "yarn install --check-files --frozen-lockfile"
+        }
+      ]
+    },
     "package": {
       "name": "package",
       "description": "Creates the distribution package",
@@ -297,25 +315,25 @@
           "exec": "yarn upgrade npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='projen'"
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='jsii,projen'"
         },
         {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='projen'"
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='jsii,projen'"
         },
         {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='projen'"
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='jsii,projen'"
         },
         {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='projen'"
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='jsii,projen'"
         },
         {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='projen'"
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='jsii,projen'"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint jest-junit jest jsii jsii-diff jsii-docgen jsii-pacmak npm-check-updates standard-version ts-jest typescript @aws-cdk/aws-events-targets @aws-cdk/aws-events @aws-cdk/aws-iam @aws-cdk/aws-lambda @aws-cdk/aws-route53 @aws-cdk/aws-s3 @aws-cdk/aws-sns-subscriptions @aws-cdk/aws-sns @aws-cdk/core constructs @aws-cdk/aws-events-targets @aws-cdk/aws-events @aws-cdk/aws-iam @aws-cdk/aws-lambda @aws-cdk/aws-route53 @aws-cdk/aws-s3 @aws-cdk/aws-sns-subscriptions @aws-cdk/aws-sns @aws-cdk/core @renovosolutions/cdk-library-one-time-event @aws-cdk/assert @aws-cdk/assertions"
+          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint jest-junit jest jsii-diff jsii-docgen jsii-pacmak jsii npm-check-updates standard-version ts-jest typescript @aws-cdk/aws-events-targets @aws-cdk/aws-events @aws-cdk/aws-iam @aws-cdk/aws-lambda @aws-cdk/aws-route53 @aws-cdk/aws-s3 @aws-cdk/aws-sns-subscriptions @aws-cdk/aws-sns @aws-cdk/core constructs @aws-cdk/aws-events-targets @aws-cdk/aws-events @aws-cdk/aws-iam @aws-cdk/aws-lambda @aws-cdk/aws-route53 @aws-cdk/aws-s3 @aws-cdk/aws-sns-subscriptions @aws-cdk/aws-sns @aws-cdk/core @renovosolutions/cdk-library-one-time-event @aws-cdk/assert @aws-cdk/assertions"
         },
         {
           "exec": "npx projen"
