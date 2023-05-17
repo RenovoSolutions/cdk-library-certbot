@@ -57,18 +57,6 @@ import { CertbotProps } from '@renovosolutions/cdk-library-certbot'
 const certbotProps: CertbotProps = { ... }
 ```
 
-##### `hostedZoneNames`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.hostedZoneNames"></a>
-
-```typescript
-public readonly hostedZoneNames: string[];
-```
-
-- *Type:* `string`[]
-
-Hosted zone names that will be required for DNS verification with certbot.
-
----
-
 ##### `letsencryptDomains`<sup>Required</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.letsencryptDomains"></a>
 
 ```typescript
@@ -158,6 +146,30 @@ public readonly functionName: string;
 - *Type:* `string`
 
 The name of the resulting Lambda function.
+
+---
+
+##### `hostedZoneNames`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.hostedZoneNames"></a>
+
+```typescript
+public readonly hostedZoneNames: string[];
+```
+
+- *Type:* `string`[]
+
+Hosted zone names that will be required for DNS verification with certbot.
+
+---
+
+##### `hostedZones`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.hostedZones"></a>
+
+```typescript
+public readonly hostedZones: IHostedZone[];
+```
+
+- *Type:* [`aws-cdk-lib.aws_route53.IHostedZone`](#aws-cdk-lib.aws_route53.IHostedZone)[]
+
+The hosted zones that will be required for DNS verification with certbot.
 
 ---
 

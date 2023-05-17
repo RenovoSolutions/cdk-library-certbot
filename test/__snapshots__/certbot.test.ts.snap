@@ -193,6 +193,21 @@ Object {
                     ],
                   ],
                 },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/",
+                      Object {
+                        "Ref": "ZoneA5DE4B68",
+                      },
+                    ],
+                  ],
+                },
               ],
             },
           ],
@@ -396,6 +411,12 @@ Object {
         },
       },
       "Type": "AWS::Lambda::Permission",
+    },
+    "ZoneA5DE4B68": Object {
+      "Properties": Object {
+        "Name": "auth.test.local.",
+      },
+      "Type": "AWS::Route53::HostedZone",
     },
   },
   "Rules": Object {

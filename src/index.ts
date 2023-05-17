@@ -32,7 +32,11 @@ export interface CertbotProps {
   /**
    * Hosted zone names that will be required for DNS verification with certbot
    */
-  readonly hostedZoneNames: string[];
+  readonly hostedZoneNames?: string[];
+  /**
+   * The hosted zones that will be required for DNS verification with certbot
+   */
+  readonly hostedZones?: r53.IHostedZone[];
   /**
    * The S3 bucket to place the resulting certificates in. If no bucket is given one will be created automatically.
    */
@@ -124,6 +128,10 @@ export class Certbot extends Construct {
   constructor(scope: Construct, id: string, props: CertbotProps) {
     super(scope, id);
 
+    if (props.hostedZoneNames === undefined && props.hostedZones === undefined) {
+      throw new Error('You must provide either hostedZoneNames or hostedZones');
+    }
+
     let bucket: s3.Bucket;
 
     // Create a bucket if one is not provided
@@ -179,12 +187,20 @@ export class Certbot extends Construct {
     });
 
     let hostedZones:string[] = [];
-    props.hostedZoneNames.forEach( (domainName) => {
-      hostedZones.push(r53.HostedZone.fromLookup(this, 'zone' + domainName, {
-        domainName,
-        privateZone: false,
-      }).hostedZoneArn);
-    });
+    if (props.hostedZoneNames != undefined) {
+      props.hostedZoneNames.forEach( (domainName) => {
+        hostedZones.push(r53.HostedZone.fromLookup(this, 'zone' + domainName, {
+          domainName,
+          privateZone: false,
+        }).hostedZoneArn);
+      });
+    }
+
+    if (props.hostedZones != undefined) {
+      props.hostedZones.forEach( (hostedZone) => {
+        hostedZones.push(hostedZone.hostedZoneArn);
+      });
+    }
 
     const r53Policy = new iam.ManagedPolicy(this, 'r53Policy', {
       description: 'Allow the Certbot function to perform DNS verification.',

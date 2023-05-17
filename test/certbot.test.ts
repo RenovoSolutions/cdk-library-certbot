@@ -1,4 +1,4 @@
-import { aws_s3 as s3, App, Stack } from 'aws-cdk-lib';
+import { aws_s3 as s3, App, Stack, aws_route53 as route53 } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Certbot } from '../src/index';
 
@@ -13,16 +13,21 @@ test('Snapshot', () => {
     },
   });
 
+  const zone = new route53.HostedZone(stack, 'Zone', {
+    zoneName: 'auth.test.local',
+  });
+
   new Certbot(stack, 'Certbot', {
     letsencryptDomains: 'test.local, www.test.local',
     letsencryptEmail: 'test@test.local',
     hostedZoneNames: ['example.com'],
+    hostedZones: [zone],
   });
 
   expect(Template.fromStack(stack)).toMatchSnapshot();
 });
 
-test('Default', () => {
+test('stack should contain specific number of expected resources', () => {
   const app = new App();
   const stack = new Stack(app, 'TestStack', {
     env: {
@@ -31,10 +36,15 @@ test('Default', () => {
     },
   });
 
+  const zone = new route53.HostedZone(stack, 'Zone', {
+    zoneName: 'auth.test.local',
+  });
+
   new Certbot(stack, 'Certbot', {
-    letsencryptDomains: 'test.local',
+    letsencryptDomains: 'test.local,auth.test.local',
     letsencryptEmail: 'test@test.local',
-    hostedZoneNames: ['example.com'],
+    hostedZoneNames: ['test.local'],
+    hostedZones: [zone],
   });
 
   Template.fromStack(stack).resourceCountIs('AWS::Lambda::Function', 1);
@@ -45,9 +55,10 @@ test('Default', () => {
   Template.fromStack(stack).resourceCountIs('AWS::IAM::Role', 1);
   Template.fromStack(stack).resourceCountIs('AWS::SNS::Topic', 1);
   Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
+  Template.fromStack(stack).resourceCountIs('AWS::Route53::HostedZone', 1);
 });
 
-test('BucketPassedAsProp', () => {
+test('construct should allow a bucket to be given as a prop', () => {
   const app = new App();
   const stack = new Stack(app, 'TestStack', {
     env: {
@@ -75,7 +86,7 @@ test('BucketPassedAsProp', () => {
   Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
 });
 
-test('InsightsEnabled', () => {
+test('construct should allow insights to be enabled', () => {
   const app = new App();
   const stack = new Stack(app, 'TestStack', {
     env: {
@@ -101,7 +112,7 @@ test('InsightsEnabled', () => {
   Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
 });
 
-test('DoNotRunOnDeploy', () => {
+test('disabling run on deploy should reduce total event rule count to 1', () => {
   const app = new App();
   const stack = new Stack(app, 'TestStack', {
     env: {
@@ -125,4 +136,21 @@ test('DoNotRunOnDeploy', () => {
   Template.fromStack(stack).resourceCountIs('AWS::IAM::Role', 1);
   Template.fromStack(stack).resourceCountIs('AWS::SNS::Topic', 1);
   Template.fromStack(stack).resourceCountIs('AWS::SNS::Subscription', 1);
+});
+
+test('not providing zone names or zones should throw an error', () => {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
+    env: {
+      account: '123456789012', // not a real account
+      region: 'us-east-1',
+    },
+  });
+
+  expect(() => {
+    new Certbot(stack, 'Certbot', {
+      letsencryptDomains: 'test.local, www.test.local',
+      letsencryptEmail: 'test@test.local',
+    });
+  }).toThrowError('You must provide either hostedZoneNames or hostedZones');
 });
