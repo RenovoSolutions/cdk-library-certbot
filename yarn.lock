@@ -775,10 +775,10 @@
     "@pnpm/network.ca-file" "^1.0.1"
     config-chain "^1.1.11"
 
-"@renovosolutions/cdk-library-one-time-event@^2.0.48":
-  version "2.1.120"
-  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.1.120.tgz#17d4695aa8fc4a9ff9e15256f6bf17e92245ef10"
-  integrity sha512-p6BEbygHIJ2LPtrIATOSnoXOeovt75yAfenFDxVQc1KDAxkMYth7j62Rw3F8l3wR+PvpUb6Q6zob5byRfOlc1A==
+"@renovosolutions/cdk-library-one-time-event@^2.1.125":
+  version "2.1.125"
+  resolved "https://registry.yarnpkg.com/@renovosolutions/cdk-library-one-time-event/-/cdk-library-one-time-event-2.1.125.tgz#3e8e9d6ae376e1aaa96ecdd3a00af4deba1b1d52"
+  integrity sha512-9cuqUpndkTwJ3rmiAWFELCG7YH9Ygc9rBxSTORV2+tJLL4yOOKA3NY4B6TiubW/qJaBv8q7klvkmoyUEutQFaw==
 
 "@sigstore/protobuf-specs@^0.1.0":
   version "0.1.0"

@@ -67,7 +67,7 @@
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@renovosolutions/cdk-library-one-time-event": "^2.0.48"
+    "@renovosolutions/cdk-library-one-time-event": "^2.1.125"
   },
   "resolutions": {
     "@types/babel__traverse": "7.18.2",
