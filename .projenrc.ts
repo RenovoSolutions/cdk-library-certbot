@@ -12,6 +12,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   deps: [
     '@renovosolutions/cdk-library-one-time-event@^2.1.125',
   ],
+  bundledDeps: [
+    '@jest/globals',
+  ],
   keywords: [
     'letsencrypt',
     'certbot',

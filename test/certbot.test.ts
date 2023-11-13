@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import {
   aws_s3 as s3,
   aws_kms as kms,
@@ -14,7 +15,7 @@ import {
   CertificateStorageType,
 } from '../src/index';
 
-jest.setSystemTime(new Date('2020-01-01').getTime());
+jest.setSystemTime(new Date('2021-01-15'));
 
 test('Snapshot', () => {
   const app = new App();
@@ -83,7 +84,25 @@ test('Snapshot', () => {
     kmsKeyAlias: kmsKeyAlias.aliasName,
   });
 
-  expect(Template.fromStack(stack)).toMatchSnapshot();
+  const template = Template.fromStack(stack);
+
+  const s = template.findResources('AWS::Lambda::Function', {
+    Properties: {
+      Handler: 'index.handler',
+    },
+  });
+
+  const keys = Object.keys(s);
+
+  expect(keys.length).toBe(6);
+
+  const json = template.toJSON();
+
+  for (const key of keys) {
+    json.Resources[key].Properties.Code.S3Key = 'REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST';
+  }
+
+  expect(json).toMatchSnapshot();
 });
 
 test('stack should contain specific number of expected resources when s3 is used', () => {

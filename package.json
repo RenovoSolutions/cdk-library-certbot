@@ -66,8 +66,12 @@
     "constructs": "^10.0.5"
   },
   "dependencies": {
+    "@jest/globals": "^29.7.0",
     "@renovosolutions/cdk-library-one-time-event": "^2.1.125"
   },
+  "bundledDependencies": [
+    "@jest/globals"
+  ],
   "resolutions": {
     "@types/babel__traverse": "7.18.2",
     "@types/prettier": "2.6.0"
