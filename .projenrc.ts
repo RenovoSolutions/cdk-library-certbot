@@ -3,19 +3,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
   projenrcTs: true,
-  cdkVersion: '2.86.0',
+  cdkVersion: '2.106.1',
   defaultReleaseBranch: 'master',
   majorVersion: 2,
-  releaseBranches: {
-    v1: {
-      majorVersion: 1,
-    },
-  },
   name: '@renovosolutions/cdk-library-certbot',
   description: 'AWS CDK Construct Library to manage Lets Encrypt certificate renewals with Certbot',
   repositoryUrl: 'https://github.com/RenovoSolutions/cdk-library-certbot.git',
   deps: [
-    '@renovosolutions/cdk-library-one-time-event@^2.0.48',
+    '@renovosolutions/cdk-library-one-time-event@^2.1.125',
   ],
   keywords: [
     'letsencrypt',
@@ -27,50 +22,19 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   depsUpgrade: true,
   depsUpgradeOptions: {
-    workflowOptions: {
-      labels: ['auto-approve', 'deps-upgrade'],
-    },
+    workflow: true,
     exclude: ['projen'],
+    workflowOptions: {
+      schedule: javascript.UpgradeDependenciesSchedule.WEEKLY,
+    },
   },
   githubOptions: {
-    mergify: true,
-    mergifyOptions: {
-      rules: [
-        {
-          name: 'Automatically approve dependency upgrade PRs if they pass build',
-          actions: {
-            review: {
-              type: 'APPROVE',
-              message: 'Automatically approved dependency upgrade PR',
-            },
-          },
-          conditions: [
-            'label=auto-approve',
-            'label=deps-upgrade',
-            '-label~=(do-not-merge)',
-            'status-success=build',
-            'author=github-actions[bot]',
-            'title="chore(deps): upgrade dependencies"',
-          ],
-        },
-      ],
-    },
+    mergify: false,
     pullRequestLintOptions: {
-      semanticTitle: true,
-      semanticTitleOptions: {
-        types: [
-          'chore',
-          'docs',
-          'feat',
-          'fix',
-          'ci',
-          'refactor',
-          'test',
-        ],
-      },
+      semanticTitle: false,
     },
   },
-  stale: true,
+  stale: false,
   releaseToNpm: true,
   release: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
@@ -96,14 +60,14 @@ new javascript.UpgradeDependencies(project, {
   taskName: 'upgrade-projen',
   workflow: true,
   workflowOptions: {
-    schedule: javascript.UpgradeDependenciesSchedule.expressions(['0 2 * * 1']),
+    schedule: javascript.UpgradeDependenciesSchedule.WEEKLY,
   },
-  pullRequestTitle: 'upgrade projen',
 });
 
 const ignorePatterns = [
   '.functionbundle/*',
-  '.venv/*',
+  '**/.venv/**',
+  '**/__pycache__/**',
 ];
 ignorePatterns.forEach( (pattern) => {
   project.gitignore.addPatterns(pattern);

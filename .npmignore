@@ -6,7 +6,6 @@ junit.xml
 permissions-backup.acl
 /dist/changelog.md
 /dist/version.txt
-/.mergify.yml
 /test/
 /tsconfig.dev.json
 /src/
@@ -23,4 +22,5 @@ tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
 .functionbundle/*
-.venv/*
+**/.venv/**
+**/__pycache__/**

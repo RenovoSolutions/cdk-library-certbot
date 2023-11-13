@@ -24,7 +24,6 @@
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
     "release": "npx projen release",
-    "release:v1": "npx projen release:v1",
     "test": "npx projen test",
     "test:watch": "npx projen test:watch",
     "unbump": "npx projen unbump",
@@ -41,12 +40,11 @@
   "devDependencies": {
     "@types/jest": "^27",
     "@types/node": "^16",
-    "@typescript-eslint/eslint-plugin": "^5",
-    "@typescript-eslint/parser": "^5",
-    "aws-cdk-lib": "2.86.0",
+    "@typescript-eslint/eslint-plugin": "^6",
+    "@typescript-eslint/parser": "^6",
+    "aws-cdk-lib": "2.106.1",
     "constructs": "10.0.5",
     "eslint": "^8",
-    "eslint-import-resolver-node": "^0.3.7",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.27.5",
     "jest": "^27",
@@ -55,19 +53,20 @@
     "jsii-diff": "^1.82.0",
     "jsii-docgen": "^3.8.31",
     "jsii-pacmak": "^1.82.0",
+    "jsii-rosetta": "1.x",
     "npm-check-updates": "^16",
-    "projen": "^0.71.120",
+    "projen": "^0.76.27",
     "standard-version": "^9",
     "ts-jest": "^27",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.86.0",
+    "aws-cdk-lib": "^2.106.1",
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@renovosolutions/cdk-library-one-time-event": "^2.0.48"
+    "@renovosolutions/cdk-library-one-time-event": "^2.1.125"
   },
   "resolutions": {
     "@types/babel__traverse": "7.18.2",
