@@ -10,6 +10,1630 @@ Object {
     },
   },
   "Resources": Object {
+    "Certbot2acmPolicyC37CA3B3": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to import and list certificates.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "acm:ListCertificates",
+                "acm:ImportCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "acm:DescribeCertificate",
+              "Effect": "Allow",
+              "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot2bucket15AF13C6": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "LifecycleConfiguration": Object {
+          "Rules": Array [
+            Object {
+              "AbortIncompleteMultipartUpload": Object {
+                "DaysAfterInitiation": 1,
+              },
+              "Status": "Enabled",
+            },
+          ],
+        },
+        "OwnershipControls": Object {
+          "Rules": Array [
+            Object {
+              "ObjectOwnership": "BucketOwnerPreferred",
+            },
+          ],
+        },
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+        "VersioningConfiguration": Object {
+          "Status": "Enabled",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "Certbot2bucketPolicyF5044957": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "Certbot2bucket15AF13C6",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "Certbot2bucket15AF13C6",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Certbot2bucket15AF13C6",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "Certbot2handlerDD5B6BD6": Object {
+      "DependsOn": Array [
+        "Certbot2roleDefaultPolicyD41BA24B",
+        "Certbot2role947EDF69",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+        },
+        "Description": "Certbot Renewal Lambda for domain test2.local",
+        "Environment": Object {
+          "Variables": Object {
+            "CERTIFICATE_BUCKET": Object {
+              "Ref": "Certbot2bucket15AF13C6",
+            },
+            "CERTIFICATE_STORAGE": "s3",
+            "LETSENCRYPT_DOMAINS": "test2.local, www.test2.local",
+            "LETSENCRYPT_EMAIL": "test@test2.local",
+            "NOTIFICATION_SNS_ARN": Object {
+              "Ref": "Certbot2topic395A9DCD",
+            },
+            "OBJECT_PREFIX": "",
+            "PREFERRED_CHAIN": "None",
+            "REISSUE_DAYS": "30",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "Certbot2role947EDF69",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "Certbot2r53Policy92D86BDE": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to perform DNS verification.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "route53:ListHostedZones",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "route53:GetChange",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                "arn:aws:route53:::change/*",
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/DUMMY",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/",
+                      Object {
+                        "Ref": "ZoneA5DE4B68",
+                      },
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot2role947EDF69": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Ref": "Certbot2snsPolicy34AF5BB6",
+          },
+          Object {
+            "Ref": "Certbot2r53Policy92D86BDE",
+          },
+          Object {
+            "Ref": "Certbot2acmPolicyC37CA3B3",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Certbot2roleDefaultPolicyD41BA24B": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "Certbot2bucket15AF13C6",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Certbot2bucket15AF13C6",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "Certbot2roleDefaultPolicyD41BA24B",
+        "Roles": Array [
+          Object {
+            "Ref": "Certbot2role947EDF69",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "Certbot2snsPolicy34AF5BB6": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "Certbot2topic395A9DCD",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot2topic395A9DCD": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "Certbot2topictesttest2localAF8994D0": Object {
+      "Properties": Object {
+        "Endpoint": "test@test2.local",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "Certbot2topic395A9DCD",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "Certbot2triggerA0C0D9CA": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(0 0 ? * 1 *)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot2handlerDD5B6BD6",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot2triggerAllowEventRuleTestStackCertbot2handler0C9B784E8CC7BD79": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot2handlerDD5B6BD6",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot2triggerA0C0D9CA",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot2triggerImmediateAllowEventRuleTestStackCertbot2handler0C9B784E1442FE9C": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot2handlerDD5B6BD6",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot2triggerImmediateE4EA1F78",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot2triggerImmediateE4EA1F78": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot2handlerDD5B6BD6",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot3acmPolicyEB8711A3": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to import and list certificates.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "acm:ListCertificates",
+                "acm:ImportCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "acm:DescribeCertificate",
+              "Effect": "Allow",
+              "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot3handler209B83F5": Object {
+      "DependsOn": Array [
+        "Certbot3role650AD6C3",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+        },
+        "Description": "Certbot Renewal Lambda for domain test3.local",
+        "Environment": Object {
+          "Variables": Object {
+            "CERTIFICATE_SECRET_PATH": "/certbot/certificates/test3.local/",
+            "CERTIFICATE_STORAGE": "secretsmanager",
+            "LETSENCRYPT_DOMAINS": "test3.local, www.test3.local",
+            "LETSENCRYPT_EMAIL": "test@test3.local",
+            "NOTIFICATION_SNS_ARN": Object {
+              "Ref": "Certbot3topic1D6F86D3",
+            },
+            "OBJECT_PREFIX": "",
+            "PREFERRED_CHAIN": "None",
+            "REISSUE_DAYS": "30",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "Certbot3role650AD6C3",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "Certbot3r53Policy56156B49": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to perform DNS verification.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "route53:ListHostedZones",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "route53:GetChange",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                "arn:aws:route53:::change/*",
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/DUMMY",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/",
+                      Object {
+                        "Ref": "ZoneA5DE4B68",
+                      },
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot3role650AD6C3": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Ref": "Certbot3snsPolicy1D9E6026",
+          },
+          Object {
+            "Ref": "Certbot3r53Policy56156B49",
+          },
+          Object {
+            "Ref": "Certbot3acmPolicyEB8711A3",
+          },
+          Object {
+            "Ref": "Certbot3secretsManagerPolicy943A0ACD",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Certbot3secretsManagerPolicy943A0ACD": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:DeleteSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecrets",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:UpdateSecret",
+              ],
+              "Effect": "Allow",
+              "Resource": "/certbot/certificates/test3.local/*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Decrypt",
+                "kms:Encrypt",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":kms:us-east-1:123456789012:alias/aws/secretsmanager",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot3snsPolicy1D9E6026": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "Certbot3topic1D6F86D3",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot3topic1D6F86D3": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "Certbot3topictesttest3local57C81B78": Object {
+      "Properties": Object {
+        "Endpoint": "test@test3.local",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "Certbot3topic1D6F86D3",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "Certbot3triggerAllowEventRuleTestStackCertbot3handler2F75392112ED02DD": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot3handler209B83F5",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot3triggerCFF93877",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot3triggerCFF93877": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(0 0 ? * 1 *)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot3handler209B83F5",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot3triggerImmediateAllowEventRuleTestStackCertbot3handler2F75392155692E82": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot3handler209B83F5",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot3triggerImmediateF94A9166",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot3triggerImmediateF94A9166": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot3handler209B83F5",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot4acmPolicy14C7C708": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to import and list certificates.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "acm:ListCertificates",
+                "acm:ImportCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "acm:DescribeCertificate",
+              "Effect": "Allow",
+              "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot4handler9E5C2F8B": Object {
+      "DependsOn": Array [
+        "Certbot4roleCDF970B1",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+        },
+        "Description": "Certbot Renewal Lambda for domain test4.local",
+        "Environment": Object {
+          "Variables": Object {
+            "CERTIFICATE_SECRET_PATH": "/certbot/certificates/test4.local/",
+            "CERTIFICATE_STORAGE": "secretsmanager",
+            "CUSTOM_KMS_KEY_ID": "alias/test",
+            "LETSENCRYPT_DOMAINS": "test4.local, www.test4.local",
+            "LETSENCRYPT_EMAIL": "test@test4.local",
+            "NOTIFICATION_SNS_ARN": Object {
+              "Ref": "Certbot4topic76531857",
+            },
+            "OBJECT_PREFIX": "",
+            "PREFERRED_CHAIN": "None",
+            "REISSUE_DAYS": "30",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "Certbot4roleCDF970B1",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "Certbot4r53Policy2214C19B": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to perform DNS verification.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "route53:ListHostedZones",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "route53:GetChange",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                "arn:aws:route53:::change/*",
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/DUMMY",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/",
+                      Object {
+                        "Ref": "ZoneA5DE4B68",
+                      },
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot4roleCDF970B1": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Ref": "Certbot4snsPolicyD4A9E786",
+          },
+          Object {
+            "Ref": "Certbot4r53Policy2214C19B",
+          },
+          Object {
+            "Ref": "Certbot4acmPolicy14C7C708",
+          },
+          Object {
+            "Ref": "Certbot4secretsManagerPolicy86953285",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Certbot4secretsManagerPolicy86953285": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:DeleteSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecrets",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:UpdateSecret",
+              ],
+              "Effect": "Allow",
+              "Resource": "/certbot/certificates/test4.local/*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Decrypt",
+                "kms:Encrypt",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":kms:us-east-1:123456789012:alias/test",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot4snsPolicyD4A9E786": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "Certbot4topic76531857",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot4topic76531857": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "Certbot4topictesttest4localED1A0549": Object {
+      "Properties": Object {
+        "Endpoint": "test@test4.local",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "Certbot4topic76531857",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "Certbot4triggerAllowEventRuleTestStackCertbot4handlerAC6D89582016CDD4": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot4handler9E5C2F8B",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot4triggerF7B3A775",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot4triggerF7B3A775": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(0 0 ? * 1 *)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot4handler9E5C2F8B",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot4triggerImmediateA1AD5D75": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot4handler9E5C2F8B",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot4triggerImmediateAllowEventRuleTestStackCertbot4handlerAC6D8958F5D23DCC": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot4handler9E5C2F8B",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot4triggerImmediateA1AD5D75",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot5acmPolicy9282E578": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to import and list certificates.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "acm:ListCertificates",
+                "acm:ImportCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "acm:DescribeCertificate",
+              "Effect": "Allow",
+              "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot5handlerF08FFF65": Object {
+      "DependsOn": Array [
+        "Certbot5roleF9851B9B",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+        },
+        "Description": "Certbot Renewal Lambda for domain test5.local",
+        "Environment": Object {
+          "Variables": Object {
+            "CERTIFICATE_PARAMETER_PATH": "/certbot/certificates/test5.local/",
+            "CERTIFICATE_STORAGE": "ssm_secure",
+            "LETSENCRYPT_DOMAINS": "test5.local, www.test5.local",
+            "LETSENCRYPT_EMAIL": "test@test5.local",
+            "NOTIFICATION_SNS_ARN": Object {
+              "Ref": "Certbot5topic9F8D3AA7",
+            },
+            "OBJECT_PREFIX": "",
+            "PREFERRED_CHAIN": "None",
+            "REISSUE_DAYS": "30",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "Certbot5roleF9851B9B",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "Certbot5r53PolicyB6DCE7CB": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to perform DNS verification.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "route53:ListHostedZones",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "route53:GetChange",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                "arn:aws:route53:::change/*",
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/DUMMY",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/",
+                      Object {
+                        "Ref": "ZoneA5DE4B68",
+                      },
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot5roleF9851B9B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Ref": "Certbot5snsPolicy504027F9",
+          },
+          Object {
+            "Ref": "Certbot5r53PolicyB6DCE7CB",
+          },
+          Object {
+            "Ref": "Certbot5acmPolicy9282E578",
+          },
+          Object {
+            "Ref": "Certbot5ssmPolicyA94F2710",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Certbot5snsPolicy504027F9": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "Certbot5topic9F8D3AA7",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot5ssmPolicyA94F2710": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "/certbot/certificates/test5.local/*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Decrypt",
+                "kms:Encrypt",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":kms:us-east-1:123456789012:alias/aws/ssm",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot5topic9F8D3AA7": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "Certbot5topictesttest5local5E1B5E3D": Object {
+      "Properties": Object {
+        "Endpoint": "test@test5.local",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "Certbot5topic9F8D3AA7",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "Certbot5triggerAllowEventRuleTestStackCertbot5handler0F02814B101C2FEC": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot5handlerF08FFF65",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot5triggerF1F8B5D8",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot5triggerF1F8B5D8": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(0 0 ? * 1 *)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot5handlerF08FFF65",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot5triggerImmediate3FF9395A": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot5handlerF08FFF65",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot5triggerImmediateAllowEventRuleTestStackCertbot5handler0F02814B4258AD91": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot5handlerF08FFF65",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot5triggerImmediate3FF9395A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot6acmPolicy5052A88E": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to import and list certificates.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "acm:ListCertificates",
+                "acm:ImportCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "acm:DescribeCertificate",
+              "Effect": "Allow",
+              "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot6handlerD6A58872": Object {
+      "DependsOn": Array [
+        "Certbot6role1843873F",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+        },
+        "Description": "Certbot Renewal Lambda for domain test6.local",
+        "Environment": Object {
+          "Variables": Object {
+            "CERTIFICATE_PARAMETER_PATH": "/certbot/certificates/test6.local/",
+            "CERTIFICATE_STORAGE": "ssm_secure",
+            "CUSTOM_KMS_KEY_ID": "alias/test",
+            "LETSENCRYPT_DOMAINS": "test6.local, www.test6.local",
+            "LETSENCRYPT_EMAIL": "test@test6.local",
+            "NOTIFICATION_SNS_ARN": Object {
+              "Ref": "Certbot6topic26480D34",
+            },
+            "OBJECT_PREFIX": "",
+            "PREFERRED_CHAIN": "None",
+            "REISSUE_DAYS": "30",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "Certbot6role1843873F",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "Certbot6r53Policy647E091A": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to perform DNS verification.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "route53:ListHostedZones",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "route53:GetChange",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                "arn:aws:route53:::change/*",
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/DUMMY",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/",
+                      Object {
+                        "Ref": "ZoneA5DE4B68",
+                      },
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot6role1843873F": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Ref": "Certbot6snsPolicy5FC3F235",
+          },
+          Object {
+            "Ref": "Certbot6r53Policy647E091A",
+          },
+          Object {
+            "Ref": "Certbot6acmPolicy5052A88E",
+          },
+          Object {
+            "Ref": "Certbot6ssmPolicyA7CD83E3",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Certbot6snsPolicy5FC3F235": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "Certbot6topic26480D34",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot6ssmPolicyA7CD83E3": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "/certbot/certificates/test6.local/*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Decrypt",
+                "kms:Encrypt",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":kms:us-east-1:123456789012:alias/test",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot6topic26480D34": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "Certbot6topictesttest6local90838D49": Object {
+      "Properties": Object {
+        "Endpoint": "test@test6.local",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "Certbot6topic26480D34",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "Certbot6triggerAllowEventRuleTestStackCertbot6handler505405305E03955F": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot6handlerD6A58872",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot6triggerB07CAACF",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot6triggerB07CAACF": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(0 0 ? * 1 *)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot6handlerD6A58872",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot6triggerImmediate2E81CCDF": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot6handlerD6A58872",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot6triggerImmediateAllowEventRuleTestStackCertbot6handler505405308F953C97": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot6handlerD6A58872",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot6triggerImmediate2E81CCDF",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
     "CertbotacmPolicy047B0647": Object {
       "Properties": Object {
         "Description": "Allow the Certbot function to import and list certificates.",
@@ -132,7 +1756,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "c99fc6a00a14f54079fc625de094b5468284f46eaf8dfdd8ff4f8cb540c9b52c.zip",
+          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
         },
         "Description": "Certbot Renewal Lambda for domain test.local",
         "Environment": Object {
@@ -140,6 +1764,7 @@ Object {
             "CERTIFICATE_BUCKET": Object {
               "Ref": "Certbotbucket4B0141F9",
             },
+            "CERTIFICATE_STORAGE": "s3",
             "LETSENCRYPT_DOMAINS": "test.local, www.test.local",
             "LETSENCRYPT_EMAIL": "test@test.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -157,7 +1782,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "python3.8",
+        "Runtime": "python3.10",
         "Timeout": 180,
       },
       "Type": "AWS::Lambda::Function",
@@ -262,6 +1887,9 @@ Object {
           "Statement": Array [
             Object {
               "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
                 "s3:DeleteObject*",
                 "s3:PutObject",
                 "s3:PutObjectLegalHold",
@@ -377,7 +2005,7 @@ Object {
     },
     "CertbottriggerImmediate08D06D4E": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 1 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -411,6 +2039,49 @@ Object {
         },
       },
       "Type": "AWS::Lambda::Permission",
+    },
+    "KmsKey46693ADD": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::123456789012:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "KmsKeyAlias513C0C4A": Object {
+      "Properties": Object {
+        "AliasName": "alias/test",
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
+            "KmsKey46693ADD",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
     },
     "ZoneA5DE4B68": Object {
       "Properties": Object {

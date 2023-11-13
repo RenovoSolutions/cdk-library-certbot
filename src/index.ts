@@ -15,6 +15,27 @@ import {
   Stack,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { assignRequiredPoliciesToRole } from './required-policies';
+import {
+  // configureBucketStorage,
+  configureSecretsManagerStorage,
+  configureSSMStorage,
+} from './storage-helpers';
+
+export enum CertificateStorageType {
+  /**
+   * Store the certificate in AWS Secrets Manager
+   */
+  SECRETS_MANAGER = 'secretsmanager',
+  /**
+   * Store the certificates in S3
+   */
+  S3 = 's3',
+  /**
+   * Store the certificates as a parameter in AWS Systems Manager Parameter Store  with encryption
+   */
+  SSM_SECURE = 'ssm_secure',
+}
 
 export interface CertbotProps {
   /**
@@ -119,6 +140,31 @@ export interface CertbotProps {
    * @default false
    */
   readonly enableObjectDeletion?: boolean;
+  /**
+   * The method of storage for the resulting certificates.
+   *
+   * @default CertificateStorageType.S3
+   */
+  readonly certificateStorage?: CertificateStorageType;
+  /**
+   * The path to store the certificates in AWS Secrets Manager
+   *
+   * @default `/certbot/certificates/${letsencryptDomains.split(',')[0]}/`
+   */
+  readonly secretsManagerPath?: string;
+  /**
+   * The path to store the certificates in AWS Systems Manager Parameter Store
+   *
+   * @default `/certbot/certificates/${letsencryptDomains.split(',')[0]}/`
+   */
+  readonly ssmSecurePath?: string;
+  /**
+   * The KMS key to use for encryption of the certificates in Secrets Manager
+   * or Systems Manager Parameter Store
+   *
+   * @default AWS managed key
+   */
+  readonly kmsKeyAlias?: string;
 }
 
 export class Certbot extends Construct {
@@ -128,39 +174,6 @@ export class Certbot extends Construct {
   constructor(scope: Construct, id: string, props: CertbotProps) {
     super(scope, id);
 
-    if (props.hostedZoneNames === undefined && props.hostedZones === undefined) {
-      throw new Error('You must provide either hostedZoneNames or hostedZones');
-    }
-
-    let bucket: s3.Bucket;
-
-    // Create a bucket if one is not provided
-    if (props.bucket === undefined) {
-      bucket = new s3.Bucket(this, 'bucket', {
-        objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
-        removalPolicy: props.removalPolicy || RemovalPolicy.RETAIN,
-        autoDeleteObjects: props.enableObjectDeletion ?? false,
-        versioned: true,
-        lifecycleRules: [{
-          enabled: true,
-          abortIncompleteMultipartUploadAfter: Duration.days(1),
-        }],
-        encryption: s3.BucketEncryption.S3_MANAGED,
-        enforceSSL: true,
-        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      });
-    } else {
-      bucket = props.bucket;
-    }
-
-    const functionDir = path.join(__dirname, '../function');
-
-    // Create an SNS topic if one is not provided and add the defined email to it
-    let snsTopic: sns.Topic = props.snsTopic ?? new sns.Topic(this, 'topic');
-    if (props.snsTopic === undefined) {
-      snsTopic.addSubscription(new subscriptions.EmailSubscription(props.letsencryptEmail));
-    }
-
     // Set property defaults
     let layers: lambda.ILayerVersion[] = props.layers ?? [];
     let runOnDeploy: boolean = props.runOnDeploy ?? true;
@@ -168,23 +181,15 @@ export class Certbot extends Construct {
     let enableInsights: boolean = props.enableInsights ?? false;
     let insightsARN: string = props.insightsARN ?? 'arn:aws:lambda:' + Stack.of(this).region + ':580247275435:layer:LambdaInsightsExtension:14';
 
-    // Set up role policies
-    let managedPolicies = [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')];
-    if (enableInsights) {
-      managedPolicies.push(iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'));
-      layers.push(lambda.LayerVersion.fromLayerVersionArn(this, 'insightsLayer', insightsARN));
+    if (props.hostedZoneNames === undefined && props.hostedZones === undefined) {
+      throw new Error('You must provide either hostedZoneNames or hostedZones');
     }
 
-    const snsPolicy = new iam.ManagedPolicy(this, 'snsPolicy', {
-      description: 'Allow the Certbot function to notify an SNS topic upon completion.',
-      statements: [
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['sns:Publish'],
-          resources: [snsTopic.topicArn],
-        }),
-      ],
-    });
+    // Create an SNS topic if one is not provided and add the defined email to it
+    let snsTopic: sns.Topic = props.snsTopic ?? new sns.Topic(this, 'topic');
+    if (props.snsTopic === undefined) {
+      snsTopic.addSubscription(new subscriptions.EmailSubscription(props.letsencryptEmail));
+    }
 
     let hostedZones:string[] = [];
     if (props.hostedZoneNames != undefined) {
@@ -202,67 +207,42 @@ export class Certbot extends Construct {
       });
     }
 
-    const r53Policy = new iam.ManagedPolicy(this, 'r53Policy', {
-      description: 'Allow the Certbot function to perform DNS verification.',
-      statements: [
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['route53:ListHostedZones'],
-          resources: ['*'],
-        }),
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: [
-            'route53:GetChange',
-            'route53:ChangeResourceRecordSets',
-          ],
-          resources: ['arn:aws:route53:::change/*'].concat(hostedZones),
-        }),
-      ],
-    });
-
-    const acmPolicy = new iam.ManagedPolicy(this, 'acmPolicy', {
-      description: 'Allow the Certbot function to import and list certificates.',
-      statements: [
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: [
-            'acm:ListCertificates',
-            'acm:ImportCertificate',
-          ],
-          resources: ['*'],
-        }),
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['acm:DescribeCertificate'],
-          resources: ['arn:aws:acm:' + Stack.of(this).region + ':' + Stack.of(this).account + ':certificate/*'],
-        }),
-      ],
-    });
-
-    managedPolicies.push(snsPolicy);
-    managedPolicies.push(r53Policy);
-    managedPolicies.push(acmPolicy);
-
     const role = new iam.Role(this, 'role', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-      managedPolicies,
     });
 
-    bucket.grantWrite(role);
+    assignRequiredPoliciesToRole(this, {
+      role,
+      snsTopic,
+      hostedZones,
+    });
+
+    const functionDir = path.join(__dirname, '../function/src');
+
+    const bundlingCmds = [
+      'mkdir -p /asset-output',
+      'pip install -r /asset-input/requirements.txt -t /asset-output',
+      'cp index.py /asset-output/index.py',
+    ];
 
     // Create the Lambda function
     this.handler = new lambda.Function(this, 'handler', {
-      runtime: lambda.Runtime.PYTHON_3_8,
+      runtime: lambda.Runtime.PYTHON_3_10,
       role,
-      code: lambda.Code.fromAsset(functionDir + '/function.zip'),
+      code: lambda.Code.fromAsset(functionDir, {
+        bundling: {
+          image: lambda.Runtime.PYTHON_3_10.bundlingImage,
+          command: [
+            'bash', '-c', bundlingCmds.join(' && '),
+          ],
+        },
+      }),
       handler: 'index.handler',
       functionName: props.functionName,
       description: functionDescription,
       environment: {
         LETSENCRYPT_DOMAINS: props.letsencryptDomains,
         LETSENCRYPT_EMAIL: props.letsencryptEmail,
-        CERTIFICATE_BUCKET: bucket.bucketName,
         OBJECT_PREFIX: props.objectPrefix || '',
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
         PREFERRED_CHAIN: props.preferredChain || 'None',
@@ -271,6 +251,66 @@ export class Certbot extends Construct {
       layers,
       timeout: props.timeout || Duration.seconds(180),
     });
+
+    let bucket: s3.Bucket;
+
+    if (props.bucket === undefined && (props.certificateStorage == CertificateStorageType.S3 || props.certificateStorage == undefined)) {
+      bucket = new s3.Bucket(this, 'bucket', {
+        objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
+        removalPolicy: props.removalPolicy || RemovalPolicy.RETAIN,
+        autoDeleteObjects: props.enableObjectDeletion ?? false,
+        versioned: true,
+        lifecycleRules: [{
+          enabled: true,
+          abortIncompleteMultipartUploadAfter: Duration.days(1),
+        }],
+        encryption: s3.BucketEncryption.S3_MANAGED,
+        enforceSSL: true,
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      });
+
+      bucket.grantReadWrite(this.handler);
+      this.handler.addEnvironment('CERTIFICATE_BUCKET', bucket.bucketName);
+      this.handler.addEnvironment('CERTIFICATE_STORAGE', 's3');
+    }
+
+    if (props.bucket && (props.certificateStorage == CertificateStorageType.S3 || props.certificateStorage == undefined)) {
+      bucket = props.bucket;
+      bucket.grantReadWrite(this.handler);
+      this.handler.addEnvironment('CERTIFICATE_BUCKET', bucket.bucketName);
+      this.handler.addEnvironment('CERTIFICATE_STORAGE', 's3');
+    }
+
+    if (props.certificateStorage == CertificateStorageType.SECRETS_MANAGER) {
+      this.handler.addEnvironment('CERTIFICATE_STORAGE', 'secretsmanager');
+      this.handler.addEnvironment('CERTIFICATE_SECRET_PATH', props.secretsManagerPath || `/certbot/certificates/${props.letsencryptDomains.split(',')[0]}/`);
+      if (props.kmsKeyAlias) {
+        this.handler.addEnvironment('CUSTOM_KMS_KEY_ID', props.kmsKeyAlias);
+      }
+      configureSecretsManagerStorage(this, {
+        role,
+        secretsManagerPath: props.secretsManagerPath || `/certbot/certificates/${props.letsencryptDomains.split(',')[0]}/`,
+        kmsKeyAlias: props.kmsKeyAlias,
+      });
+    };
+
+    if (props.certificateStorage == CertificateStorageType.SSM_SECURE) {
+      this.handler.addEnvironment('CERTIFICATE_STORAGE', 'ssm_secure');
+      this.handler.addEnvironment('CERTIFICATE_PARAMETER_PATH', props.ssmSecurePath || `/certbot/certificates/${props.letsencryptDomains.split(',')[0]}/`);
+      if (props.kmsKeyAlias) {
+        this.handler.addEnvironment('CUSTOM_KMS_KEY_ID', props.kmsKeyAlias);
+      }
+      configureSSMStorage(this, {
+        role,
+        parameterStorePath: props.ssmSecurePath || `/certbot/certificates/${props.letsencryptDomains.split(',')[0]}/`,
+        kmsKeyAlias: props.kmsKeyAlias,
+      });
+    }
+
+    if (enableInsights) {
+      role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'));
+      this.handler.addLayers(lambda.LayerVersion.fromLayerVersionArn(this, 'insightsLayer', insightsARN));
+    }
 
     // Add function triggers
     new events.Rule(this, 'trigger', {

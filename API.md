@@ -97,6 +97,19 @@ If no bucket is given one will be created automatically.
 
 ---
 
+##### `certificateStorage`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.certificateStorage"></a>
+
+```typescript
+public readonly certificateStorage: CertificateStorageType;
+```
+
+- *Type:* [`@renovosolutions/cdk-library-certbot.CertificateStorageType`](#@renovosolutions/cdk-library-certbot.CertificateStorageType)
+- *Default:* CertificateStorageType.S3
+
+The method of storage for the resulting certificates.
+
+---
+
 ##### `enableInsights`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.enableInsights"></a>
 
 ```typescript
@@ -184,6 +197,19 @@ public readonly insightsARN: string;
 Insights layer ARN for your region.
 
 Defaults to layer for US-EAST-1
+
+---
+
+##### `kmsKeyAlias`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.kmsKeyAlias"></a>
+
+```typescript
+public readonly kmsKeyAlias: string;
+```
+
+- *Type:* `string`
+- *Default:* AWS managed key
+
+The KMS key to use for encryption of the certificates in Secrets Manager or Systems Manager Parameter Store.
 
 ---
 
@@ -295,6 +321,19 @@ The schedule for the certificate check trigger.
 
 ---
 
+##### `secretsManagerPath`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.secretsManagerPath"></a>
+
+```typescript
+public readonly secretsManagerPath: string;
+```
+
+- *Type:* `string`
+- *Default:* `/certbot/certificates/${letsencryptDomains.split(',')[0]}/`
+
+The path to store the certificates in AWS Secrets Manager.
+
+---
+
 ##### `snsTopic`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.snsTopic"></a>
 
 ```typescript
@@ -306,6 +345,19 @@ public readonly snsTopic: Topic;
 The SNS topic to notify when a new cert is issued.
 
 If no topic is given one will be created automatically.
+
+---
+
+##### `ssmSecurePath`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.ssmSecurePath"></a>
+
+```typescript
+public readonly ssmSecurePath: string;
+```
+
+- *Type:* `string`
+- *Default:* `/certbot/certificates/${letsencryptDomains.split(',')[0]}/`
+
+The path to store the certificates in AWS Systems Manager Parameter Store.
 
 ---
 
@@ -323,4 +375,28 @@ The timeout duration for Lambda function.
 ---
 
 
+
+## Enums <a name="Enums"></a>
+
+### CertificateStorageType <a name="CertificateStorageType"></a>
+
+#### `SECRETS_MANAGER` <a name="@renovosolutions/cdk-library-certbot.CertificateStorageType.SECRETS_MANAGER"></a>
+
+Store the certificate in AWS Secrets Manager.
+
+---
+
+
+#### `S3` <a name="@renovosolutions/cdk-library-certbot.CertificateStorageType.S3"></a>
+
+Store the certificates in S3.
+
+---
+
+
+#### `SSM_SECURE` <a name="@renovosolutions/cdk-library-certbot.CertificateStorageType.SSM_SECURE"></a>
+
+Store the certificates as a parameter in AWS Systems Manager Parameter Store  with encryption.
+
+---
 

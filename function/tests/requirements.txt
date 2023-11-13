@@ -1,0 +1,6 @@
+pytest
+moto
+boto3
+certbot
+certbot-dns-route53
+cryptography

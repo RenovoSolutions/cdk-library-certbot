@@ -2,7 +2,7 @@ name: upgrade-cdk
 on:
   workflow_dispatch: {}
   schedule:
-    - cron:  '0 4 * * *'
+    - cron:  '0 4 * * 2'
 jobs:
   upgrade-cdk:
     runs-on: ubuntu-latest
