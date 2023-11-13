@@ -132,7 +132,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+          "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test2.local",
         "Environment": Object {
@@ -400,7 +400,7 @@ Object {
     },
     "Certbot2triggerImmediateE4EA1F78": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -448,7 +448,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+          "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test3.local",
         "Environment": Object {
@@ -708,7 +708,7 @@ Object {
     },
     "Certbot3triggerImmediateF94A9166": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -756,7 +756,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+          "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test4.local",
         "Environment": Object {
@@ -998,7 +998,7 @@ Object {
     },
     "Certbot4triggerImmediateA1AD5D75": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -1065,7 +1065,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+          "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test5.local",
         "Environment": Object {
@@ -1298,7 +1298,7 @@ Object {
     },
     "Certbot5triggerImmediate3FF9395A": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -1365,7 +1365,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+          "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test6.local",
         "Environment": Object {
@@ -1599,7 +1599,7 @@ Object {
     },
     "Certbot6triggerImmediate2E81CCDF": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -1756,7 +1756,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "f7c1fa662639e65413cc49908488b904a27263a41e65391f6f19fcde3680b96c.zip",
+          "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test.local",
         "Environment": Object {
@@ -2005,7 +2005,7 @@ Object {
     },
     "CertbottriggerImmediate08D06D4E": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 31 1 ? 2020)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
