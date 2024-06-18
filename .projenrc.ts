@@ -25,7 +25,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   depsUpgrade: true,
   depsUpgradeOptions: {
-    workflow: true,
+    workflow: false,
     exclude: ['projen'],
     workflowOptions: {
       schedule: javascript.UpgradeDependenciesSchedule.WEEKLY,

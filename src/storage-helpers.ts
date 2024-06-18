@@ -1,6 +1,7 @@
 import {
   aws_iam as iam,
   aws_kms as kms,
+  Stack,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
@@ -37,7 +38,7 @@ export function configureSecretsManagerStorage(scope: Construct, props: SecretsM
           'secretsmanager:UpdateSecret',
         ],
         resources: [
-          `${props.secretsManagerPath}*`,
+          `arn:aws:secretsmanager:${Stack.of(scope).region}:${Stack.of(scope).account}:secret:${props.secretsManagerPath}*`,
         ],
       }),
       new iam.PolicyStatement({
@@ -80,7 +81,7 @@ export function configureSSMStorage(scope: Construct, props: SsmStorageProps): v
           'ssm:PutParameter',
         ],
         resources: [
-          `${props.parameterStorePath}*`,
+          `arn:aws:ssm:${Stack.of(scope).region}:${Stack.of(scope).account}:parameter${props.parameterStorePath}*`,
         ],
       }),
       new iam.PolicyStatement({
