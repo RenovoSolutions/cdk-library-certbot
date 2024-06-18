@@ -5,7 +5,6 @@
     ".github/pull_request_template.md",
     ".github/workflows/build.yml",
     ".github/workflows/release.yml",
-    ".github/workflows/upgrade-master.yml",
     ".github/workflows/upgrade-projen-master.yml",
     ".gitignore",
     ".projen/deps.json",
