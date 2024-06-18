@@ -214,7 +214,7 @@ test('stack should contain no bucket when secrets manager is used and have appro
             'secretsmanager:UpdateSecret',
           ]),
           Effect: 'Allow',
-          Resource: Match.stringLikeRegexp('\/certbot\/certificates\/test.local\/.*'),
+          Resource: Match.stringLikeRegexp('arn:aws:secretsmanager:us-east-1:123456789012:secret:\/certbot\/certificates\/test.local\/.*'),
         },
         {
           Action: Match.arrayWith([
@@ -272,7 +272,7 @@ test('stack should have policy with specific resource path when path is given fo
             'secretsmanager:UpdateSecret',
           ]),
           Effect: 'Allow',
-          Resource: Match.stringLikeRegexp('\/certbot\/alternate\/path\/.*'),
+          Resource: Match.stringLikeRegexp('arn:aws:secretsmanager:us-east-1:123456789012:secret:\/certbot\/alternate\/path\/.*'),
         },
         {
           Action: Match.arrayWith([
@@ -321,7 +321,7 @@ test('stack should contain no bucket when parameter store is used and have appro
         {
           Action: 'ssm:PutParameter',
           Effect: 'Allow',
-          Resource: Match.stringLikeRegexp('\/certbot\/certificates\/test.local\/.*'),
+          Resource: Match.stringLikeRegexp('arn:aws:ssm:us-east-1:123456789012:parameter\/certbot\/certificates\/test.local\/.*'),
         },
         {
           Action: Match.arrayWith([
@@ -372,7 +372,7 @@ test('stack should have policy with specific resource path when path is given fo
         {
           Action: 'ssm:PutParameter',
           Effect: 'Allow',
-          Resource: Match.stringLikeRegexp('\/certbot\/alternate\/path\/.*'),
+          Resource: Match.stringLikeRegexp('arn:aws:ssm:us-east-1:123456789012:parameter\/certbot\/alternate\/path\/.*'),
         },
         {
           Action: Match.arrayWith([

@@ -400,7 +400,7 @@ Object {
     },
     "Certbot2triggerImmediateE4EA1F78": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 15 1 ? 2021)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -591,7 +591,7 @@ Object {
                 "secretsmanager:UpdateSecret",
               ],
               "Effect": "Allow",
-              "Resource": "/certbot/certificates/test3.local/*",
+              "Resource": "arn:aws:secretsmanager:us-east-1:123456789012:secret:/certbot/certificates/test3.local/*",
             },
             Object {
               "Action": Array [
@@ -708,7 +708,7 @@ Object {
     },
     "Certbot3triggerImmediateF94A9166": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 15 1 ? 2021)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -900,7 +900,7 @@ Object {
                 "secretsmanager:UpdateSecret",
               ],
               "Effect": "Allow",
-              "Resource": "/certbot/certificates/test4.local/*",
+              "Resource": "arn:aws:secretsmanager:us-east-1:123456789012:secret:/certbot/certificates/test4.local/*",
             },
             Object {
               "Action": Array [
@@ -998,7 +998,7 @@ Object {
     },
     "Certbot4triggerImmediateA1AD5D75": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 15 1 ? 2021)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -1219,7 +1219,7 @@ Object {
             Object {
               "Action": "ssm:PutParameter",
               "Effect": "Allow",
-              "Resource": "/certbot/certificates/test5.local/*",
+              "Resource": "arn:aws:ssm:us-east-1:123456789012:parameter/certbot/certificates/test5.local/*",
             },
             Object {
               "Action": Array [
@@ -1298,7 +1298,7 @@ Object {
     },
     "Certbot5triggerImmediate3FF9395A": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 15 1 ? 2021)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -1520,7 +1520,7 @@ Object {
             Object {
               "Action": "ssm:PutParameter",
               "Effect": "Allow",
-              "Resource": "/certbot/certificates/test6.local/*",
+              "Resource": "arn:aws:ssm:us-east-1:123456789012:parameter/certbot/certificates/test6.local/*",
             },
             Object {
               "Action": Array [
@@ -1599,7 +1599,7 @@ Object {
     },
     "Certbot6triggerImmediate2E81CCDF": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 15 1 ? 2021)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
@@ -2005,7 +2005,7 @@ Object {
     },
     "CertbottriggerImmediate08D06D4E": Object {
       "Properties": Object {
-        "ScheduleExpression": "cron(10 0 15 1 ? 2021)",
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
