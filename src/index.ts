@@ -2,6 +2,8 @@ import * as path from 'path';
 
 import * as oneTimeEvents from '@renovosolutions/cdk-library-one-time-event';
 import {
+  aws_cloudwatch as cloudwatch,
+  aws_cloudwatch_actions as cloudwatch_actions,
   aws_efs as efs,
   aws_events as events,
   aws_events_targets as targets,
@@ -334,7 +336,73 @@ export class Certbot extends Construct {
     if (enableInsights) {
       role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'));
       this.handler.addLayers(lambda.LayerVersion.fromLayerVersionArn(this, 'insightsLayer', insightsARN));
+
+      const insightsMemoryUtilizationAlarm = new cloudwatch.Alarm(this, 'InsightsMemoryUtilizationAlarm', {
+        metric: this.handler.metric('memory_utilization', {
+          statistic: 'maximum',
+          period: Duration.minutes(1),
+        }),
+        threshold: 90.0,
+        evaluationPeriods: 10,
+        datapointsToAlarm: 10,
+        comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+        treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+        alarmDescription: 'Alarm if Lambda memory utilization is greater than 80%',
+      });
+
+      insightsMemoryUtilizationAlarm.addAlarmAction(new cloudwatch_actions.SnsAction(snsTopic));
     }
+
+    const errorAlarm = new cloudwatch.Alarm(this, 'ErrorAlarm', {
+      metric: this.handler.metricErrors(),
+      threshold: 1,
+      evaluationPeriods: 3,
+      datapointsToAlarm: 3,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+      alarmDescription: 'Alarm if Lambda errors',
+    });
+
+    errorAlarm.addAlarmAction(new cloudwatch_actions.SnsAction(snsTopic));
+
+    const throttleAlarm = new cloudwatch.Alarm(this, 'ThrottleAlarm', {
+      metric: this.handler.metricThrottles(),
+      threshold: 1,
+      evaluationPeriods: 5,
+      datapointsToAlarm: 5,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+      alarmDescription: 'Alarm if Lambda is throttled',
+    });
+
+    throttleAlarm.addAlarmAction(new cloudwatch_actions.SnsAction(snsTopic));
+
+    const durationAlarm = new cloudwatch.Alarm(this, 'DurationAlarm', {
+      metric: this.handler.metricDuration(),
+      threshold: 30000,
+      evaluationPeriods: 15,
+      datapointsToAlarm: 15,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+      alarmDescription: 'Alarm if Lambda duration is greater than 30 seconds',
+    });
+
+    durationAlarm.addAlarmAction(new cloudwatch_actions.SnsAction(snsTopic));
+
+    const concurrentAlarm = new cloudwatch.Alarm(this, 'ConcurrentAlarm', {
+      metric: this.handler.metric('ConcurrentExecutions', {
+        statistic: 'maximum',
+        period: Duration.minutes(1),
+      }),
+      threshold: 50, // real limit is 1000 for the whole account
+      evaluationPeriods: 10,
+      datapointsToAlarm: 10,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+      alarmDescription: 'Alarm if Lambda concurrent executions are greater than 10',
+    });
+
+    concurrentAlarm.addAlarmAction(new cloudwatch_actions.SnsAction(snsTopic));
 
     // Add function triggers
     new events.Rule(this, 'trigger', {
