@@ -1,5 +1,5 @@
 from unittest.mock import patch, mock_open, MagicMock
-from moto import mock_s3, mock_secretsmanager, mock_ssm, mock_acm, mock_sns
+from moto import mock_aws
 import os
 import sys
 import pytest
@@ -132,12 +132,10 @@ def mock_file_side_effect(*args, **kwargs):
 
 @pytest.fixture
 def aws_mock():
-  with mock_s3(), mock_secretsmanager(), mock_ssm(), mock_acm(), mock_sns():
+  with mock_aws():
     yield
 
-@mock_s3
-@mock_acm
-@mock_sns
+@mock_aws
 @patch('certbot.main.main')
 @patch('src.index.os.remove')
 @patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
@@ -194,9 +192,7 @@ def test_function_errors_if_storage_s3_and_bucket_not_given():
   # because the bucket was not provided
   assert 'CERTIFICATE_BUCKET is not set' in str(e.value)
 
-@mock_acm
-@mock_sns
-@mock_secretsmanager
+@mock_aws
 @patch('certbot.main.main')
 @patch('src.index.os.remove')
 @patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
@@ -250,9 +246,7 @@ def test_function_errors_if_storage_secretsmanager_and_path_not_given():
   # because the bucket was not provided
   assert 'CERTIFICATE_SECRET_PATH is not set' in str(e.value)
 
-@mock_acm
-@mock_sns
-@mock_ssm
+@mock_aws
 @patch('certbot.main.main')
 @patch('src.index.os.remove')
 @patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
