@@ -56,7 +56,7 @@ def upload_to_s3(local_path, keyname):
 
 def copy_to_efs(local_path, filename):
   print(f'INFO: Copying {filename} to EFS')
-  shutil.copy(local_path, os.environ['EFS_MOUNT_POINT'] + os.environ['OBJECT_PREFIX'] + filename)
+  shutil.copy(local_path, '/mnt/efs' + os.environ['OBJECT_PREFIX'] + filename)
 
 def read_and_delete_file(path, filename, storage_method):
   if not os.getenv("DRY_RUN", 'False').lower() in ["true", "1"]:
@@ -208,8 +208,6 @@ def handler(event, context):
     raise ValueError("Secrets Manager storage selected but CERTIFICATE_SECRET_PATH is not set")
   elif storage_method == 'ssm_secure' and 'CERTIFICATE_PARAMETER_PATH' not in os.environ:
     raise ValueError("Parameter Store storage selected but CERTIFICATE_PARAMETER_PATH is not set")
-  elif storage_method == 'efs' and 'EFS_MOUNT_POINT' not in os.environ:
-    raise ValueError("EFS storage selected but EFS_MOUNT_POINT is not set")
 
   domains = os.environ['LETSENCRYPT_DOMAINS']
   if should_provision(domains):

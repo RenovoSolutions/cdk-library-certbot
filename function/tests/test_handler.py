@@ -312,7 +312,6 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
   mock_sns_client.create_topic(Name='example-topic')
 
   os.environ['CERTIFICATE_STORAGE'] = 'efs'
-  os.environ['EFS_MOUNT_POINT'] = '/mnt/efs'
 
   # Event details dont matter, function is triggered on
   # a schedule and uses env details provided
@@ -342,22 +341,6 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
   with open('/mnt/efs/chain.pem', 'rb') as file:
     contents = file.read()
     assert contents == b'data'
-
-def test_function_errors_if_storage_efs_and_path_not_given():
-  os.environ['CERTIFICATE_STORAGE'] = 'efs'
-  del os.environ['EFS_MOUNT_POINT']
-
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env details provided
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
-    with pytest.raises(Exception) as e:
-      index.handler(event, context)
-
-  # assert that the index.handler function raised an exception
-  # because the mount point was not provided
-  assert 'EFS_MOUNT_POINT is not set' in str(e.value)
 
 @patch('certbot.main.main')
 def test_provision_cert_respects_dry_run_env_var(mock_certbot_main, aws_mock):
