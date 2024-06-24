@@ -4,7 +4,7 @@ import boto3
 import certbot.main
 import datetime
 import os
-import subprocess
+import shutil
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from botocore.exceptions import ClientError
@@ -54,6 +54,10 @@ def upload_to_s3(local_path, keyname):
     data = file.read()
     s3.Bucket(os.environ['CERTIFICATE_BUCKET']).put_object(Key=f"{os.environ['OBJECT_PREFIX']}{keyname}", Body=data)
 
+def copy_to_efs(local_path, filename):
+  print(f'INFO: Copying {filename} to EFS')
+  shutil.copy(local_path, os.environ['EFS_MOUNT_POINT'] + os.environ['OBJECT_PREFIX'] + filename)
+
 def read_and_delete_file(path, filename, storage_method):
   if not os.getenv("DRY_RUN", 'False').lower() in ["true", "1"]:
     with open(path, 'rb') as file:
@@ -71,6 +75,8 @@ def read_and_delete_file(path, filename, storage_method):
       store_in_secrets_manager(os.environ['CERTIFICATE_SECRET_PATH'] + filename, string_contents)
     elif storage_method == 'ssm_secure':
       store_in_parameter_store(os.environ['CERTIFICATE_PARAMETER_PATH'] + filename, string_contents)
+    elif storage_method == 'efs':
+      copy_to_efs(path, filename)
 
     os.remove(path)
     return contents
@@ -202,6 +208,8 @@ def handler(event, context):
     raise ValueError("Secrets Manager storage selected but CERTIFICATE_SECRET_PATH is not set")
   elif storage_method == 'ssm_secure' and 'CERTIFICATE_PARAMETER_PATH' not in os.environ:
     raise ValueError("Parameter Store storage selected but CERTIFICATE_PARAMETER_PATH is not set")
+  elif storage_method == 'efs' and 'EFS_MOUNT_POINT' not in os.environ:
+    raise ValueError("EFS storage selected but EFS_MOUNT_POINT is not set")
 
   domains = os.environ['LETSENCRYPT_DOMAINS']
   if should_provision(domains):
