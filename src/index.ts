@@ -2,6 +2,7 @@ import * as path from 'path';
 
 import * as oneTimeEvents from '@renovosolutions/cdk-library-one-time-event';
 import {
+  aws_efs as efs,
   aws_events as events,
   aws_events_targets as targets,
   aws_iam as iam,
@@ -20,6 +21,7 @@ import {
   // configureBucketStorage,
   configureSecretsManagerStorage,
   configureSSMStorage,
+  configureEFSStorage,
 } from './storage-helpers';
 
 export enum CertificateStorageType {
@@ -35,6 +37,10 @@ export enum CertificateStorageType {
    * Store the certificates as a parameter in AWS Systems Manager Parameter Store  with encryption
    */
   SSM_SECURE = 'ssm_secure',
+  /**
+   * Store the certificates in EFS, mounted to the Lambda function
+   */
+  EFS = 'efs',
 }
 
 export interface CertbotProps {
@@ -64,6 +70,7 @@ export interface CertbotProps {
   readonly bucket?: s3.Bucket;
   /**
    * The prefix to apply to the final S3 key name for the certificates. Default is no prefix.
+   * Also used for EFS.
    */
   readonly objectPrefix?: string;
   /**
@@ -165,6 +172,10 @@ export interface CertbotProps {
    * @default AWS managed key
    */
   readonly kmsKeyAlias?: string;
+  /**
+   * The EFS access point to store the certificates
+   */
+  readonly efsAccessPoint?: efs.AccessPoint;
 }
 
 export class Certbot extends Construct {
@@ -250,6 +261,7 @@ export class Certbot extends Construct {
       },
       layers,
       timeout: props.timeout || Duration.seconds(180),
+      filesystem: props.efsAccessPoint ? lambda.FileSystem.fromEfsAccessPoint(props.efsAccessPoint, '/mnt/efs') : undefined,
     });
 
     let bucket: s3.Bucket;
@@ -305,6 +317,18 @@ export class Certbot extends Construct {
         parameterStorePath: props.ssmSecurePath || `/certbot/certificates/${props.letsencryptDomains.split(',')[0]}/`,
         kmsKeyAlias: props.kmsKeyAlias,
       });
+    }
+
+    if (props.certificateStorage == CertificateStorageType.EFS) {
+      if (!props.efsAccessPoint) {
+        throw new Error('You must provide an EFS Access Point to use EFS storage');
+      } else {
+        this.handler.addEnvironment('CERTIFICATE_STORAGE', 'efs');
+        configureEFSStorage(this, {
+          role,
+          efsAccessPoint: props.efsAccessPoint,
+        });
+      }
     }
 
     if (enableInsights) {
