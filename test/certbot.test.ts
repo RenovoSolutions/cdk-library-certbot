@@ -1,5 +1,7 @@
 import { jest } from '@jest/globals';
 import {
+  aws_ec2 as ec2,
+  aws_efs as efs,
   aws_s3 as s3,
   aws_kms as kms,
   App,
@@ -34,6 +36,24 @@ test('Snapshot', () => {
   const kmsKeyAlias = new kms.Alias(stack, 'KmsKeyAlias', {
     aliasName: 'alias/test',
     targetKey: kmsKey,
+  });
+
+  const vpc = new ec2.Vpc(stack, 'Vpc', {
+    maxAzs: 2,
+  });
+
+  const efsFileSystem = new efs.FileSystem(stack, 'EfsFileSystem', {
+    vpc,
+  });
+
+  const efsAccessPoint = new efs.AccessPoint(stack, 'EfsAccessPoint', {
+    fileSystem: efsFileSystem,
+    path: '/certs',
+    createAcl: {
+      ownerGid: '1000',
+      ownerUid: '1000',
+      permissions: '700',
+    },
   });
 
   new Certbot(stack, 'Certbot', {
@@ -84,6 +104,16 @@ test('Snapshot', () => {
     kmsKeyAlias: kmsKeyAlias.aliasName,
   });
 
+  new Certbot(stack, 'Certbot7', {
+    letsencryptDomains: 'test7.local, www.test7.local',
+    letsencryptEmail: 'test@test7.local',
+    hostedZoneNames: ['example.com'],
+    hostedZones: [zone],
+    certificateStorage: CertificateStorageType.EFS,
+    efsAccessPoint,
+    vpc,
+  });
+
   const template = Template.fromStack(stack);
 
   const s = template.findResources('AWS::Lambda::Function', {
@@ -94,7 +124,7 @@ test('Snapshot', () => {
 
   const keys = Object.keys(s);
 
-  expect(keys.length).toBe(6);
+  expect(keys.length).toBe(7);
 
   const json = template.toJSON();
 
@@ -137,6 +167,10 @@ test('stack should contain specific number of expected resources when s3 is used
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  template.resourceCountIs('AWS::EFS::FileSystem', 0);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 0);
+  template.resourceCountIs('AWS::EC2::VPC', 0);
 });
 
 test('stack should contain specific number of expected resources when no storage type is specified', () => {
@@ -171,6 +205,10 @@ test('stack should contain specific number of expected resources when no storage
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  template.resourceCountIs('AWS::EFS::FileSystem', 0);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 0);
+  template.resourceCountIs('AWS::EC2::VPC', 0);
 });
 
 test('stack should contain no bucket when secrets manager is used and have appropriate policy', () => {
@@ -232,6 +270,10 @@ test('stack should contain no bucket when secrets manager is used and have appro
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  template.resourceCountIs('AWS::EFS::FileSystem', 0);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 0);
+  template.resourceCountIs('AWS::EC2::VPC', 0);
 });
 
 test('stack should have policy with specific resource path when path is given for secrets manager', () => {
@@ -339,6 +381,10 @@ test('stack should contain no bucket when parameter store is used and have appro
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  template.resourceCountIs('AWS::EFS::FileSystem', 0);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 0);
+  template.resourceCountIs('AWS::EC2::VPC', 0);
 });
 
 test('stack should have policy with specific resource path when path is given for SSM', () => {
@@ -415,6 +461,10 @@ test('construct should allow a bucket to be given as a prop', () => {
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  template.resourceCountIs('AWS::EFS::FileSystem', 0);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 0);
+  template.resourceCountIs('AWS::EC2::VPC', 0);
 });
 
 test('construct should allow insights to be enabled', () => {
@@ -443,6 +493,10 @@ test('construct should allow insights to be enabled', () => {
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  template.resourceCountIs('AWS::EFS::FileSystem', 0);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 0);
+  template.resourceCountIs('AWS::EC2::VPC', 0);
 });
 
 test('disabling run on deploy should reduce total event rule count to 1', () => {
@@ -471,6 +525,10 @@ test('disabling run on deploy should reduce total event rule count to 1', () => 
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  template.resourceCountIs('AWS::EFS::FileSystem', 0);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 0);
+  template.resourceCountIs('AWS::EC2::VPC', 0);
 });
 
 test('not providing zone names or zones should throw an error', () => {
@@ -519,3 +577,128 @@ test('Multiple certs in one stack does not error', () => {
     });
   }).not.toThrowError();
 });
+
+test('stack should contain specific number of expected resources when efs is used', () => {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
+    env: {
+      account: '123456789012', // not a real account
+      region: 'us-east-1',
+    },
+  });
+
+  const zone = new route53.HostedZone(stack, 'Zone', {
+    zoneName: 'auth.test.local',
+  });
+
+  const vpc = new ec2.Vpc(stack, 'Vpc', {
+    maxAzs: 2,
+  });
+
+  const efsFileSystem = new efs.FileSystem(stack, 'EfsFileSystem', {
+    vpc,
+  });
+
+  const efsAccessPoint = new efs.AccessPoint(stack, 'EfsAccessPoint', {
+    fileSystem: efsFileSystem,
+    path: '/certs',
+    createAcl: {
+      ownerGid: '1000',
+      ownerUid: '1000',
+      permissions: '700',
+    },
+  });
+
+  new Certbot(stack, 'Certbot', {
+    letsencryptDomains: 'test.local, www.test.local',
+    letsencryptEmail: 'test@test.local',
+    hostedZoneNames: ['example.com'],
+    hostedZones: [zone],
+    certificateStorage: CertificateStorageType.EFS,
+    efsAccessPoint,
+    vpc,
+  });
+
+  const template = Template.fromStack(stack);
+
+  template.resourceCountIs('AWS::Lambda::Function', 1);
+  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::S3::Bucket', 0);
+  template.resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
+  template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting efs access
+  template.resourceCountIs('AWS::IAM::Role', 1);
+  template.resourceCountIs('AWS::SNS::Topic', 1);
+  template.resourceCountIs('AWS::SNS::Subscription', 1);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 2);
+  template.resourceCountIs('AWS::EFS::FileSystem', 1);
+  template.resourceCountIs('AWS::EFS::AccessPoint', 1);
+  template.resourceCountIs('AWS::EC2::VPC', 1);
+});
+
+test('not providing access point when efs is used should throw an error', () => {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
+    env: {
+      account: '123456789012', // not a real account
+      region: 'us-east-1',
+    },
+  });
+
+  const zone = new route53.HostedZone(stack, 'Zone', {
+    zoneName: 'auth.test.local',
+  });
+
+  expect(() => {
+    new Certbot(stack, 'Certbot', {
+      letsencryptDomains: 'test.local, www.test.local',
+      letsencryptEmail: 'test@test.local',
+      hostedZoneNames: ['example.com'],
+      hostedZones: [zone],
+      certificateStorage: CertificateStorageType.EFS,
+    });
+  }).toThrowError('You must provide an EFS Access Point to use EFS storage');
+});
+
+test('not providing vpc when efs is used should throw an error', () => {
+  const app = new App();
+  const stack = new Stack(app, 'TestStack', {
+    env: {
+      account: '123456789012', // not a real account
+      region: 'us-east-1',
+    },
+  });
+
+  const zone = new route53.HostedZone(stack, 'Zone', {
+    zoneName: 'auth.test.local',
+  });
+
+  const vpc = new ec2.Vpc(stack, 'Vpc', {
+    maxAzs: 2,
+  });
+
+  const efsFileSystem = new efs.FileSystem(stack, 'EfsFileSystem', {
+    vpc,
+  });
+
+  const efsAccessPoint = new efs.AccessPoint(stack, 'EfsAccessPoint', {
+    fileSystem: efsFileSystem,
+    path: '/certs',
+    createAcl: {
+      ownerGid: '1000',
+      ownerUid: '1000',
+      permissions: '700',
+    },
+  });
+
+  expect(() => {
+    new Certbot(stack, 'Certbot', {
+      letsencryptDomains: 'test.local, www.test.local',
+      letsencryptEmail: 'test@test.local',
+      hostedZoneNames: ['example.com'],
+      hostedZones: [zone],
+      certificateStorage: CertificateStorageType.EFS,
+      efsAccessPoint,
+    });
+  }).toThrowError('Cannot configure \'filesystem\' without configuring a VPC.');
+});
+

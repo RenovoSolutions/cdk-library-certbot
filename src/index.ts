@@ -2,6 +2,8 @@ import * as path from 'path';
 
 import * as oneTimeEvents from '@renovosolutions/cdk-library-one-time-event';
 import {
+  aws_ec2 as ec2,
+  aws_efs as efs,
   aws_events as events,
   aws_events_targets as targets,
   aws_iam as iam,
@@ -35,6 +37,10 @@ export enum CertificateStorageType {
    * Store the certificates as a parameter in AWS Systems Manager Parameter Store  with encryption
    */
   SSM_SECURE = 'ssm_secure',
+  /**
+   * Store the certificates in EFS, mounted to the Lambda function
+   */
+  EFS = 'efs',
 }
 
 export interface CertbotProps {
@@ -64,6 +70,7 @@ export interface CertbotProps {
   readonly bucket?: s3.Bucket;
   /**
    * The prefix to apply to the final S3 key name for the certificates. Default is no prefix.
+   * Also used for EFS.
    */
   readonly objectPrefix?: string;
   /**
@@ -165,6 +172,18 @@ export interface CertbotProps {
    * @default AWS managed key
    */
   readonly kmsKeyAlias?: string;
+  /**
+   * The EFS access point to store the certificates
+   */
+  readonly efsAccessPoint?: efs.AccessPoint;
+  /**
+   * The VPC to run the Lambda function in.
+   * This is needed if you are using EFS.
+   * It should be the same VPC as the EFS filesystem
+   *
+   * @default none
+   */
+  readonly vpc?: ec2.IVpc;
 }
 
 export class Certbot extends Construct {
@@ -247,9 +266,12 @@ export class Certbot extends Construct {
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
         PREFERRED_CHAIN: props.preferredChain || 'None',
         NOTIFICATION_SNS_ARN: snsTopic.topicArn,
+        DRY_RUN: 'False',
       },
       layers,
       timeout: props.timeout || Duration.seconds(180),
+      filesystem: props.efsAccessPoint ? lambda.FileSystem.fromEfsAccessPoint(props.efsAccessPoint, '/mnt/efs') : undefined,
+      vpc: props.vpc,
     });
 
     let bucket: s3.Bucket;
@@ -305,6 +327,19 @@ export class Certbot extends Construct {
         parameterStorePath: props.ssmSecurePath || `/certbot/certificates/${props.letsencryptDomains.split(',')[0]}/`,
         kmsKeyAlias: props.kmsKeyAlias,
       });
+    }
+
+    if (props.certificateStorage == CertificateStorageType.EFS) {
+      if (!props.efsAccessPoint) {
+        throw new Error('You must provide an EFS Access Point to use EFS storage');
+      } else {
+        this.handler.addEnvironment('CERTIFICATE_STORAGE', 'efs');
+        this.handler.addEnvironment('EFS_PATH', '/mnt/efs');
+      }
+    }
+
+    if (props.vpc) {
+      role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole'));
     }
 
     if (enableInsights) {
