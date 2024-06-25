@@ -273,7 +273,7 @@ export class Certbot extends Construct {
       layers,
       timeout: props.timeout || Duration.seconds(180),
       filesystem: props.efsAccessPoint ? lambda.FileSystem.fromEfsAccessPoint(props.efsAccessPoint, '/mnt/efs') : undefined,
-      vpc: props.vpc ? props.vpc : undefined,
+      vpc: props.vpc,
     });
 
     let bucket: s3.Bucket;
