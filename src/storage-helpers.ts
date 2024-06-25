@@ -1,5 +1,4 @@
 import {
-  aws_efs as efs,
   aws_iam as iam,
   aws_kms as kms,
   Stack,
@@ -93,38 +92,6 @@ export function configureSSMStorage(scope: Construct, props: SsmStorageProps): v
         resources: [
           keyArn,
         ],
-      }),
-    ],
-  }));
-}
-
-interface EFSStorageProps {
-  /**
-   * The role to attach the mount policy to
-   */
-  readonly role: iam.Role;
-  /**
-   * The access point that will be mounted for storing the certificates
-   */
-  readonly efsAccessPoint: efs.AccessPoint;
-};
-
-export function configureEFSStorage(scope: Construct, props: EFSStorageProps): void {
-  props.role.addManagedPolicy(new iam.ManagedPolicy(scope, 'efsPolicy', {
-    statements: [
-      new iam.PolicyStatement({
-        actions: [
-          'elasticfilesystem:ClientMount',
-          'elasticfilesystem:ClientWrite',
-        ],
-        resources: [
-          props.efsAccessPoint.fileSystem.fileSystemArn,
-        ],
-        conditions: {
-          StringEquals: {
-            'elasticfilesystem:AccessPointArn': props.efsAccessPoint.accessPointArn,
-          },
-        },
       }),
     ],
   }));

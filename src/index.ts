@@ -4,6 +4,7 @@ import * as oneTimeEvents from '@renovosolutions/cdk-library-one-time-event';
 import {
   aws_cloudwatch as cloudwatch,
   aws_cloudwatch_actions as cloudwatch_actions,
+  aws_ec2 as ec2,
   aws_efs as efs,
   aws_events as events,
   aws_events_targets as targets,
@@ -23,7 +24,6 @@ import {
   // configureBucketStorage,
   configureSecretsManagerStorage,
   configureSSMStorage,
-  configureEFSStorage,
 } from './storage-helpers';
 
 export enum CertificateStorageType {
@@ -178,6 +178,14 @@ export interface CertbotProps {
    * The EFS access point to store the certificates
    */
   readonly efsAccessPoint?: efs.AccessPoint;
+  /**
+   * The VPC to run the Lambda function in.
+   * This is needed if you are using EFS.
+   * It should be the same VPC as the EFS filesystem
+   *
+   * @default none
+   */
+  readonly vpc?: ec2.Vpc;
 }
 
 export class Certbot extends Construct {
@@ -264,6 +272,7 @@ export class Certbot extends Construct {
       layers,
       timeout: props.timeout || Duration.seconds(180),
       filesystem: props.efsAccessPoint ? lambda.FileSystem.fromEfsAccessPoint(props.efsAccessPoint, '/mnt/efs') : undefined,
+      vpc: props.vpc ? props.vpc : undefined,
     });
 
     let bucket: s3.Bucket;
@@ -321,16 +330,8 @@ export class Certbot extends Construct {
       });
     }
 
-    if (props.certificateStorage == CertificateStorageType.EFS) {
-      if (!props.efsAccessPoint) {
-        throw new Error('You must provide an EFS Access Point to use EFS storage');
-      } else {
-        this.handler.addEnvironment('CERTIFICATE_STORAGE', 'efs');
-        configureEFSStorage(this, {
-          role,
-          efsAccessPoint: props.efsAccessPoint,
-        });
-      }
+    if (props.certificateStorage == CertificateStorageType.EFS && !props.efsAccessPoint) {
+      throw new Error('You must provide an EFS Access Point to use EFS storage');
     }
 
     if (enableInsights) {
