@@ -236,6 +236,58 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
+    "Certbot2certExpiration1E161B6A8": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test2.local",
+            "DaysToExpiry": 1,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot2topic395A9DCD",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot2certExpiration78B3BB321": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test2.local",
+            "DaysToExpiry": 7,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot2topic395A9DCD",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
     "Certbot2handlerDD5B6BD6": Object {
       "DependsOn": Array [
         "Certbot2roleDefaultPolicyD41BA24B",
@@ -444,6 +496,32 @@ Object {
     },
     "Certbot2topic395A9DCD": Object {
       "Type": "AWS::SNS::Topic",
+    },
+    "Certbot2topicPolicy7D7596E2": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "Certbot2topic395A9DCD",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "Certbot2topic395A9DCD",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
     },
     "Certbot2topictesttest2localAF8994D0": Object {
       "Properties": Object {
@@ -666,6 +744,58 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
+    "Certbot3certExpiration1ADE93DA1": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test3.local",
+            "DaysToExpiry": 1,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot3topic1D6F86D3",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot3certExpiration7393162AF": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test3.local",
+            "DaysToExpiry": 7,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot3topic1D6F86D3",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
     "Certbot3handler209B83F5": Object {
       "DependsOn": Array [
         "Certbot3role650AD6C3",
@@ -865,6 +995,32 @@ Object {
     },
     "Certbot3topic1D6F86D3": Object {
       "Type": "AWS::SNS::Topic",
+    },
+    "Certbot3topicPolicy108061F9": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "Certbot3topic1D6F86D3",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "Certbot3topic1D6F86D3",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
     },
     "Certbot3topictesttest3local57C81B78": Object {
       "Properties": Object {
@@ -1087,6 +1243,58 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
+    "Certbot4certExpiration17D90522F": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test4.local",
+            "DaysToExpiry": 1,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot4topic76531857",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot4certExpiration72B34EF72": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test4.local",
+            "DaysToExpiry": 7,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot4topic76531857",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
     "Certbot4handler9E5C2F8B": Object {
       "DependsOn": Array [
         "Certbot4roleCDF970B1",
@@ -1287,6 +1495,32 @@ Object {
     },
     "Certbot4topic76531857": Object {
       "Type": "AWS::SNS::Topic",
+    },
+    "Certbot4topicPolicy2BFCF732": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "Certbot4topic76531857",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "Certbot4topic76531857",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
     },
     "Certbot4topictesttest4localED1A0549": Object {
       "Properties": Object {
@@ -1509,6 +1743,58 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
+    "Certbot5certExpiration1C8C89DD6": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test5.local",
+            "DaysToExpiry": 1,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot5topic9F8D3AA7",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot5certExpiration7968E3F7D": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test5.local",
+            "DaysToExpiry": 7,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot5topic9F8D3AA7",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
     "Certbot5handlerF08FFF65": Object {
       "DependsOn": Array [
         "Certbot5roleF9851B9B",
@@ -1700,6 +1986,32 @@ Object {
     },
     "Certbot5topic9F8D3AA7": Object {
       "Type": "AWS::SNS::Topic",
+    },
+    "Certbot5topicPolicyBA7892CA": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "Certbot5topic9F8D3AA7",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "Certbot5topic9F8D3AA7",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
     },
     "Certbot5topictesttest5local5E1B5E3D": Object {
       "Properties": Object {
@@ -1922,6 +2234,58 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
+    "Certbot6certExpiration1587B6DF7": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test6.local",
+            "DaysToExpiry": 1,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot6topic26480D34",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot6certExpiration71C461AD8": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test6.local",
+            "DaysToExpiry": 7,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot6topic26480D34",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
     "Certbot6handlerD6A58872": Object {
       "DependsOn": Array [
         "Certbot6role1843873F",
@@ -2114,6 +2478,32 @@ Object {
     },
     "Certbot6topic26480D34": Object {
       "Type": "AWS::SNS::Topic",
+    },
+    "Certbot6topicPolicy7AFF1B4B": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "Certbot6topic26480D34",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "Certbot6topic26480D34",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
     },
     "Certbot6topictesttest6local90838D49": Object {
       "Properties": Object {
@@ -2335,6 +2725,58 @@ Object {
         },
       },
       "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot7certExpiration15414EAA8": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test7.local",
+            "DaysToExpiry": 1,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot7topic29F3056A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot7certExpiration7DB7C1A89": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test7.local",
+            "DaysToExpiry": 7,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "Certbot7topic29F3056A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
     },
     "Certbot7handler783F3BCF": Object {
       "DependsOn": Array [
@@ -2628,6 +3070,32 @@ Object {
     },
     "Certbot7topic29F3056A": Object {
       "Type": "AWS::SNS::Topic",
+    },
+    "Certbot7topicPolicy76AE31B6": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "Certbot7topic29F3056A",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "Certbot7topic29F3056A",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
     },
     "Certbot7topictesttest7local7692AF4E": Object {
       "Properties": Object {
@@ -2939,6 +3407,58 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
+    "CertbotcertExpiration154319C5E": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test.local",
+            "DaysToExpiry": 1,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "CertbottopicCA144CF6",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "CertbotcertExpiration722FDF8F9": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "CommonName": "test.local",
+            "DaysToExpiry": 7,
+          },
+          "detail-type": Array [
+            "ACM Certificate Approaching Expiration",
+          ],
+          "source": Array [
+            "aws.acm",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "CertbottopicCA144CF6",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
     "CertbothandlerD1E99A6A": Object {
       "DependsOn": Array [
         "CertbotroleDefaultPolicy6B0533F6",
@@ -3147,6 +3667,32 @@ Object {
     },
     "CertbottopicCA144CF6": Object {
       "Type": "AWS::SNS::Topic",
+    },
+    "CertbottopicPolicy1256E3AB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "CertbottopicCA144CF6",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "CertbottopicCA144CF6",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
     },
     "Certbottopictesttestlocal58092F4B": Object {
       "Properties": Object {

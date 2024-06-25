@@ -428,5 +428,31 @@ export class Certbot extends Construct {
         targets: [new targets.LambdaFunction(this.handler)],
       });
     }
+
+    // Annoyingly, we can't get an event for the actual expiration of
+    // an imported cert. We can only know when it's about to expire.
+    new events.Rule(this, 'certExpiration7', {
+      eventPattern: {
+        source: ['aws.acm'],
+        detailType: ['ACM Certificate Approaching Expiration'],
+        detail: {
+          DaysToExpiry: 7,
+          CommonName: props.letsencryptDomains.split(',')[0],
+        },
+      },
+      targets: [new targets.SnsTopic(snsTopic)],
+    });
+
+    new events.Rule(this, 'certExpiration1', {
+      eventPattern: {
+        source: ['aws.acm'],
+        detailType: ['ACM Certificate Approaching Expiration'],
+        detail: {
+          DaysToExpiry: 1,
+          CommonName: props.letsencryptDomains.split(',')[0],
+        },
+      },
+      targets: [new targets.SnsTopic(snsTopic)],
+    });
   }
 }

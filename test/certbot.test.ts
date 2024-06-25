@@ -159,7 +159,7 @@ test('stack should contain specific number of expected resources when s3 is used
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 4); // one for ongoing checks and one for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 1);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
@@ -198,7 +198,7 @@ test('stack should contain specific number of expected resources when no storage
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 4); // one for ongoing checks and one for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 1);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
@@ -237,7 +237,7 @@ test('stack should contain no bucket when secrets manager is used and have appro
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 4); // one for ongoing checks and one for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 0);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 4); // acm, sns, and r53, secrets manager
   template.hasResourceProperties('AWS::IAM::ManagedPolicy', Match.objectLike({
@@ -356,7 +356,7 @@ test('stack should contain no bucket when parameter store is used and have appro
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 4); // one for ongoing checks and one for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 0);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 4); // acm, sns, and r53, parameter store
   // one of the policies should have a parameter store policy statement
@@ -458,7 +458,7 @@ test('construct should allow a bucket to be given as a prop', () => {
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 4); // one for ongoing checks and one for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 1);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
@@ -491,7 +491,7 @@ test('construct should allow insights to be enabled', () => {
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 4); // one for ongoing checks and one for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 1);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
@@ -524,7 +524,7 @@ test('disabling run on deploy should reduce total event rule count to 1', () => 
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 1); // one for ongoing checks, none for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 3); // one for ongoing checks, none for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 1);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
@@ -629,7 +629,7 @@ test('stack should contain specific number of expected resources when efs is use
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
-  template.resourceCountIs('AWS::Events::Rule', 2); // one for ongoing checks and one for immediate creation
+  template.resourceCountIs('AWS::Events::Rule', 4); // one for ongoing checks and one for immediate creation, two for expire notifications
   template.resourceCountIs('AWS::S3::Bucket', 0);
   template.resourceCountIs('AWS::IAM::ManagedPolicy', 3); // acm, sns, and r53
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting efs access
