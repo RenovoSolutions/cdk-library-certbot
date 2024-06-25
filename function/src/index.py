@@ -5,6 +5,7 @@ import certbot.main
 import datetime
 import os
 import shutil
+import pathlib
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from botocore.exceptions import ClientError
@@ -56,7 +57,12 @@ def upload_to_s3(local_path, keyname):
 
 def copy_to_efs(local_path, filename):
   print(f'INFO: Copying {filename} to EFS')
-  shutil.copy(local_path, '/mnt/efs' + os.environ['OBJECT_PREFIX'] + filename)
+
+  # If we are using a prefix, we need to create the directory structure
+  # We already validated that /mnt/efs is a real mount point
+  pathlib.Path('/mnt/efs' + os.environ['OBJECT_PREFIX']).mkdir(parents=True, exist_ok=True)
+
+  shutil.copy(local_path, '/mnt/efs/' + os.environ['OBJECT_PREFIX'] + filename)
 
 def read_and_delete_file(path, filename, storage_method):
   if not os.getenv("DRY_RUN", 'False').lower() in ["true", "1"]:
@@ -208,6 +214,10 @@ def handler(event, context):
     raise ValueError("Secrets Manager storage selected but CERTIFICATE_SECRET_PATH is not set")
   elif storage_method == 'ssm_secure' and 'CERTIFICATE_PARAMETER_PATH' not in os.environ:
     raise ValueError("Parameter Store storage selected but CERTIFICATE_PARAMETER_PATH is not set")
+
+  # For EFS, it must be mounted
+  if storage_method == 'efs' and not os.path.ismount('/mnt/efs'):
+    raise ValueError("EFS storage selected but /mnt/efs is not mounted")
 
   domains = os.environ['LETSENCRYPT_DOMAINS']
   if should_provision(domains):

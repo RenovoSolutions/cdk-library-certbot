@@ -5,6 +5,7 @@ import sys
 import pytest
 import boto3
 import datetime
+import pathlib
 from cryptography import x509
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.index as index
@@ -312,6 +313,9 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
   mock_sns_client.create_topic(Name='example-topic')
 
   os.environ['CERTIFICATE_STORAGE'] = 'efs'
+
+  # Make a pretend EFS mount
+  pathlib.Path('/mnt/efs').mkdir(parents=True, exist_ok=True)
 
   # Event details dont matter, function is triggered on
   # a schedule and uses env details provided
