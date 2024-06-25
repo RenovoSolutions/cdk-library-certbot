@@ -185,7 +185,7 @@ export interface CertbotProps {
    *
    * @default none
    */
-  readonly vpc?: ec2.Vpc;
+  readonly vpc?: ec2.IVpc;
 }
 
 export class Certbot extends Construct {
@@ -268,6 +268,7 @@ export class Certbot extends Construct {
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
         PREFERRED_CHAIN: props.preferredChain || 'None',
         NOTIFICATION_SNS_ARN: snsTopic.topicArn,
+        DRY_RUN: 'False',
       },
       layers,
       timeout: props.timeout || Duration.seconds(180),
@@ -330,8 +331,16 @@ export class Certbot extends Construct {
       });
     }
 
-    if (props.certificateStorage == CertificateStorageType.EFS && !props.efsAccessPoint) {
-      throw new Error('You must provide an EFS Access Point to use EFS storage');
+    if (props.certificateStorage == CertificateStorageType.EFS) {
+      if (!props.efsAccessPoint) {
+        throw new Error('You must provide an EFS Access Point to use EFS storage');
+      } else {
+        this.handler.addEnvironment('CERTIFICATE_STORAGE', 'efs');
+      }
+    }
+
+    if (props.vpc) {
+      role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole'));
     }
 
     if (enableInsights) {

@@ -390,13 +390,16 @@ The timeout duration for Lambda function.
 ##### `vpc`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.vpc"></a>
 
 ```typescript
-public readonly vpc: Vpc;
+public readonly vpc: IVpc;
 ```
 
-- *Type:* [`aws-cdk-lib.aws_ec2.Vpc`](#aws-cdk-lib.aws_ec2.Vpc)
+- *Type:* [`aws-cdk-lib.aws_ec2.IVpc`](#aws-cdk-lib.aws_ec2.IVpc)
 - *Default:* none
 
-The VPC to run the Lambda function in. This is needed if you are using EFS. It should be the same VPC as the EFS filesystem.
+The VPC to run the Lambda function in.
+
+This is needed if you are using EFS.
+It should be the same VPC as the EFS filesystem
 
 ---
 
