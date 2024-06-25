@@ -240,8 +240,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test2.local",
-            "DaysToExpiry": 1,
+            "CommonName": Array [
+              "test2.local",
+            ],
+            "DaysToExpiry": Array [
+              1,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -266,8 +270,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test2.local",
-            "DaysToExpiry": 7,
+            "CommonName": Array [
+              "test2.local",
+            ],
+            "DaysToExpiry": Array [
+              7,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -748,8 +756,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test3.local",
-            "DaysToExpiry": 1,
+            "CommonName": Array [
+              "test3.local",
+            ],
+            "DaysToExpiry": Array [
+              1,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -774,8 +786,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test3.local",
-            "DaysToExpiry": 7,
+            "CommonName": Array [
+              "test3.local",
+            ],
+            "DaysToExpiry": Array [
+              7,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -1247,8 +1263,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test4.local",
-            "DaysToExpiry": 1,
+            "CommonName": Array [
+              "test4.local",
+            ],
+            "DaysToExpiry": Array [
+              1,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -1273,8 +1293,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test4.local",
-            "DaysToExpiry": 7,
+            "CommonName": Array [
+              "test4.local",
+            ],
+            "DaysToExpiry": Array [
+              7,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -1747,8 +1771,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test5.local",
-            "DaysToExpiry": 1,
+            "CommonName": Array [
+              "test5.local",
+            ],
+            "DaysToExpiry": Array [
+              1,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -1773,8 +1801,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test5.local",
-            "DaysToExpiry": 7,
+            "CommonName": Array [
+              "test5.local",
+            ],
+            "DaysToExpiry": Array [
+              7,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -2238,8 +2270,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test6.local",
-            "DaysToExpiry": 1,
+            "CommonName": Array [
+              "test6.local",
+            ],
+            "DaysToExpiry": Array [
+              1,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -2264,8 +2300,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test6.local",
-            "DaysToExpiry": 7,
+            "CommonName": Array [
+              "test6.local",
+            ],
+            "DaysToExpiry": Array [
+              7,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -2730,8 +2770,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test7.local",
-            "DaysToExpiry": 1,
+            "CommonName": Array [
+              "test7.local",
+            ],
+            "DaysToExpiry": Array [
+              1,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -2756,8 +2800,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test7.local",
-            "DaysToExpiry": 7,
+            "CommonName": Array [
+              "test7.local",
+            ],
+            "DaysToExpiry": Array [
+              7,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -3411,8 +3459,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test.local",
-            "DaysToExpiry": 1,
+            "CommonName": Array [
+              "test.local",
+            ],
+            "DaysToExpiry": Array [
+              1,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",
@@ -3437,8 +3489,12 @@ Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
-            "CommonName": "test.local",
-            "DaysToExpiry": 7,
+            "CommonName": Array [
+              "test.local",
+            ],
+            "DaysToExpiry": Array [
+              7,
+            ],
           },
           "detail-type": Array [
             "ACM Certificate Approaching Expiration",

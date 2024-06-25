@@ -436,8 +436,8 @@ export class Certbot extends Construct {
         source: ['aws.acm'],
         detailType: ['ACM Certificate Approaching Expiration'],
         detail: {
-          DaysToExpiry: 7,
-          CommonName: props.letsencryptDomains.split(',')[0],
+          DaysToExpiry: [7],
+          CommonName: [props.letsencryptDomains.split(',')[0]],
         },
       },
       targets: [new targets.SnsTopic(snsTopic)],
@@ -448,8 +448,8 @@ export class Certbot extends Construct {
         source: ['aws.acm'],
         detailType: ['ACM Certificate Approaching Expiration'],
         detail: {
-          DaysToExpiry: 1,
-          CommonName: props.letsencryptDomains.split(',')[0],
+          DaysToExpiry: [1],
+          CommonName: [props.letsencryptDomains.split(',')[0]],
         },
       },
       targets: [new targets.SnsTopic(snsTopic)],
