@@ -319,13 +319,16 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
   # Create the EFS_PATH directory
   pathlib.Path(os.environ['EFS_PATH'] + '/').mkdir(parents=True, exist_ok=True)
 
+  # Use just the first domain given if there are multiple
+  domain_dir = '/tmp/config-dir/live/' + os.environ['LETSENCRYPT_DOMAINS'].split(',')[0]
+
   # Write the test data to real files since they are copied by path
-  pathlib.Path('/tmp/config-dir/live/example.com').mkdir(parents=True, exist_ok=True)
-  with open('/tmp/config-dir/live/example.com/cert.pem', 'wb') as file:
+  pathlib.Path(domain_dir).mkdir(parents=True, exist_ok=True)
+  with open(domain_dir + '/cert.pem', 'wb') as file:
     file.write(MOCK_CERTIFICATE)
-  with open('/tmp/config-dir/live/example.com/privkey.pem', 'wb') as file:
+  with open(domain_dir + '/privkey.pem', 'wb') as file:
     file.write(MOCK_PRIVATE_KEY)
-  with open('/tmp/config-dir/live/example.com/chain.pem', 'wb') as file:
+  with open(domain_dir + '/chain.pem', 'wb') as file:
     file.write(b'data')
 
   # Event details dont matter, function is triggered on
