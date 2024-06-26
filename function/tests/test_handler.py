@@ -5,7 +5,6 @@ import sys
 import pytest
 import boto3
 import datetime
-import pathlib
 from cryptography import x509
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.index as index
@@ -119,6 +118,8 @@ mock_cert = MagicMock(spec=x509.Certificate)
 mock_cert.serial_number = 123456789
 mock_cert.not_valid_before = datetime.datetime(2020, 1, 1)
 mock_cert.not_valid_after = datetime.datetime(2030, 1, 1)
+mock_cert.not_valid_before_utc = datetime.datetime(2020, 1, 1)
+mock_cert.not_valid_after_utc = datetime.datetime(2030, 1, 1)
 
 def mock_file_side_effect(*args, **kwargs):
   filename = args[0]
@@ -313,9 +314,6 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
   mock_sns_client.create_topic(Name='example-topic')
 
   os.environ['CERTIFICATE_STORAGE'] = 'efs'
-
-  # Make a pretend EFS mount
-  pathlib.Path('/mnt/efs').mkdir(parents=True, exist_ok=True)
 
   # Event details dont matter, function is triggered on
   # a schedule and uses env details provided
