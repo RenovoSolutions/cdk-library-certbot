@@ -319,6 +319,15 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
   # Create the EFS_PATH directory
   pathlib.Path(os.environ['EFS_PATH'] + '/').mkdir(parents=True, exist_ok=True)
 
+  # Write the test data to real files since they are copied by path
+  pathlib.Path('/tmp/config-dir/live/example.com').mkdir(parents=True, exist_ok=True)
+  with open('/tmp/config-dir/live/example.com/cert.pem', 'wb') as file:
+    file.write(MOCK_CERTIFICATE)
+  with open('/tmp/config-dir/live/example.com/privkey.pem', 'wb') as file:
+    file.write(MOCK_PRIVATE_KEY)
+  with open('/tmp/config-dir/live/example.com/chain.pem', 'wb') as file:
+    file.write(b'data')
+
   # Event details dont matter, function is triggered on
   # a schedule and uses env details provided
   event = {}
@@ -336,7 +345,7 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
 
   # verify the files were created and contain the expected values
   assert os.path.exists(os.environ['EFS_PATH'] + '/cert.pem')
-  with open(os.environ['EFS_PATH'] + 'cert.pem', 'rb') as file:
+  with open(os.environ['EFS_PATH'] + '/cert.pem', 'rb') as file:
     contents = file.read()
     assert contents == MOCK_CERTIFICATE
   assert os.path.exists(os.environ['EFS_PATH'] + '/privkey.pem')
