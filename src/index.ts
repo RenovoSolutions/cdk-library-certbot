@@ -336,6 +336,7 @@ export class Certbot extends Construct {
         throw new Error('You must provide an EFS Access Point to use EFS storage');
       } else {
         this.handler.addEnvironment('CERTIFICATE_STORAGE', 'efs');
+        this.handler.addEnvironment('EFS_PATH', '/mnt/efs');
       }
     }
 

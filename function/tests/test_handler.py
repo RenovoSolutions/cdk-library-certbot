@@ -5,6 +5,7 @@ import sys
 import pytest
 import boto3
 import datetime
+import pathlib
 from cryptography import x509
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.index as index
@@ -315,6 +316,9 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
 
   os.environ['CERTIFICATE_STORAGE'] = 'efs'
 
+  # Create the EFS_PATH directory
+  pathlib.Path(os.environ['EFS_PATH'] + '/').mkdir(parents=True, exist_ok=True)
+
   # Event details dont matter, function is triggered on
   # a schedule and uses env details provided
   event = {}
@@ -331,16 +335,16 @@ def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_re
   ])
 
   # verify the files were created and contain the expected values
-  assert os.path.exists('/mnt/efs/cert.pem')
-  with open('/mnt/efs/cert.pem', 'rb') as file:
+  assert os.path.exists(os.environ['EFS_PATH'] + '/cert.pem')
+  with open(os.environ['EFS_PATH'] + 'cert.pem', 'rb') as file:
     contents = file.read()
     assert contents == MOCK_CERTIFICATE
-  assert os.path.exists('/mnt/efs/privkey.pem')
-  with open('/mnt/efs/privkey.pem', 'rb') as file:
+  assert os.path.exists(os.environ['EFS_PATH'] + '/privkey.pem')
+  with open(os.environ['EFS_PATH'] + '/privkey.pem', 'rb') as file:
     contents = file.read()
     assert contents == MOCK_PRIVATE_KEY
-  assert os.path.exists('/mnt/efs/chain.pem')
-  with open('/mnt/efs/chain.pem', 'rb') as file:
+  assert os.path.exists(os.environ['EFS_PATH'] + '/chain.pem')
+  with open(os.environ['EFS_PATH'] + '/chain.pem', 'rb') as file:
     contents = file.read()
     assert contents == b'data'
 

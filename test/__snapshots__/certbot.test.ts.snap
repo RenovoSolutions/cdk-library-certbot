@@ -2848,6 +2848,7 @@ Object {
           "Variables": Object {
             "CERTIFICATE_STORAGE": "efs",
             "DRY_RUN": "False",
+            "EFS_PATH": "/mnt/efs",
             "LETSENCRYPT_DOMAINS": "test7.local, www.test7.local",
             "LETSENCRYPT_EMAIL": "test@test7.local",
             "NOTIFICATION_SNS_ARN": Object {
