@@ -158,8 +158,8 @@ Certificate info:
   Serial Number: {cert.serial_number}
   Issuer: {cert.issuer.rfc4514_string()}
   Validity:
-    Not Before: {cert.not_valid_before}
-    Not After: {cert.not_valid_after}
+    Not Before: {cert.not_valid_before_utc}
+    Not After: {cert.not_valid_after_utc}
   Subject: {cert.subject.rfc4514_string()}
   Subject Alternative Names: {" ".join([n.value for n in cert.extensions[6].value])}
 """
