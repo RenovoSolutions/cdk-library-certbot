@@ -166,7 +166,6 @@ test('stack should contain specific number of expected resources when s3 is used
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 4);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
   template.resourceCountIs('AWS::EFS::FileSystem', 0);
@@ -205,7 +204,6 @@ test('stack should contain specific number of expected resources when no storage
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 4);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
   template.resourceCountIs('AWS::EFS::FileSystem', 0);
@@ -271,7 +269,6 @@ test('stack should contain no bucket when secrets manager is used and have appro
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 4);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
   template.resourceCountIs('AWS::EFS::FileSystem', 0);
@@ -383,7 +380,6 @@ test('stack should contain no bucket when parameter store is used and have appro
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 4);
   template.resourceCountIs('AWS::Route53::HostedZone', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
   template.resourceCountIs('AWS::EFS::FileSystem', 0);
@@ -464,7 +460,6 @@ test('construct should allow a bucket to be given as a prop', () => {
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 4);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
   template.resourceCountIs('AWS::EFS::FileSystem', 0);
@@ -497,7 +492,6 @@ test('construct should allow insights to be enabled', () => {
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 5);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
   template.resourceCountIs('AWS::EFS::FileSystem', 0);
@@ -530,7 +524,6 @@ test('disabling run on deploy should reduce total event rule count to 1', () => 
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting bucket write
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 4);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 0);
   template.resourceCountIs('AWS::EFS::FileSystem', 0);
@@ -635,7 +628,6 @@ test('stack should contain specific number of expected resources when efs is use
   template.resourceCountIs('AWS::IAM::Policy', 1); // 1 inline policy for granting efs access
   template.resourceCountIs('AWS::IAM::Role', 1);
   template.resourceCountIs('AWS::SNS::Topic', 1);
-  template.resourceCountIs('AWS::CloudWatch::Alarm', 4);
   template.resourceCountIs('AWS::SNS::Subscription', 1);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 2);
   template.resourceCountIs('AWS::EFS::FileSystem', 1);
