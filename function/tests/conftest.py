@@ -16,4 +16,5 @@ def set_env_vars():
   os.environ['AWS_ACCESS_KEY_ID'] = 'fake'
   os.environ['AWS_SECRET_ACCESS_KEY'] = 'fake'
   os.environ['OBJECT_PREFIX'] = ''
+  os.environ['EFS_PATH'] = '/tmp/efs'
   yield

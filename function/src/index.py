@@ -4,7 +4,8 @@ import boto3
 import certbot.main
 import datetime
 import os
-import subprocess
+import shutil
+import pathlib
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from botocore.exceptions import ClientError
@@ -54,6 +55,15 @@ def upload_to_s3(local_path, keyname):
     data = file.read()
     s3.Bucket(os.environ['CERTIFICATE_BUCKET']).put_object(Key=f"{os.environ['OBJECT_PREFIX']}{keyname}", Body=data)
 
+def copy_to_efs(local_path, filename):
+  print(f'INFO: Copying {filename} to EFS')
+
+  # If we are using a prefix, we need to create the directory structure
+  # We already validated that EFS_PATH is a directory
+  pathlib.Path(os.environ['EFS_PATH'] + '/' + os.environ['OBJECT_PREFIX']).mkdir(parents=True, exist_ok=True)
+
+  shutil.copy(local_path, os.environ['EFS_PATH'] + '/' + os.environ['OBJECT_PREFIX'] + '/' + filename)
+
 def read_and_delete_file(path, filename, storage_method):
   if not os.getenv("DRY_RUN", 'False').lower() in ["true", "1"]:
     with open(path, 'rb') as file:
@@ -71,6 +81,8 @@ def read_and_delete_file(path, filename, storage_method):
       store_in_secrets_manager(os.environ['CERTIFICATE_SECRET_PATH'] + filename, string_contents)
     elif storage_method == 'ssm_secure':
       store_in_parameter_store(os.environ['CERTIFICATE_PARAMETER_PATH'] + filename, string_contents)
+    elif storage_method == 'efs':
+      copy_to_efs(path, filename)
 
     os.remove(path)
     return contents
@@ -146,8 +158,8 @@ Certificate info:
   Serial Number: {cert.serial_number}
   Issuer: {cert.issuer.rfc4514_string()}
   Validity:
-    Not Before: {cert.not_valid_before}
-    Not After: {cert.not_valid_after}
+    Not Before: {cert.not_valid_before_utc}
+    Not After: {cert.not_valid_after_utc}
   Subject: {cert.subject.rfc4514_string()}
   Subject Alternative Names: {" ".join([n.value for n in cert.extensions[6].value])}
 """
@@ -202,6 +214,13 @@ def handler(event, context):
     raise ValueError("Secrets Manager storage selected but CERTIFICATE_SECRET_PATH is not set")
   elif storage_method == 'ssm_secure' and 'CERTIFICATE_PARAMETER_PATH' not in os.environ:
     raise ValueError("Parameter Store storage selected but CERTIFICATE_PARAMETER_PATH is not set")
+  elif storage_method == 'efs' and 'EFS_PATH' not in os.environ:
+    raise ValueError("EFS storage selected but EFS_PATH is not set")
+
+  # For EFS, we need the directory to exist.
+  # We don't require it to be a real mount point because that breaks tests.
+  if storage_method == 'efs' and not os.path.isdir(os.environ['EFS_PATH']):
+    raise ValueError("EFS storage selected but EFS_PATH is not a directory")
 
   domains = os.environ['LETSENCRYPT_DOMAINS']
   if should_provision(domains):

@@ -110,6 +110,18 @@ The method of storage for the resulting certificates.
 
 ---
 
+##### `efsAccessPoint`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.efsAccessPoint"></a>
+
+```typescript
+public readonly efsAccessPoint: AccessPoint;
+```
+
+- *Type:* [`aws-cdk-lib.aws_efs.AccessPoint`](#aws-cdk-lib.aws_efs.AccessPoint)
+
+The EFS access point to store the certificates.
+
+---
+
 ##### `enableInsights`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.enableInsights"></a>
 
 ```typescript
@@ -238,6 +250,7 @@ public readonly objectPrefix: string;
 The prefix to apply to the final S3 key name for the certificates.
 
 Default is no prefix.
+Also used for EFS.
 
 ---
 
@@ -374,6 +387,22 @@ The timeout duration for Lambda function.
 
 ---
 
+##### `vpc`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* [`aws-cdk-lib.aws_ec2.IVpc`](#aws-cdk-lib.aws_ec2.IVpc)
+- *Default:* none
+
+The VPC to run the Lambda function in.
+
+This is needed if you are using EFS.
+It should be the same VPC as the EFS filesystem
+
+---
+
 
 
 ## Enums <a name="Enums"></a>
@@ -397,6 +426,13 @@ Store the certificates in S3.
 #### `SSM_SECURE` <a name="@renovosolutions/cdk-library-certbot.CertificateStorageType.SSM_SECURE"></a>
 
 Store the certificates as a parameter in AWS Systems Manager Parameter Store  with encryption.
+
+---
+
+
+#### `EFS` <a name="@renovosolutions/cdk-library-certbot.CertificateStorageType.EFS"></a>
+
+Store the certificates in EFS, mounted to the Lambda function.
 
 ---
 
