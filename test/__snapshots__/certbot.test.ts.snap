@@ -141,6 +141,7 @@ Object {
               "Ref": "Certbot2bucket15AF13C6",
             },
             "CERTIFICATE_STORAGE": "s3",
+            "DRY_RUN": "False",
             "LETSENCRYPT_DOMAINS": "test2.local, www.test2.local",
             "LETSENCRYPT_EMAIL": "test@test2.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -455,6 +456,7 @@ Object {
           "Variables": Object {
             "CERTIFICATE_SECRET_PATH": "/certbot/certificates/test3.local/",
             "CERTIFICATE_STORAGE": "secretsmanager",
+            "DRY_RUN": "False",
             "LETSENCRYPT_DOMAINS": "test3.local, www.test3.local",
             "LETSENCRYPT_EMAIL": "test@test3.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -764,6 +766,7 @@ Object {
             "CERTIFICATE_SECRET_PATH": "/certbot/certificates/test4.local/",
             "CERTIFICATE_STORAGE": "secretsmanager",
             "CUSTOM_KMS_KEY_ID": "alias/test",
+            "DRY_RUN": "False",
             "LETSENCRYPT_DOMAINS": "test4.local, www.test4.local",
             "LETSENCRYPT_EMAIL": "test@test4.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -1072,6 +1075,7 @@ Object {
           "Variables": Object {
             "CERTIFICATE_PARAMETER_PATH": "/certbot/certificates/test5.local/",
             "CERTIFICATE_STORAGE": "ssm_secure",
+            "DRY_RUN": "False",
             "LETSENCRYPT_DOMAINS": "test5.local, www.test5.local",
             "LETSENCRYPT_EMAIL": "test@test5.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -1373,6 +1377,7 @@ Object {
             "CERTIFICATE_PARAMETER_PATH": "/certbot/certificates/test6.local/",
             "CERTIFICATE_STORAGE": "ssm_secure",
             "CUSTOM_KMS_KEY_ID": "alias/test",
+            "DRY_RUN": "False",
             "LETSENCRYPT_DOMAINS": "test6.local, www.test6.local",
             "LETSENCRYPT_EMAIL": "test@test6.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -1634,6 +1639,409 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
+    "Certbot7acmPolicyE09962E9": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to import and list certificates.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "acm:ListCertificates",
+                "acm:ImportCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "acm:DescribeCertificate",
+              "Effect": "Allow",
+              "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot7handler783F3BCF": Object {
+      "DependsOn": Array [
+        "Certbot7roleDefaultPolicy5A54E923",
+        "Certbot7role3486B307",
+        "EfsFileSystemEfsMountTarget1FB1E892A",
+        "EfsFileSystemEfsMountTarget26C9652B8",
+        "EfsFileSystemEfsSecurityGroupfromTestStackCertbot7handlerSecurityGroup2CE8F2482049DEF3190B",
+        "VpcPrivateSubnet1DefaultRouteBE02A9ED",
+        "VpcPrivateSubnet1RouteTableAssociation70C59FA6",
+        "VpcPrivateSubnet2DefaultRoute060D2087",
+        "VpcPrivateSubnet2RouteTableAssociationA89CAD56",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
+        },
+        "Description": "Certbot Renewal Lambda for domain test7.local",
+        "Environment": Object {
+          "Variables": Object {
+            "CERTIFICATE_STORAGE": "efs",
+            "DRY_RUN": "False",
+            "EFS_PATH": "/mnt/efs",
+            "LETSENCRYPT_DOMAINS": "test7.local, www.test7.local",
+            "LETSENCRYPT_EMAIL": "test@test7.local",
+            "NOTIFICATION_SNS_ARN": Object {
+              "Ref": "Certbot7topic29F3056A",
+            },
+            "OBJECT_PREFIX": "",
+            "PREFERRED_CHAIN": "None",
+            "REISSUE_DAYS": "30",
+          },
+        },
+        "FileSystemConfigs": Array [
+          Object {
+            "Arn": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "arn:",
+                  Object {
+                    "Ref": "AWS::Partition",
+                  },
+                  ":elasticfilesystem:us-east-1:123456789012:access-point/",
+                  Object {
+                    "Ref": "EfsAccessPoint787A4929",
+                  },
+                ],
+              ],
+            },
+            "LocalMountPath": "/mnt/efs",
+          },
+        ],
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "Certbot7role3486B307",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 180,
+        "VpcConfig": Object {
+          "SecurityGroupIds": Array [
+            Object {
+              "Fn::GetAtt": Array [
+                "Certbot7handlerSecurityGroupF7301350",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": Array [
+            Object {
+              "Ref": "VpcPrivateSubnet1Subnet536B997A",
+            },
+            Object {
+              "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "Certbot7handlerSecurityGroupF7301350": Object {
+      "DependsOn": Array [
+        "EfsFileSystemEfsMountTarget1FB1E892A",
+        "EfsFileSystemEfsMountTarget26C9652B8",
+        "VpcPrivateSubnet1DefaultRouteBE02A9ED",
+        "VpcPrivateSubnet1RouteTableAssociation70C59FA6",
+        "VpcPrivateSubnet2DefaultRoute060D2087",
+        "VpcPrivateSubnet2RouteTableAssociationA89CAD56",
+      ],
+      "Properties": Object {
+        "GroupDescription": "Automatic security group for Lambda Function TestStackCertbot7handlerD2953A09",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "Certbot7r53Policy5F398121": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to perform DNS verification.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "route53:ListHostedZones",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "route53:GetChange",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                "arn:aws:route53:::change/*",
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/DUMMY",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":route53:::hostedzone/",
+                      Object {
+                        "Ref": "ZoneA5DE4B68",
+                      },
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot7role3486B307": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Ref": "Certbot7snsPolicyFB8DE6C4",
+          },
+          Object {
+            "Ref": "Certbot7r53Policy5F398121",
+          },
+          Object {
+            "Ref": "Certbot7acmPolicyE09962E9",
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Certbot7roleDefaultPolicy5A54E923": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "elasticfilesystem:ClientMount",
+              "Condition": Object {
+                "StringEquals": Object {
+                  "elasticfilesystem:AccessPointArn": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":elasticfilesystem:us-east-1:123456789012:access-point/",
+                        Object {
+                          "Ref": "EfsAccessPoint787A4929",
+                        },
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "elasticfilesystem:ClientWrite",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":elasticfilesystem:us-east-1:123456789012:file-system/",
+                    Object {
+                      "Ref": "EfsFileSystem37910666",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "Certbot7roleDefaultPolicy5A54E923",
+        "Roles": Array [
+          Object {
+            "Ref": "Certbot7role3486B307",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "Certbot7snsPolicyFB8DE6C4": Object {
+      "Properties": Object {
+        "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "Certbot7topic29F3056A",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "Certbot7topic29F3056A": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "Certbot7topictesttest7local7692AF4E": Object {
+      "Properties": Object {
+        "Endpoint": "test@test7.local",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "Certbot7topic29F3056A",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "Certbot7triggerAllowEventRuleTestStackCertbot7handlerD2953A09CE571204": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot7handler783F3BCF",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot7triggerD7634811",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "Certbot7triggerD7634811": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(0 0 ? * 1 *)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot7handler783F3BCF",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot7triggerImmediate394232D4": Object {
+      "Properties": Object {
+        "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Certbot7handler783F3BCF",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "Certbot7triggerImmediateAllowEventRuleTestStackCertbot7handlerD2953A09DC236C7E": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Certbot7handler783F3BCF",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Certbot7triggerImmediate394232D4",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
     "CertbotacmPolicy047B0647": Object {
       "Properties": Object {
         "Description": "Allow the Certbot function to import and list certificates.",
@@ -1765,6 +2173,7 @@ Object {
               "Ref": "Certbotbucket4B0141F9",
             },
             "CERTIFICATE_STORAGE": "s3",
+            "DRY_RUN": "False",
             "LETSENCRYPT_DOMAINS": "test.local, www.test.local",
             "LETSENCRYPT_EMAIL": "test@test.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -2040,6 +2449,123 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
+    "EfsAccessPoint787A4929": Object {
+      "Properties": Object {
+        "AccessPointTags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/EfsAccessPoint",
+          },
+        ],
+        "FileSystemId": Object {
+          "Ref": "EfsFileSystem37910666",
+        },
+        "RootDirectory": Object {
+          "CreationInfo": Object {
+            "OwnerGid": "1000",
+            "OwnerUid": "1000",
+            "Permissions": "700",
+          },
+          "Path": "/certs",
+        },
+      },
+      "Type": "AWS::EFS::AccessPoint",
+    },
+    "EfsFileSystem37910666": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "Encrypted": true,
+        "FileSystemTags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/EfsFileSystem",
+          },
+        ],
+      },
+      "Type": "AWS::EFS::FileSystem",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "EfsFileSystemEfsMountTarget1FB1E892A": Object {
+      "Properties": Object {
+        "FileSystemId": Object {
+          "Ref": "EfsFileSystem37910666",
+        },
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "EfsFileSystemEfsSecurityGroup68CC9E7F",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "VpcPrivateSubnet1Subnet536B997A",
+        },
+      },
+      "Type": "AWS::EFS::MountTarget",
+    },
+    "EfsFileSystemEfsMountTarget26C9652B8": Object {
+      "Properties": Object {
+        "FileSystemId": Object {
+          "Ref": "EfsFileSystem37910666",
+        },
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "EfsFileSystemEfsSecurityGroup68CC9E7F",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
+        },
+      },
+      "Type": "AWS::EFS::MountTarget",
+    },
+    "EfsFileSystemEfsSecurityGroup68CC9E7F": Object {
+      "Properties": Object {
+        "GroupDescription": "TestStack/EfsFileSystem/EfsSecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/EfsFileSystem",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "EfsFileSystemEfsSecurityGroupfromTestStackCertbot7handlerSecurityGroup2CE8F2482049DEF3190B": Object {
+      "Properties": Object {
+        "Description": "from TestStackCertbot7handlerSecurityGroup2CE8F248:2049",
+        "FromPort": 2049,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "EfsFileSystemEfsSecurityGroup68CC9E7F",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "Certbot7handlerSecurityGroupF7301350",
+            "GroupId",
+          ],
+        },
+        "ToPort": 2049,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
     "KmsKey46693ADD": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
@@ -2082,6 +2608,369 @@ Object {
         },
       },
       "Type": "AWS::KMS::Alias",
+    },
+    "Vpc8378EB38": Object {
+      "Properties": Object {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "VpcIGWD7BA715C": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "VpcPrivateSubnet1DefaultRouteBE02A9ED": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "VpcPublicSubnet1NATGateway4D7517AA",
+        },
+        "RouteTableId": Object {
+          "Ref": "VpcPrivateSubnet1RouteTableB2C5B500",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPrivateSubnet1RouteTableAssociation70C59FA6": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "VpcPrivateSubnet1RouteTableB2C5B500",
+        },
+        "SubnetId": Object {
+          "Ref": "VpcPrivateSubnet1Subnet536B997A",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPrivateSubnet1RouteTableB2C5B500": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPrivateSubnet1Subnet536B997A": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.128.0/18",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcPrivateSubnet2DefaultRoute060D2087": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "VpcPublicSubnet2NATGateway9182C01D",
+        },
+        "RouteTableId": Object {
+          "Ref": "VpcPrivateSubnet2RouteTableA678073B",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPrivateSubnet2RouteTableA678073B": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPrivateSubnet2RouteTableAssociationA89CAD56": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "VpcPrivateSubnet2RouteTableA678073B",
+        },
+        "SubnetId": Object {
+          "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPrivateSubnet2Subnet3788AAA1": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.192.0/18",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcPublicSubnet1DefaultRoute3DA9E72A": Object {
+      "DependsOn": Array [
+        "VpcVPCGWBF912B6E",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "RouteTableId": Object {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPublicSubnet1EIPD7E02669": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "VpcPublicSubnet1NATGateway4D7517AA": Object {
+      "DependsOn": Array [
+        "VpcPublicSubnet1DefaultRoute3DA9E72A",
+        "VpcPublicSubnet1RouteTableAssociation97140677",
+      ],
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "VpcPublicSubnet1EIPD7E02669",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "VpcPublicSubnet1RouteTable6C95E38E": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPublicSubnet1RouteTableAssociation97140677": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+        },
+        "SubnetId": Object {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPublicSubnet1Subnet5C2D37C4": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.0.0/18",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcPublicSubnet2DefaultRoute97F91067": Object {
+      "DependsOn": Array [
+        "VpcVPCGWBF912B6E",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "RouteTableId": Object {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPublicSubnet2EIP3C605A87": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "VpcPublicSubnet2NATGateway9182C01D": Object {
+      "DependsOn": Array [
+        "VpcPublicSubnet2DefaultRoute97F91067",
+        "VpcPublicSubnet2RouteTableAssociationDD5762D8",
+      ],
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "VpcPublicSubnet2EIP3C605A87",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "VpcPublicSubnet2RouteTable94F7E489": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPublicSubnet2RouteTableAssociationDD5762D8": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+        },
+        "SubnetId": Object {
+          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPublicSubnet2Subnet691E08A3": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.64.0/18",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcVPCGWBF912B6E": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "VpcId": Object {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
     },
     "ZoneA5DE4B68": Object {
       "Properties": Object {

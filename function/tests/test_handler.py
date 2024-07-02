@@ -1,10 +1,11 @@
 from unittest.mock import patch, mock_open, MagicMock
-from moto import mock_s3, mock_secretsmanager, mock_ssm, mock_acm, mock_sns
+from moto import mock_aws
 import os
 import sys
 import pytest
 import boto3
 import datetime
+import pathlib
 from cryptography import x509
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.index as index
@@ -118,6 +119,8 @@ mock_cert = MagicMock(spec=x509.Certificate)
 mock_cert.serial_number = 123456789
 mock_cert.not_valid_before = datetime.datetime(2020, 1, 1)
 mock_cert.not_valid_after = datetime.datetime(2030, 1, 1)
+mock_cert.not_valid_before_utc = datetime.datetime(2020, 1, 1)
+mock_cert.not_valid_after_utc = datetime.datetime(2030, 1, 1)
 
 def mock_file_side_effect(*args, **kwargs):
   filename = args[0]
@@ -132,12 +135,10 @@ def mock_file_side_effect(*args, **kwargs):
 
 @pytest.fixture
 def aws_mock():
-  with mock_s3(), mock_secretsmanager(), mock_ssm(), mock_acm(), mock_sns():
+  with mock_aws():
     yield
 
-@mock_s3
-@mock_acm
-@mock_sns
+@mock_aws
 @patch('certbot.main.main')
 @patch('src.index.os.remove')
 @patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
@@ -194,9 +195,7 @@ def test_function_errors_if_storage_s3_and_bucket_not_given():
   # because the bucket was not provided
   assert 'CERTIFICATE_BUCKET is not set' in str(e.value)
 
-@mock_acm
-@mock_sns
-@mock_secretsmanager
+@mock_aws
 @patch('certbot.main.main')
 @patch('src.index.os.remove')
 @patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
@@ -250,9 +249,7 @@ def test_function_errors_if_storage_secretsmanager_and_path_not_given():
   # because the bucket was not provided
   assert 'CERTIFICATE_SECRET_PATH is not set' in str(e.value)
 
-@mock_acm
-@mock_sns
-@mock_ssm
+@mock_aws
 @patch('certbot.main.main')
 @patch('src.index.os.remove')
 @patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
@@ -305,6 +302,63 @@ def test_function_errors_if_storage_ssm_and_path_not_given():
   # assert that the index.handler function raised an exception
   # because the bucket was not provided
   assert 'CERTIFICATE_PARAMETER_PATH is not set' in str(e.value)
+
+@mock_aws
+@patch('certbot.main.main')
+@patch('src.index.os.remove')
+@patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
+def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_remove, mock_certbot_main):
+  # Configure mock
+  mock_certbot_main.return_value = None
+
+  mock_sns_client = boto3.client('sns')
+  mock_sns_client.create_topic(Name='example-topic')
+
+  os.environ['CERTIFICATE_STORAGE'] = 'efs'
+
+  # Create the EFS_PATH directory
+  pathlib.Path(os.environ['EFS_PATH'] + '/').mkdir(parents=True, exist_ok=True)
+
+  # Use just the first domain given if there are multiple
+  domain_dir = '/tmp/config-dir/live/' + os.environ['LETSENCRYPT_DOMAINS'].split(',')[0]
+
+  # Write the test data to real files since they are copied by path
+  pathlib.Path(domain_dir).mkdir(parents=True, exist_ok=True)
+  with open(domain_dir + '/cert.pem', 'wb') as file:
+    file.write(MOCK_CERTIFICATE)
+  with open(domain_dir + '/privkey.pem', 'wb') as file:
+    file.write(MOCK_PRIVATE_KEY)
+  with open(domain_dir + '/chain.pem', 'wb') as file:
+    file.write(b'data')
+
+  # Event details dont matter, function is triggered on
+  # a schedule and uses env details provided
+  event = {}
+  context = {}
+  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
+    index.handler(event, context)
+
+  # Assert the mock was called with expected arguments
+  mock_certbot_main.assert_called_once_with([
+      'certonly', '-n', '--agree-tos', '--email', 'email@example.com',
+      '--dns-route53', '-d', 'example.com', '--config-dir', '/tmp/config-dir/',
+      '--work-dir', '/tmp/work-dir/', '--logs-dir', '/tmp/logs-dir/',
+      '--preferred-chain', 'ISRG Root X1'
+  ])
+
+  # verify the files were created and contain the expected values
+  assert os.path.exists(os.environ['EFS_PATH'] + '/cert.pem')
+  with open(os.environ['EFS_PATH'] + '/cert.pem', 'rb') as file:
+    contents = file.read()
+    assert contents == MOCK_CERTIFICATE
+  assert os.path.exists(os.environ['EFS_PATH'] + '/privkey.pem')
+  with open(os.environ['EFS_PATH'] + '/privkey.pem', 'rb') as file:
+    contents = file.read()
+    assert contents == MOCK_PRIVATE_KEY
+  assert os.path.exists(os.environ['EFS_PATH'] + '/chain.pem')
+  with open(os.environ['EFS_PATH'] + '/chain.pem', 'rb') as file:
+    contents = file.read()
+    assert contents == b'data'
 
 @patch('certbot.main.main')
 def test_provision_cert_respects_dry_run_env_var(mock_certbot_main, aws_mock):
