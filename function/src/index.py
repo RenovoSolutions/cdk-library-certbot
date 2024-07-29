@@ -139,7 +139,7 @@ def find_existing_cert(domains):
 
   client = boto3.client('acm')
   paginator = client.get_paginator('list_certificates')
-  iterator = paginator.paginate(PaginationConfig={'MaxItems':1000})
+  iterator = paginator.paginate(PaginationConfig={'MaxItems':1000},Includes={'keyTypes': ['RSA_1024', 'RSA_2048', 'RSA_3072', 'RSA_4096', 'EC_prime256v1', 'EC_secp384r1', 'EC_secp521r1']})
 
   for page in iterator:
     for cert in page['CertificateSummaryList']:
