@@ -7,17 +7,17 @@
     },
     {
       "name": "@types/node",
-      "version": "^16",
+      "version": "^16 <= 16.18.78",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^6",
+      "version": "^7",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^6",
+      "version": "^7",
       "type": "build"
     },
     {
@@ -66,11 +66,6 @@
       "type": "build"
     },
     {
-      "name": "npm-check-updates",
-      "version": "^16",
-      "type": "build"
-    },
-    {
       "name": "projen",
       "type": "build"
     },
@@ -108,7 +103,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.147.3",
+      "version": "^2.151.0",
       "type": "peer"
     },
     {

@@ -24,3 +24,6 @@ tsconfig.tsbuildinfo
 .functionbundle/*
 **/.venv/**
 **/__pycache__/**
+/.gitattributes
+/.projenrc.ts
+/projenrc
