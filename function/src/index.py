@@ -89,7 +89,7 @@ def read_and_delete_file(path, filename, storage_method):
   else:
     print(f'WARN: Dry run was used so {filename} was not generated.')
 
-def provision_cert(email, domains, storage_method):
+def provision_cert(email, domains, storage_method, keytype):
   cerbot_args = [
     'certonly',                             # Obtain a cert but don't install it
     '-n',                                   # Run in non-interactive mode
@@ -97,6 +97,7 @@ def provision_cert(email, domains, storage_method):
     '--email', email,                       # Email
     '--dns-route53',                        # Use dns challenge with route53
     '-d', domains,                          # Domains to provision certs for
+    '--key-type', keytype,                  # Key type
     # Override directory paths so script doesn't have to be run as root
     '--config-dir', '/tmp/config-dir/',
     '--work-dir', '/tmp/work-dir/',
@@ -204,6 +205,7 @@ def handler(event, context):
   print("CERTIFICATE_STORAGE: " + storage_method)
   print("LETSENCRYPT_DOMAINS: " + os.environ['LETSENCRYPT_DOMAINS'])
   print("LETSENCRYPT_EMAIL: " + os.environ['LETSENCRYPT_EMAIL'])
+  print("KEY_TYPE: " + os.environ['KEY_TYPE'])
   print("PREFERRED_CHAIN: " + os.environ['PREFERRED_CHAIN'])
   print("DRY_RUN: " + os.environ['DRY_RUN'])
 
@@ -224,7 +226,7 @@ def handler(event, context):
 
   domains = os.environ['LETSENCRYPT_DOMAINS']
   if should_provision(domains):
-    cert = provision_cert(os.environ['LETSENCRYPT_EMAIL'], domains, storage_method)
+    cert = provision_cert(os.environ['LETSENCRYPT_EMAIL'], domains, storage_method, os.environ['KEY_TYPE'])
     if not os.getenv("DRY_RUN", 'False').lower() in ["true", "1"]:
       upload_cert_to_acm(cert, domains)
       notify_via_sns(os.environ['NOTIFICATION_SNS_ARN'], domains, cert['certificate'])
