@@ -212,6 +212,19 @@ Defaults to layer for US-EAST-1
 
 ---
 
+##### `keyType`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.keyType"></a>
+
+```typescript
+public readonly keyType: string;
+```
+
+- *Type:* `string`
+- *Default:* 'ecdsa'
+
+Set the key type for the certificate.
+
+---
+
 ##### `kmsKeyAlias`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.kmsKeyAlias"></a>
 
 ```typescript

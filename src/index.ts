@@ -86,6 +86,12 @@ export interface CertbotProps {
    */
   readonly preferredChain?: string;
   /**
+   * Set the key type for the certificate.
+   *
+   * @default 'ecdsa'
+   */
+  readonly keyType?: string;
+  /**
    * The SNS topic to notify when a new cert is issued. If no topic is given one will be created automatically.
    */
   readonly snsTopic?: sns.Topic;
@@ -265,6 +271,7 @@ export class Certbot extends Construct {
         OBJECT_PREFIX: props.objectPrefix || '',
         REISSUE_DAYS: (props.reIssueDays === undefined) ? '30' : String(props.reIssueDays),
         PREFERRED_CHAIN: props.preferredChain || 'None',
+        KEY_TYPE: props.keyType || 'ecdsa',
         NOTIFICATION_SNS_ARN: snsTopic.topicArn,
         DRY_RUN: 'False',
       },

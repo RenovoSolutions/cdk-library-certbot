@@ -142,6 +142,7 @@ Object {
             },
             "CERTIFICATE_STORAGE": "s3",
             "DRY_RUN": "False",
+            "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test2.local, www.test2.local",
             "LETSENCRYPT_EMAIL": "test@test2.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -457,6 +458,7 @@ Object {
             "CERTIFICATE_SECRET_PATH": "/certbot/certificates/test3.local/",
             "CERTIFICATE_STORAGE": "secretsmanager",
             "DRY_RUN": "False",
+            "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test3.local, www.test3.local",
             "LETSENCRYPT_EMAIL": "test@test3.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -767,6 +769,7 @@ Object {
             "CERTIFICATE_STORAGE": "secretsmanager",
             "CUSTOM_KMS_KEY_ID": "alias/test",
             "DRY_RUN": "False",
+            "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test4.local, www.test4.local",
             "LETSENCRYPT_EMAIL": "test@test4.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -1076,6 +1079,7 @@ Object {
             "CERTIFICATE_PARAMETER_PATH": "/certbot/certificates/test5.local/",
             "CERTIFICATE_STORAGE": "ssm_secure",
             "DRY_RUN": "False",
+            "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test5.local, www.test5.local",
             "LETSENCRYPT_EMAIL": "test@test5.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -1378,6 +1382,7 @@ Object {
             "CERTIFICATE_STORAGE": "ssm_secure",
             "CUSTOM_KMS_KEY_ID": "alias/test",
             "DRY_RUN": "False",
+            "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test6.local, www.test6.local",
             "LETSENCRYPT_EMAIL": "test@test6.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -1687,6 +1692,7 @@ Object {
             "CERTIFICATE_STORAGE": "efs",
             "DRY_RUN": "False",
             "EFS_PATH": "/mnt/efs",
+            "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test7.local, www.test7.local",
             "LETSENCRYPT_EMAIL": "test@test7.local",
             "NOTIFICATION_SNS_ARN": Object {
@@ -2174,6 +2180,7 @@ Object {
             },
             "CERTIFICATE_STORAGE": "s3",
             "DRY_RUN": "False",
+            "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test.local, www.test.local",
             "LETSENCRYPT_EMAIL": "test@test.local",
             "NOTIFICATION_SNS_ARN": Object {
