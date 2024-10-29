@@ -112,6 +112,16 @@ export interface CertbotProps {
    */
   readonly timeout?: Duration;
   /**
+   * The architecture for the Lambda function.
+   *
+   * This property allows you to specify the architecture type for your Lambda function.
+   * Supported values are 'x86_64' for the standard architecture and 'arm64' for the
+   * ARM architecture.
+   *
+   * @default lambda.Architecture.X86_64
+   */
+  readonly architecture?: lambda.Architecture;
+  /**
    * The schedule for the certificate check trigger.
    *
    * @default events.Schedule.cron({ minute: '0', hour: '0', weekDay: '1' })
@@ -254,6 +264,7 @@ export class Certbot extends Construct {
     this.handler = new lambda.Function(this, 'handler', {
       runtime: lambda.Runtime.PYTHON_3_10,
       role,
+      architecture: props.architecture || lambda.Architecture.X86_64,
       code: lambda.Code.fromAsset(functionDir, {
         bundling: {
           image: lambda.Runtime.PYTHON_3_10.bundlingImage,
