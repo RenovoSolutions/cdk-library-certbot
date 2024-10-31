@@ -130,6 +130,9 @@ Object {
         "Certbot2role947EDF69",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "x86_64",
+        ],
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
@@ -448,6 +451,9 @@ Object {
         "Certbot3role650AD6C3",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "x86_64",
+        ],
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
@@ -758,6 +764,9 @@ Object {
         "Certbot4roleCDF970B1",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "x86_64",
+        ],
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
@@ -1069,6 +1078,9 @@ Object {
         "Certbot5roleF9851B9B",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "x86_64",
+        ],
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
@@ -1371,6 +1383,9 @@ Object {
         "Certbot6role1843873F",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "x86_64",
+        ],
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
@@ -1682,6 +1697,9 @@ Object {
         "VpcPrivateSubnet2RouteTableAssociationA89CAD56",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "x86_64",
+        ],
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
@@ -2168,6 +2186,9 @@ Object {
         "Certbotrole7718327E",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "x86_64",
+        ],
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
