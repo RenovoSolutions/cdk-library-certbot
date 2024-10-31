@@ -83,6 +83,23 @@ The email to associate with the Let's Encrypt certificate request.
 
 ---
 
+##### `architecture`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* [`aws-cdk-lib.aws_lambda.Architecture`](#aws-cdk-lib.aws_lambda.Architecture)
+- *Default:* lambda.Architecture.X86_64
+
+The architecture for the Lambda function.
+
+This property allows you to specify the architecture type for your Lambda function.
+Supported values are 'x86_64' for the standard architecture and 'arm64' for the
+ARM architecture.
+
+---
+
 ##### `bucket`<sup>Optional</sup> <a name="@renovosolutions/cdk-library-certbot.CertbotProps.property.bucket"></a>
 
 ```typescript
