@@ -1,30 +1,30 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Snapshot 1`] = `
-Object {
-  "Parameters": Object {
-    "BootstrapVersion": Object {
+{
+  "Parameters": {
+    "BootstrapVersion": {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
-  "Resources": Object {
-    "Certbot2acmPolicyC37CA3B3": Object {
-      "Properties": Object {
+  "Resources": {
+    "Certbot2acmPolicyC37CA3B3": {
+      "Properties": {
         "Description": "Allow the Certbot function to import and list certificates.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "acm:ListCertificates",
                 "acm:ImportCertificate",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "acm:DescribeCertificate",
               "Effect": "Allow",
               "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
@@ -35,79 +35,79 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot2bucket15AF13C6": Object {
+    "Certbot2bucket15AF13C6": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
                 "SSEAlgorithm": "AES256",
               },
             },
           ],
         },
-        "LifecycleConfiguration": Object {
-          "Rules": Array [
-            Object {
-              "AbortIncompleteMultipartUpload": Object {
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "AbortIncompleteMultipartUpload": {
                 "DaysAfterInitiation": 1,
               },
               "Status": "Enabled",
             },
           ],
         },
-        "OwnershipControls": Object {
-          "Rules": Array [
-            Object {
+        "OwnershipControls": {
+          "Rules": [
+            {
               "ObjectOwnership": "BucketOwnerPreferred",
             },
           ],
         },
-        "PublicAccessBlockConfiguration": Object {
+        "PublicAccessBlockConfiguration": {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
           "RestrictPublicBuckets": true,
         },
-        "VersioningConfiguration": Object {
+        "VersioningConfiguration": {
           "Status": "Enabled",
         },
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "Certbot2bucketPolicyF5044957": Object {
-      "Properties": Object {
-        "Bucket": Object {
+    "Certbot2bucketPolicyF5044957": {
+      "Properties": {
+        "Bucket": {
           "Ref": "Certbot2bucket15AF13C6",
         },
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "s3:*",
-              "Condition": Object {
-                "Bool": Object {
+              "Condition": {
+                "Bool": {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": Object {
+              "Principal": {
                 "AWS": "*",
               },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "Certbot2bucket15AF13C6",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "Certbot2bucket15AF13C6",
                           "Arn",
                         ],
@@ -124,23 +124,23 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "Certbot2handlerDD5B6BD6": Object {
-      "DependsOn": Array [
+    "Certbot2handlerDD5B6BD6": {
+      "DependsOn": [
         "Certbot2roleDefaultPolicyD41BA24B",
         "Certbot2role947EDF69",
       ],
-      "Properties": Object {
-        "Architectures": Array [
+      "Properties": {
+        "Architectures": [
           "x86_64",
         ],
-        "Code": Object {
+        "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test2.local",
-        "Environment": Object {
-          "Variables": Object {
-            "CERTIFICATE_BUCKET": Object {
+        "Environment": {
+          "Variables": {
+            "CERTIFICATE_BUCKET": {
               "Ref": "Certbot2bucket15AF13C6",
             },
             "CERTIFICATE_STORAGE": "s3",
@@ -148,7 +148,7 @@ Object {
             "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test2.local, www.test2.local",
             "LETSENCRYPT_EMAIL": "test@test2.local",
-            "NOTIFICATION_SNS_ARN": Object {
+            "NOTIFICATION_SNS_ARN": {
               "Ref": "Certbot2topic395A9DCD",
             },
             "OBJECT_PREFIX": "",
@@ -157,8 +157,8 @@ Object {
           },
         },
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "Certbot2role947EDF69",
             "Arn",
           ],
@@ -168,47 +168,47 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "Certbot2r53Policy92D86BDE": Object {
-      "Properties": Object {
+    "Certbot2r53Policy92D86BDE": {
+      "Properties": {
         "Description": "Allow the Certbot function to perform DNS verification.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "route53:ListHostedZones",
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "route53:GetChange",
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:route53:::change/*",
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/DUMMY",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/",
-                      Object {
+                      {
                         "Ref": "ZoneA5DE4B68",
                       },
                     ],
@@ -222,52 +222,52 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot2role947EDF69": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbot2role947EDF69": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
+          {
             "Ref": "Certbot2snsPolicy34AF5BB6",
           },
-          Object {
+          {
             "Ref": "Certbot2r53Policy92D86BDE",
           },
-          Object {
+          {
             "Ref": "Certbot2acmPolicyC37CA3B3",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "Certbot2roleDefaultPolicyD41BA24B": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "Certbot2roleDefaultPolicyD41BA24B": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -280,19 +280,19 @@ Object {
                 "s3:Abort*",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "Certbot2bucket15AF13C6",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "Certbot2bucket15AF13C6",
                           "Arn",
                         ],
@@ -307,24 +307,24 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "Certbot2roleDefaultPolicyD41BA24B",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "Certbot2role947EDF69",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "Certbot2snsPolicy34AF5BB6": Object {
-      "Properties": Object {
+    "Certbot2snsPolicy34AF5BB6": {
+      "Properties": {
         "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Resource": Object {
+              "Resource": {
                 "Ref": "Certbot2topic395A9DCD",
               },
             },
@@ -334,27 +334,27 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot2topic395A9DCD": Object {
+    "Certbot2topic395A9DCD": {
       "Type": "AWS::SNS::Topic",
     },
-    "Certbot2topictesttest2localAF8994D0": Object {
-      "Properties": Object {
+    "Certbot2topictesttest2localAF8994D0": {
+      "Properties": {
         "Endpoint": "test@test2.local",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "Certbot2topic395A9DCD",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "Certbot2triggerA0C0D9CA": Object {
-      "Properties": Object {
+    "Certbot2triggerA0C0D9CA": {
+      "Properties": {
         "ScheduleExpression": "cron(0 0 ? * 1 *)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot2handlerDD5B6BD6",
                 "Arn",
               ],
@@ -365,18 +365,18 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot2triggerAllowEventRuleTestStackCertbot2handler0C9B784E8CC7BD79": Object {
-      "Properties": Object {
+    "Certbot2triggerAllowEventRuleTestStackCertbot2handler0C9B784E8CC7BD79": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot2handlerDD5B6BD6",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot2triggerA0C0D9CA",
             "Arn",
           ],
@@ -384,18 +384,18 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot2triggerImmediateAllowEventRuleTestStackCertbot2handler0C9B784E1442FE9C": Object {
-      "Properties": Object {
+    "Certbot2triggerImmediateAllowEventRuleTestStackCertbot2handler0C9B784E1442FE9C": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot2handlerDD5B6BD6",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot2triggerImmediateE4EA1F78",
             "Arn",
           ],
@@ -403,14 +403,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot2triggerImmediateE4EA1F78": Object {
-      "Properties": Object {
+    "Certbot2triggerImmediateE4EA1F78": {
+      "Properties": {
         "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot2handlerDD5B6BD6",
                 "Arn",
               ],
@@ -421,21 +421,21 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot3acmPolicyEB8711A3": Object {
-      "Properties": Object {
+    "Certbot3acmPolicyEB8711A3": {
+      "Properties": {
         "Description": "Allow the Certbot function to import and list certificates.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "acm:ListCertificates",
                 "acm:ImportCertificate",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "acm:DescribeCertificate",
               "Effect": "Allow",
               "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
@@ -446,28 +446,28 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot3handler209B83F5": Object {
-      "DependsOn": Array [
+    "Certbot3handler209B83F5": {
+      "DependsOn": [
         "Certbot3role650AD6C3",
       ],
-      "Properties": Object {
-        "Architectures": Array [
+      "Properties": {
+        "Architectures": [
           "x86_64",
         ],
-        "Code": Object {
+        "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test3.local",
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "CERTIFICATE_SECRET_PATH": "/certbot/certificates/test3.local/",
             "CERTIFICATE_STORAGE": "secretsmanager",
             "DRY_RUN": "False",
             "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test3.local, www.test3.local",
             "LETSENCRYPT_EMAIL": "test@test3.local",
-            "NOTIFICATION_SNS_ARN": Object {
+            "NOTIFICATION_SNS_ARN": {
               "Ref": "Certbot3topic1D6F86D3",
             },
             "OBJECT_PREFIX": "",
@@ -476,8 +476,8 @@ Object {
           },
         },
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "Certbot3role650AD6C3",
             "Arn",
           ],
@@ -487,47 +487,47 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "Certbot3r53Policy56156B49": Object {
-      "Properties": Object {
+    "Certbot3r53Policy56156B49": {
+      "Properties": {
         "Description": "Allow the Certbot function to perform DNS verification.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "route53:ListHostedZones",
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "route53:GetChange",
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:route53:::change/*",
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/DUMMY",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/",
-                      Object {
+                      {
                         "Ref": "ZoneA5DE4B68",
                       },
                     ],
@@ -541,57 +541,57 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot3role650AD6C3": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbot3role650AD6C3": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
+          {
             "Ref": "Certbot3snsPolicy1D9E6026",
           },
-          Object {
+          {
             "Ref": "Certbot3r53Policy56156B49",
           },
-          Object {
+          {
             "Ref": "Certbot3acmPolicyEB8711A3",
           },
-          Object {
+          {
             "Ref": "Certbot3secretsManagerPolicy943A0ACD",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "Certbot3secretsManagerPolicy943A0ACD": Object {
-      "Properties": Object {
+    "Certbot3secretsManagerPolicy943A0ACD": {
+      "Properties": {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "secretsmanager:CreateSecret",
                 "secretsmanager:DeleteSecret",
                 "secretsmanager:DescribeSecret",
@@ -603,18 +603,18 @@ Object {
               "Effect": "Allow",
               "Resource": "arn:aws:secretsmanager:us-east-1:123456789012:secret:/certbot/certificates/test3.local/*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Decrypt",
                 "kms:Encrypt",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:",
-                    Object {
+                    {
                       "Ref": "AWS::Partition",
                     },
                     ":kms:us-east-1:123456789012:alias/aws/secretsmanager",
@@ -628,16 +628,16 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot3snsPolicy1D9E6026": Object {
-      "Properties": Object {
+    "Certbot3snsPolicy1D9E6026": {
+      "Properties": {
         "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Resource": Object {
+              "Resource": {
                 "Ref": "Certbot3topic1D6F86D3",
               },
             },
@@ -647,31 +647,31 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot3topic1D6F86D3": Object {
+    "Certbot3topic1D6F86D3": {
       "Type": "AWS::SNS::Topic",
     },
-    "Certbot3topictesttest3local57C81B78": Object {
-      "Properties": Object {
+    "Certbot3topictesttest3local57C81B78": {
+      "Properties": {
         "Endpoint": "test@test3.local",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "Certbot3topic1D6F86D3",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "Certbot3triggerAllowEventRuleTestStackCertbot3handler2F75392112ED02DD": Object {
-      "Properties": Object {
+    "Certbot3triggerAllowEventRuleTestStackCertbot3handler2F75392112ED02DD": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot3handler209B83F5",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot3triggerCFF93877",
             "Arn",
           ],
@@ -679,14 +679,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot3triggerCFF93877": Object {
-      "Properties": Object {
+    "Certbot3triggerCFF93877": {
+      "Properties": {
         "ScheduleExpression": "cron(0 0 ? * 1 *)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot3handler209B83F5",
                 "Arn",
               ],
@@ -697,18 +697,18 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot3triggerImmediateAllowEventRuleTestStackCertbot3handler2F75392155692E82": Object {
-      "Properties": Object {
+    "Certbot3triggerImmediateAllowEventRuleTestStackCertbot3handler2F75392155692E82": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot3handler209B83F5",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot3triggerImmediateF94A9166",
             "Arn",
           ],
@@ -716,14 +716,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot3triggerImmediateF94A9166": Object {
-      "Properties": Object {
+    "Certbot3triggerImmediateF94A9166": {
+      "Properties": {
         "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot3handler209B83F5",
                 "Arn",
               ],
@@ -734,21 +734,21 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot4acmPolicy14C7C708": Object {
-      "Properties": Object {
+    "Certbot4acmPolicy14C7C708": {
+      "Properties": {
         "Description": "Allow the Certbot function to import and list certificates.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "acm:ListCertificates",
                 "acm:ImportCertificate",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "acm:DescribeCertificate",
               "Effect": "Allow",
               "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
@@ -759,21 +759,21 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot4handler9E5C2F8B": Object {
-      "DependsOn": Array [
+    "Certbot4handler9E5C2F8B": {
+      "DependsOn": [
         "Certbot4roleCDF970B1",
       ],
-      "Properties": Object {
-        "Architectures": Array [
+      "Properties": {
+        "Architectures": [
           "x86_64",
         ],
-        "Code": Object {
+        "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test4.local",
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "CERTIFICATE_SECRET_PATH": "/certbot/certificates/test4.local/",
             "CERTIFICATE_STORAGE": "secretsmanager",
             "CUSTOM_KMS_KEY_ID": "alias/test",
@@ -781,7 +781,7 @@ Object {
             "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test4.local, www.test4.local",
             "LETSENCRYPT_EMAIL": "test@test4.local",
-            "NOTIFICATION_SNS_ARN": Object {
+            "NOTIFICATION_SNS_ARN": {
               "Ref": "Certbot4topic76531857",
             },
             "OBJECT_PREFIX": "",
@@ -790,8 +790,8 @@ Object {
           },
         },
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "Certbot4roleCDF970B1",
             "Arn",
           ],
@@ -801,47 +801,47 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "Certbot4r53Policy2214C19B": Object {
-      "Properties": Object {
+    "Certbot4r53Policy2214C19B": {
+      "Properties": {
         "Description": "Allow the Certbot function to perform DNS verification.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "route53:ListHostedZones",
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "route53:GetChange",
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:route53:::change/*",
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/DUMMY",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/",
-                      Object {
+                      {
                         "Ref": "ZoneA5DE4B68",
                       },
                     ],
@@ -855,57 +855,57 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot4roleCDF970B1": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbot4roleCDF970B1": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
+          {
             "Ref": "Certbot4snsPolicyD4A9E786",
           },
-          Object {
+          {
             "Ref": "Certbot4r53Policy2214C19B",
           },
-          Object {
+          {
             "Ref": "Certbot4acmPolicy14C7C708",
           },
-          Object {
+          {
             "Ref": "Certbot4secretsManagerPolicy86953285",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "Certbot4secretsManagerPolicy86953285": Object {
-      "Properties": Object {
+    "Certbot4secretsManagerPolicy86953285": {
+      "Properties": {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "secretsmanager:CreateSecret",
                 "secretsmanager:DeleteSecret",
                 "secretsmanager:DescribeSecret",
@@ -917,18 +917,18 @@ Object {
               "Effect": "Allow",
               "Resource": "arn:aws:secretsmanager:us-east-1:123456789012:secret:/certbot/certificates/test4.local/*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Decrypt",
                 "kms:Encrypt",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:",
-                    Object {
+                    {
                       "Ref": "AWS::Partition",
                     },
                     ":kms:us-east-1:123456789012:alias/test",
@@ -942,16 +942,16 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot4snsPolicyD4A9E786": Object {
-      "Properties": Object {
+    "Certbot4snsPolicyD4A9E786": {
+      "Properties": {
         "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Resource": Object {
+              "Resource": {
                 "Ref": "Certbot4topic76531857",
               },
             },
@@ -961,31 +961,31 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot4topic76531857": Object {
+    "Certbot4topic76531857": {
       "Type": "AWS::SNS::Topic",
     },
-    "Certbot4topictesttest4localED1A0549": Object {
-      "Properties": Object {
+    "Certbot4topictesttest4localED1A0549": {
+      "Properties": {
         "Endpoint": "test@test4.local",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "Certbot4topic76531857",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "Certbot4triggerAllowEventRuleTestStackCertbot4handlerAC6D89582016CDD4": Object {
-      "Properties": Object {
+    "Certbot4triggerAllowEventRuleTestStackCertbot4handlerAC6D89582016CDD4": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot4handler9E5C2F8B",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot4triggerF7B3A775",
             "Arn",
           ],
@@ -993,14 +993,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot4triggerF7B3A775": Object {
-      "Properties": Object {
+    "Certbot4triggerF7B3A775": {
+      "Properties": {
         "ScheduleExpression": "cron(0 0 ? * 1 *)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot4handler9E5C2F8B",
                 "Arn",
               ],
@@ -1011,14 +1011,14 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot4triggerImmediateA1AD5D75": Object {
-      "Properties": Object {
+    "Certbot4triggerImmediateA1AD5D75": {
+      "Properties": {
         "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot4handler9E5C2F8B",
                 "Arn",
               ],
@@ -1029,18 +1029,18 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot4triggerImmediateAllowEventRuleTestStackCertbot4handlerAC6D8958F5D23DCC": Object {
-      "Properties": Object {
+    "Certbot4triggerImmediateAllowEventRuleTestStackCertbot4handlerAC6D8958F5D23DCC": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot4handler9E5C2F8B",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot4triggerImmediateA1AD5D75",
             "Arn",
           ],
@@ -1048,21 +1048,21 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot5acmPolicy9282E578": Object {
-      "Properties": Object {
+    "Certbot5acmPolicy9282E578": {
+      "Properties": {
         "Description": "Allow the Certbot function to import and list certificates.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "acm:ListCertificates",
                 "acm:ImportCertificate",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "acm:DescribeCertificate",
               "Effect": "Allow",
               "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
@@ -1073,28 +1073,28 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot5handlerF08FFF65": Object {
-      "DependsOn": Array [
+    "Certbot5handlerF08FFF65": {
+      "DependsOn": [
         "Certbot5roleF9851B9B",
       ],
-      "Properties": Object {
-        "Architectures": Array [
+      "Properties": {
+        "Architectures": [
           "x86_64",
         ],
-        "Code": Object {
+        "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test5.local",
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "CERTIFICATE_PARAMETER_PATH": "/certbot/certificates/test5.local/",
             "CERTIFICATE_STORAGE": "ssm_secure",
             "DRY_RUN": "False",
             "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test5.local, www.test5.local",
             "LETSENCRYPT_EMAIL": "test@test5.local",
-            "NOTIFICATION_SNS_ARN": Object {
+            "NOTIFICATION_SNS_ARN": {
               "Ref": "Certbot5topic9F8D3AA7",
             },
             "OBJECT_PREFIX": "",
@@ -1103,8 +1103,8 @@ Object {
           },
         },
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "Certbot5roleF9851B9B",
             "Arn",
           ],
@@ -1114,47 +1114,47 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "Certbot5r53PolicyB6DCE7CB": Object {
-      "Properties": Object {
+    "Certbot5r53PolicyB6DCE7CB": {
+      "Properties": {
         "Description": "Allow the Certbot function to perform DNS verification.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "route53:ListHostedZones",
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "route53:GetChange",
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:route53:::change/*",
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/DUMMY",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/",
-                      Object {
+                      {
                         "Ref": "ZoneA5DE4B68",
                       },
                     ],
@@ -1168,59 +1168,59 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot5roleF9851B9B": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbot5roleF9851B9B": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
+          {
             "Ref": "Certbot5snsPolicy504027F9",
           },
-          Object {
+          {
             "Ref": "Certbot5r53PolicyB6DCE7CB",
           },
-          Object {
+          {
             "Ref": "Certbot5acmPolicy9282E578",
           },
-          Object {
+          {
             "Ref": "Certbot5ssmPolicyA94F2710",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "Certbot5snsPolicy504027F9": Object {
-      "Properties": Object {
+    "Certbot5snsPolicy504027F9": {
+      "Properties": {
         "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Resource": Object {
+              "Resource": {
                 "Ref": "Certbot5topic9F8D3AA7",
               },
             },
@@ -1230,29 +1230,29 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot5ssmPolicyA94F2710": Object {
-      "Properties": Object {
+    "Certbot5ssmPolicyA94F2710": {
+      "Properties": {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "ssm:PutParameter",
               "Effect": "Allow",
               "Resource": "arn:aws:ssm:us-east-1:123456789012:parameter/certbot/certificates/test5.local/*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Decrypt",
                 "kms:Encrypt",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:",
-                    Object {
+                    {
                       "Ref": "AWS::Partition",
                     },
                     ":kms:us-east-1:123456789012:alias/aws/ssm",
@@ -1266,31 +1266,31 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot5topic9F8D3AA7": Object {
+    "Certbot5topic9F8D3AA7": {
       "Type": "AWS::SNS::Topic",
     },
-    "Certbot5topictesttest5local5E1B5E3D": Object {
-      "Properties": Object {
+    "Certbot5topictesttest5local5E1B5E3D": {
+      "Properties": {
         "Endpoint": "test@test5.local",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "Certbot5topic9F8D3AA7",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "Certbot5triggerAllowEventRuleTestStackCertbot5handler0F02814B101C2FEC": Object {
-      "Properties": Object {
+    "Certbot5triggerAllowEventRuleTestStackCertbot5handler0F02814B101C2FEC": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot5handlerF08FFF65",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot5triggerF1F8B5D8",
             "Arn",
           ],
@@ -1298,14 +1298,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot5triggerF1F8B5D8": Object {
-      "Properties": Object {
+    "Certbot5triggerF1F8B5D8": {
+      "Properties": {
         "ScheduleExpression": "cron(0 0 ? * 1 *)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot5handlerF08FFF65",
                 "Arn",
               ],
@@ -1316,14 +1316,14 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot5triggerImmediate3FF9395A": Object {
-      "Properties": Object {
+    "Certbot5triggerImmediate3FF9395A": {
+      "Properties": {
         "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot5handlerF08FFF65",
                 "Arn",
               ],
@@ -1334,18 +1334,18 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot5triggerImmediateAllowEventRuleTestStackCertbot5handler0F02814B4258AD91": Object {
-      "Properties": Object {
+    "Certbot5triggerImmediateAllowEventRuleTestStackCertbot5handler0F02814B4258AD91": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot5handlerF08FFF65",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot5triggerImmediate3FF9395A",
             "Arn",
           ],
@@ -1353,21 +1353,21 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot6acmPolicy5052A88E": Object {
-      "Properties": Object {
+    "Certbot6acmPolicy5052A88E": {
+      "Properties": {
         "Description": "Allow the Certbot function to import and list certificates.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "acm:ListCertificates",
                 "acm:ImportCertificate",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "acm:DescribeCertificate",
               "Effect": "Allow",
               "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
@@ -1378,21 +1378,21 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot6handlerD6A58872": Object {
-      "DependsOn": Array [
+    "Certbot6handlerD6A58872": {
+      "DependsOn": [
         "Certbot6role1843873F",
       ],
-      "Properties": Object {
-        "Architectures": Array [
+      "Properties": {
+        "Architectures": [
           "x86_64",
         ],
-        "Code": Object {
+        "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test6.local",
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "CERTIFICATE_PARAMETER_PATH": "/certbot/certificates/test6.local/",
             "CERTIFICATE_STORAGE": "ssm_secure",
             "CUSTOM_KMS_KEY_ID": "alias/test",
@@ -1400,7 +1400,7 @@ Object {
             "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test6.local, www.test6.local",
             "LETSENCRYPT_EMAIL": "test@test6.local",
-            "NOTIFICATION_SNS_ARN": Object {
+            "NOTIFICATION_SNS_ARN": {
               "Ref": "Certbot6topic26480D34",
             },
             "OBJECT_PREFIX": "",
@@ -1409,8 +1409,8 @@ Object {
           },
         },
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "Certbot6role1843873F",
             "Arn",
           ],
@@ -1420,47 +1420,47 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "Certbot6r53Policy647E091A": Object {
-      "Properties": Object {
+    "Certbot6r53Policy647E091A": {
+      "Properties": {
         "Description": "Allow the Certbot function to perform DNS verification.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "route53:ListHostedZones",
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "route53:GetChange",
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:route53:::change/*",
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/DUMMY",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/",
-                      Object {
+                      {
                         "Ref": "ZoneA5DE4B68",
                       },
                     ],
@@ -1474,59 +1474,59 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot6role1843873F": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbot6role1843873F": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
+          {
             "Ref": "Certbot6snsPolicy5FC3F235",
           },
-          Object {
+          {
             "Ref": "Certbot6r53Policy647E091A",
           },
-          Object {
+          {
             "Ref": "Certbot6acmPolicy5052A88E",
           },
-          Object {
+          {
             "Ref": "Certbot6ssmPolicyA7CD83E3",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "Certbot6snsPolicy5FC3F235": Object {
-      "Properties": Object {
+    "Certbot6snsPolicy5FC3F235": {
+      "Properties": {
         "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Resource": Object {
+              "Resource": {
                 "Ref": "Certbot6topic26480D34",
               },
             },
@@ -1536,29 +1536,29 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot6ssmPolicyA7CD83E3": Object {
-      "Properties": Object {
+    "Certbot6ssmPolicyA7CD83E3": {
+      "Properties": {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "ssm:PutParameter",
               "Effect": "Allow",
               "Resource": "arn:aws:ssm:us-east-1:123456789012:parameter/certbot/certificates/test6.local/*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Decrypt",
                 "kms:Encrypt",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:",
-                    Object {
+                    {
                       "Ref": "AWS::Partition",
                     },
                     ":kms:us-east-1:123456789012:alias/test",
@@ -1572,31 +1572,31 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot6topic26480D34": Object {
+    "Certbot6topic26480D34": {
       "Type": "AWS::SNS::Topic",
     },
-    "Certbot6topictesttest6local90838D49": Object {
-      "Properties": Object {
+    "Certbot6topictesttest6local90838D49": {
+      "Properties": {
         "Endpoint": "test@test6.local",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "Certbot6topic26480D34",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "Certbot6triggerAllowEventRuleTestStackCertbot6handler505405305E03955F": Object {
-      "Properties": Object {
+    "Certbot6triggerAllowEventRuleTestStackCertbot6handler505405305E03955F": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot6handlerD6A58872",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot6triggerB07CAACF",
             "Arn",
           ],
@@ -1604,14 +1604,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot6triggerB07CAACF": Object {
-      "Properties": Object {
+    "Certbot6triggerB07CAACF": {
+      "Properties": {
         "ScheduleExpression": "cron(0 0 ? * 1 *)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot6handlerD6A58872",
                 "Arn",
               ],
@@ -1622,14 +1622,14 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot6triggerImmediate2E81CCDF": Object {
-      "Properties": Object {
+    "Certbot6triggerImmediate2E81CCDF": {
+      "Properties": {
         "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot6handlerD6A58872",
                 "Arn",
               ],
@@ -1640,18 +1640,18 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot6triggerImmediateAllowEventRuleTestStackCertbot6handler505405308F953C97": Object {
-      "Properties": Object {
+    "Certbot6triggerImmediateAllowEventRuleTestStackCertbot6handler505405308F953C97": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot6handlerD6A58872",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot6triggerImmediate2E81CCDF",
             "Arn",
           ],
@@ -1659,21 +1659,21 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot7acmPolicyE09962E9": Object {
-      "Properties": Object {
+    "Certbot7acmPolicyE09962E9": {
+      "Properties": {
         "Description": "Allow the Certbot function to import and list certificates.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "acm:ListCertificates",
                 "acm:ImportCertificate",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "acm:DescribeCertificate",
               "Effect": "Allow",
               "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
@@ -1684,8 +1684,8 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot7handler783F3BCF": Object {
-      "DependsOn": Array [
+    "Certbot7handler783F3BCF": {
+      "DependsOn": [
         "Certbot7roleDefaultPolicy5A54E923",
         "Certbot7role3486B307",
         "EfsFileSystemEfsMountTarget1FB1E892A",
@@ -1696,24 +1696,24 @@ Object {
         "VpcPrivateSubnet2DefaultRoute060D2087",
         "VpcPrivateSubnet2RouteTableAssociationA89CAD56",
       ],
-      "Properties": Object {
-        "Architectures": Array [
+      "Properties": {
+        "Architectures": [
           "x86_64",
         ],
-        "Code": Object {
+        "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test7.local",
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "CERTIFICATE_STORAGE": "efs",
             "DRY_RUN": "False",
             "EFS_PATH": "/mnt/efs",
             "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test7.local, www.test7.local",
             "LETSENCRYPT_EMAIL": "test@test7.local",
-            "NOTIFICATION_SNS_ARN": Object {
+            "NOTIFICATION_SNS_ARN": {
               "Ref": "Certbot7topic29F3056A",
             },
             "OBJECT_PREFIX": "",
@@ -1721,18 +1721,18 @@ Object {
             "REISSUE_DAYS": "30",
           },
         },
-        "FileSystemConfigs": Array [
-          Object {
-            "Arn": Object {
-              "Fn::Join": Array [
+        "FileSystemConfigs": [
+          {
+            "Arn": {
+              "Fn::Join": [
                 "",
-                Array [
+                [
                   "arn:",
-                  Object {
+                  {
                     "Ref": "AWS::Partition",
                   },
                   ":elasticfilesystem:us-east-1:123456789012:access-point/",
-                  Object {
+                  {
                     "Ref": "EfsAccessPoint787A4929",
                   },
                 ],
@@ -1742,28 +1742,28 @@ Object {
           },
         ],
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "Certbot7role3486B307",
             "Arn",
           ],
         },
         "Runtime": "python3.10",
         "Timeout": 180,
-        "VpcConfig": Object {
-          "SecurityGroupIds": Array [
-            Object {
-              "Fn::GetAtt": Array [
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
                 "Certbot7handlerSecurityGroupF7301350",
                 "GroupId",
               ],
             },
           ],
-          "SubnetIds": Array [
-            Object {
+          "SubnetIds": [
+            {
               "Ref": "VpcPrivateSubnet1Subnet536B997A",
             },
-            Object {
+            {
               "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
             },
           ],
@@ -1771,8 +1771,8 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "Certbot7handlerSecurityGroupF7301350": Object {
-      "DependsOn": Array [
+    "Certbot7handlerSecurityGroupF7301350": {
+      "DependsOn": [
         "EfsFileSystemEfsMountTarget1FB1E892A",
         "EfsFileSystemEfsMountTarget26C9652B8",
         "VpcPrivateSubnet1DefaultRouteBE02A9ED",
@@ -1780,62 +1780,62 @@ Object {
         "VpcPrivateSubnet2DefaultRoute060D2087",
         "VpcPrivateSubnet2RouteTableAssociationA89CAD56",
       ],
-      "Properties": Object {
+      "Properties": {
         "GroupDescription": "Automatic security group for Lambda Function TestStackCertbot7handlerD2953A09",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "Certbot7r53Policy5F398121": Object {
-      "Properties": Object {
+    "Certbot7r53Policy5F398121": {
+      "Properties": {
         "Description": "Allow the Certbot function to perform DNS verification.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "route53:ListHostedZones",
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "route53:GetChange",
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:route53:::change/*",
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/DUMMY",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/",
-                      Object {
+                      {
                         "Ref": "ZoneA5DE4B68",
                       },
                     ],
@@ -1849,48 +1849,48 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot7role3486B307": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbot7role3486B307": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
+          {
             "Ref": "Certbot7snsPolicyFB8DE6C4",
           },
-          Object {
+          {
             "Ref": "Certbot7r53Policy5F398121",
           },
-          Object {
+          {
             "Ref": "Certbot7acmPolicyE09962E9",
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
@@ -1901,24 +1901,24 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "Certbot7roleDefaultPolicy5A54E923": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbot7roleDefaultPolicy5A54E923": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "elasticfilesystem:ClientMount",
-              "Condition": Object {
-                "StringEquals": Object {
-                  "elasticfilesystem:AccessPointArn": Object {
-                    "Fn::Join": Array [
+              "Condition": {
+                "StringEquals": {
+                  "elasticfilesystem:AccessPointArn": {
+                    "Fn::Join": [
                       "",
-                      Array [
+                      [
                         "arn:",
-                        Object {
+                        {
                           "Ref": "AWS::Partition",
                         },
                         ":elasticfilesystem:us-east-1:123456789012:access-point/",
-                        Object {
+                        {
                           "Ref": "EfsAccessPoint787A4929",
                         },
                       ],
@@ -1929,19 +1929,19 @@ Object {
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "elasticfilesystem:ClientWrite",
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:",
-                    Object {
+                    {
                       "Ref": "AWS::Partition",
                     },
                     ":elasticfilesystem:us-east-1:123456789012:file-system/",
-                    Object {
+                    {
                       "Ref": "EfsFileSystem37910666",
                     },
                   ],
@@ -1952,24 +1952,24 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "Certbot7roleDefaultPolicy5A54E923",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "Certbot7role3486B307",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "Certbot7snsPolicyFB8DE6C4": Object {
-      "Properties": Object {
+    "Certbot7snsPolicyFB8DE6C4": {
+      "Properties": {
         "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Resource": Object {
+              "Resource": {
                 "Ref": "Certbot7topic29F3056A",
               },
             },
@@ -1979,31 +1979,31 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbot7topic29F3056A": Object {
+    "Certbot7topic29F3056A": {
       "Type": "AWS::SNS::Topic",
     },
-    "Certbot7topictesttest7local7692AF4E": Object {
-      "Properties": Object {
+    "Certbot7topictesttest7local7692AF4E": {
+      "Properties": {
         "Endpoint": "test@test7.local",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "Certbot7topic29F3056A",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "Certbot7triggerAllowEventRuleTestStackCertbot7handlerD2953A09CE571204": Object {
-      "Properties": Object {
+    "Certbot7triggerAllowEventRuleTestStackCertbot7handlerD2953A09CE571204": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot7handler783F3BCF",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot7triggerD7634811",
             "Arn",
           ],
@@ -2011,14 +2011,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "Certbot7triggerD7634811": Object {
-      "Properties": Object {
+    "Certbot7triggerD7634811": {
+      "Properties": {
         "ScheduleExpression": "cron(0 0 ? * 1 *)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot7handler783F3BCF",
                 "Arn",
               ],
@@ -2029,14 +2029,14 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot7triggerImmediate394232D4": Object {
-      "Properties": Object {
+    "Certbot7triggerImmediate394232D4": {
+      "Properties": {
         "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "Certbot7handler783F3BCF",
                 "Arn",
               ],
@@ -2047,18 +2047,18 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "Certbot7triggerImmediateAllowEventRuleTestStackCertbot7handlerD2953A09DC236C7E": Object {
-      "Properties": Object {
+    "Certbot7triggerImmediateAllowEventRuleTestStackCertbot7handlerD2953A09DC236C7E": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "Certbot7handler783F3BCF",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "Certbot7triggerImmediate394232D4",
             "Arn",
           ],
@@ -2066,21 +2066,21 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "CertbotacmPolicy047B0647": Object {
-      "Properties": Object {
+    "CertbotacmPolicy047B0647": {
+      "Properties": {
         "Description": "Allow the Certbot function to import and list certificates.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "acm:ListCertificates",
                 "acm:ImportCertificate",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
+            {
               "Action": "acm:DescribeCertificate",
               "Effect": "Allow",
               "Resource": "arn:aws:acm:us-east-1:123456789012:certificate/*",
@@ -2091,79 +2091,79 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbotbucket4B0141F9": Object {
+    "Certbotbucket4B0141F9": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
                 "SSEAlgorithm": "AES256",
               },
             },
           ],
         },
-        "LifecycleConfiguration": Object {
-          "Rules": Array [
-            Object {
-              "AbortIncompleteMultipartUpload": Object {
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "AbortIncompleteMultipartUpload": {
                 "DaysAfterInitiation": 1,
               },
               "Status": "Enabled",
             },
           ],
         },
-        "OwnershipControls": Object {
-          "Rules": Array [
-            Object {
+        "OwnershipControls": {
+          "Rules": [
+            {
               "ObjectOwnership": "BucketOwnerPreferred",
             },
           ],
         },
-        "PublicAccessBlockConfiguration": Object {
+        "PublicAccessBlockConfiguration": {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
           "RestrictPublicBuckets": true,
         },
-        "VersioningConfiguration": Object {
+        "VersioningConfiguration": {
           "Status": "Enabled",
         },
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "CertbotbucketPolicy2B76343E": Object {
-      "Properties": Object {
-        "Bucket": Object {
+    "CertbotbucketPolicy2B76343E": {
+      "Properties": {
+        "Bucket": {
           "Ref": "Certbotbucket4B0141F9",
         },
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "s3:*",
-              "Condition": Object {
-                "Bool": Object {
+              "Condition": {
+                "Bool": {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": Object {
+              "Principal": {
                 "AWS": "*",
               },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "Certbotbucket4B0141F9",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "Certbotbucket4B0141F9",
                           "Arn",
                         ],
@@ -2180,23 +2180,23 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "CertbothandlerD1E99A6A": Object {
-      "DependsOn": Array [
+    "CertbothandlerD1E99A6A": {
+      "DependsOn": [
         "CertbotroleDefaultPolicy6B0533F6",
         "Certbotrole7718327E",
       ],
-      "Properties": Object {
-        "Architectures": Array [
+      "Properties": {
+        "Architectures": [
           "x86_64",
         ],
-        "Code": Object {
+        "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
           "S3Key": "REMOVED-BECAUSE-WE-ARE-NOT-INTERESTED-IN-LAMBDA-CODE-HASH-IN-THIS-TEST",
         },
         "Description": "Certbot Renewal Lambda for domain test.local",
-        "Environment": Object {
-          "Variables": Object {
-            "CERTIFICATE_BUCKET": Object {
+        "Environment": {
+          "Variables": {
+            "CERTIFICATE_BUCKET": {
               "Ref": "Certbotbucket4B0141F9",
             },
             "CERTIFICATE_STORAGE": "s3",
@@ -2204,7 +2204,7 @@ Object {
             "KEY_TYPE": "ecdsa",
             "LETSENCRYPT_DOMAINS": "test.local, www.test.local",
             "LETSENCRYPT_EMAIL": "test@test.local",
-            "NOTIFICATION_SNS_ARN": Object {
+            "NOTIFICATION_SNS_ARN": {
               "Ref": "CertbottopicCA144CF6",
             },
             "OBJECT_PREFIX": "",
@@ -2213,8 +2213,8 @@ Object {
           },
         },
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "Certbotrole7718327E",
             "Arn",
           ],
@@ -2224,47 +2224,47 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "Certbotr53PolicyAE23E6E5": Object {
-      "Properties": Object {
+    "Certbotr53PolicyAE23E6E5": {
+      "Properties": {
         "Description": "Allow the Certbot function to perform DNS verification.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "route53:ListHostedZones",
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "route53:GetChange",
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:route53:::change/*",
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/DUMMY",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":route53:::hostedzone/",
-                      Object {
+                      {
                         "Ref": "ZoneA5DE4B68",
                       },
                     ],
@@ -2278,52 +2278,52 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "Certbotrole7718327E": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Certbotrole7718327E": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
+          {
             "Ref": "CertbotsnsPolicyB1083589",
           },
-          Object {
+          {
             "Ref": "Certbotr53PolicyAE23E6E5",
           },
-          Object {
+          {
             "Ref": "CertbotacmPolicy047B0647",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "CertbotroleDefaultPolicy6B0533F6": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "CertbotroleDefaultPolicy6B0533F6": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -2336,19 +2336,19 @@ Object {
                 "s3:Abort*",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "Certbotbucket4B0141F9",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "Certbotbucket4B0141F9",
                           "Arn",
                         ],
@@ -2363,24 +2363,24 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "CertbotroleDefaultPolicy6B0533F6",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "Certbotrole7718327E",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "CertbotsnsPolicyB1083589": Object {
-      "Properties": Object {
+    "CertbotsnsPolicyB1083589": {
+      "Properties": {
         "Description": "Allow the Certbot function to notify an SNS topic upon completion.",
         "Path": "/",
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Resource": Object {
+              "Resource": {
                 "Ref": "CertbottopicCA144CF6",
               },
             },
@@ -2390,31 +2390,31 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "CertbottopicCA144CF6": Object {
+    "CertbottopicCA144CF6": {
       "Type": "AWS::SNS::Topic",
     },
-    "Certbottopictesttestlocal58092F4B": Object {
-      "Properties": Object {
+    "Certbottopictesttestlocal58092F4B": {
+      "Properties": {
         "Endpoint": "test@test.local",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "CertbottopicCA144CF6",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "CertbottriggerAllowEventRuleTestStackCertbothandlerA125D3999C57ECC2": Object {
-      "Properties": Object {
+    "CertbottriggerAllowEventRuleTestStackCertbothandlerA125D3999C57ECC2": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "CertbothandlerD1E99A6A",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "CertbottriggerEEDF6DB7",
             "Arn",
           ],
@@ -2422,14 +2422,14 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "CertbottriggerEEDF6DB7": Object {
-      "Properties": Object {
+    "CertbottriggerEEDF6DB7": {
+      "Properties": {
         "ScheduleExpression": "cron(0 0 ? * 1 *)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "CertbothandlerD1E99A6A",
                 "Arn",
               ],
@@ -2440,14 +2440,14 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "CertbottriggerImmediate08D06D4E": Object {
-      "Properties": Object {
+    "CertbottriggerImmediate08D06D4E": {
+      "Properties": {
         "ScheduleExpression": "cron(10 0 14 1 ? 2021)",
         "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
                 "CertbothandlerD1E99A6A",
                 "Arn",
               ],
@@ -2458,18 +2458,18 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "CertbottriggerImmediateAllowEventRuleTestStackCertbothandlerA125D39916D7FE46": Object {
-      "Properties": Object {
+    "CertbottriggerImmediateAllowEventRuleTestStackCertbothandlerA125D39916D7FE46": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "CertbothandlerD1E99A6A",
             "Arn",
           ],
         },
         "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
+        "SourceArn": {
+          "Fn::GetAtt": [
             "CertbottriggerImmediate08D06D4E",
             "Arn",
           ],
@@ -2477,19 +2477,19 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "EfsAccessPoint787A4929": Object {
-      "Properties": Object {
-        "AccessPointTags": Array [
-          Object {
+    "EfsAccessPoint787A4929": {
+      "Properties": {
+        "AccessPointTags": [
+          {
             "Key": "Name",
             "Value": "TestStack/EfsAccessPoint",
           },
         ],
-        "FileSystemId": Object {
+        "FileSystemId": {
           "Ref": "EfsFileSystem37910666",
         },
-        "RootDirectory": Object {
-          "CreationInfo": Object {
+        "RootDirectory": {
+          "CreationInfo": {
             "OwnerGid": "1000",
             "OwnerUid": "1000",
             "Permissions": "700",
@@ -2499,12 +2499,12 @@ Object {
       },
       "Type": "AWS::EFS::AccessPoint",
     },
-    "EfsFileSystem37910666": Object {
+    "EfsFileSystem37910666": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "Encrypted": true,
-        "FileSystemTags": Array [
-          Object {
+        "FileSystemTags": [
+          {
             "Key": "Name",
             "Value": "TestStack/EfsFileSystem",
           },
@@ -2513,79 +2513,79 @@ Object {
       "Type": "AWS::EFS::FileSystem",
       "UpdateReplacePolicy": "Retain",
     },
-    "EfsFileSystemEfsMountTarget1FB1E892A": Object {
-      "Properties": Object {
-        "FileSystemId": Object {
+    "EfsFileSystemEfsMountTarget1FB1E892A": {
+      "Properties": {
+        "FileSystemId": {
           "Ref": "EfsFileSystem37910666",
         },
-        "SecurityGroups": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
               "EfsFileSystemEfsSecurityGroup68CC9E7F",
               "GroupId",
             ],
           },
         ],
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPrivateSubnet1Subnet536B997A",
         },
       },
       "Type": "AWS::EFS::MountTarget",
     },
-    "EfsFileSystemEfsMountTarget26C9652B8": Object {
-      "Properties": Object {
-        "FileSystemId": Object {
+    "EfsFileSystemEfsMountTarget26C9652B8": {
+      "Properties": {
+        "FileSystemId": {
           "Ref": "EfsFileSystem37910666",
         },
-        "SecurityGroups": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
               "EfsFileSystemEfsSecurityGroup68CC9E7F",
               "GroupId",
             ],
           },
         ],
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
         },
       },
       "Type": "AWS::EFS::MountTarget",
     },
-    "EfsFileSystemEfsSecurityGroup68CC9E7F": Object {
-      "Properties": Object {
+    "EfsFileSystemEfsSecurityGroup68CC9E7F": {
+      "Properties": {
         "GroupDescription": "TestStack/EfsFileSystem/EfsSecurityGroup",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1",
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/EfsFileSystem",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "EfsFileSystemEfsSecurityGroupfromTestStackCertbot7handlerSecurityGroup2CE8F2482049DEF3190B": Object {
-      "Properties": Object {
+    "EfsFileSystemEfsSecurityGroupfromTestStackCertbot7handlerSecurityGroup2CE8F2482049DEF3190B": {
+      "Properties": {
         "Description": "from TestStackCertbot7handlerSecurityGroup2CE8F248:2049",
         "FromPort": 2049,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
+        "GroupId": {
+          "Fn::GetAtt": [
             "EfsFileSystemEfsSecurityGroup68CC9E7F",
             "GroupId",
           ],
         },
         "IpProtocol": "tcp",
-        "SourceSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
             "Certbot7handlerSecurityGroupF7301350",
             "GroupId",
           ],
@@ -2594,21 +2594,21 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
-    "KmsKey46693ADD": Object {
+    "KmsKey46693ADD": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "KeyPolicy": Object {
-          "Statement": Array [
-            Object {
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
               "Action": "kms:*",
               "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::123456789012:root",
@@ -2625,11 +2625,11 @@ Object {
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "KmsKeyAlias513C0C4A": Object {
-      "Properties": Object {
+    "KmsKeyAlias513C0C4A": {
+      "Properties": {
         "AliasName": "alias/test",
-        "TargetKeyId": Object {
-          "Fn::GetAtt": Array [
+        "TargetKeyId": {
+          "Fn::GetAtt": [
             "KmsKey46693ADD",
             "Arn",
           ],
@@ -2637,14 +2637,14 @@ Object {
       },
       "Type": "AWS::KMS::Alias",
     },
-    "Vpc8378EB38": Object {
-      "Properties": Object {
+    "Vpc8378EB38": {
+      "Properties": {
         "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": true,
         "EnableDnsSupport": true,
         "InstanceTenancy": "default",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc",
           },
@@ -2652,10 +2652,10 @@ Object {
       },
       "Type": "AWS::EC2::VPC",
     },
-    "VpcIGWD7BA715C": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "VpcIGWD7BA715C": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc",
           },
@@ -2663,150 +2663,150 @@ Object {
       },
       "Type": "AWS::EC2::InternetGateway",
     },
-    "VpcPrivateSubnet1DefaultRouteBE02A9ED": Object {
-      "Properties": Object {
+    "VpcPrivateSubnet1DefaultRouteBE02A9ED": {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "NatGatewayId": Object {
+        "NatGatewayId": {
           "Ref": "VpcPublicSubnet1NATGateway4D7517AA",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "VpcPrivateSubnet1RouteTableB2C5B500",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPrivateSubnet1RouteTableAssociation70C59FA6": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "VpcPrivateSubnet1RouteTableAssociation70C59FA6": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "VpcPrivateSubnet1RouteTableB2C5B500",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPrivateSubnet1Subnet536B997A",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPrivateSubnet1RouteTableB2C5B500": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "VpcPrivateSubnet1RouteTableB2C5B500": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PrivateSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPrivateSubnet1Subnet536B997A": Object {
-      "Properties": Object {
+    "VpcPrivateSubnet1Subnet536B997A": {
+      "Properties": {
         "AvailabilityZone": "dummy1a",
         "CidrBlock": "10.0.128.0/18",
         "MapPublicIpOnLaunch": false,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PrivateSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPrivateSubnet2DefaultRoute060D2087": Object {
-      "Properties": Object {
+    "VpcPrivateSubnet2DefaultRoute060D2087": {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "NatGatewayId": Object {
+        "NatGatewayId": {
           "Ref": "VpcPublicSubnet2NATGateway9182C01D",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "VpcPrivateSubnet2RouteTableA678073B",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPrivateSubnet2RouteTableA678073B": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "VpcPrivateSubnet2RouteTableA678073B": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PrivateSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPrivateSubnet2RouteTableAssociationA89CAD56": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "VpcPrivateSubnet2RouteTableAssociationA89CAD56": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "VpcPrivateSubnet2RouteTableA678073B",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPrivateSubnet2Subnet3788AAA1": Object {
-      "Properties": Object {
+    "VpcPrivateSubnet2Subnet3788AAA1": {
+      "Properties": {
         "AvailabilityZone": "dummy1b",
         "CidrBlock": "10.0.192.0/18",
         "MapPublicIpOnLaunch": false,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PrivateSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet1DefaultRoute3DA9E72A": Object {
-      "DependsOn": Array [
+    "VpcPublicSubnet1DefaultRoute3DA9E72A": {
+      "DependsOn": [
         "VpcVPCGWBF912B6E",
       ],
-      "Properties": Object {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
+        "GatewayId": {
           "Ref": "VpcIGWD7BA715C",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet1EIPD7E02669": Object {
-      "Properties": Object {
+    "VpcPublicSubnet1EIPD7E02669": {
+      "Properties": {
         "Domain": "vpc",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet1",
           },
@@ -2814,23 +2814,23 @@ Object {
       },
       "Type": "AWS::EC2::EIP",
     },
-    "VpcPublicSubnet1NATGateway4D7517AA": Object {
-      "DependsOn": Array [
+    "VpcPublicSubnet1NATGateway4D7517AA": {
+      "DependsOn": [
         "VpcPublicSubnet1DefaultRoute3DA9E72A",
         "VpcPublicSubnet1RouteTableAssociation97140677",
       ],
-      "Properties": Object {
-        "AllocationId": Object {
-          "Fn::GetAtt": Array [
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
             "VpcPublicSubnet1EIPD7E02669",
             "AllocationId",
           ],
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
         },
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet1",
           },
@@ -2838,76 +2838,76 @@ Object {
       },
       "Type": "AWS::EC2::NatGateway",
     },
-    "VpcPublicSubnet1RouteTable6C95E38E": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "VpcPublicSubnet1RouteTable6C95E38E": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet1RouteTableAssociation97140677": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "VpcPublicSubnet1RouteTableAssociation97140677": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet1Subnet5C2D37C4": Object {
-      "Properties": Object {
+    "VpcPublicSubnet1Subnet5C2D37C4": {
+      "Properties": {
         "AvailabilityZone": "dummy1a",
         "CidrBlock": "10.0.0.0/18",
         "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet2DefaultRoute97F91067": Object {
-      "DependsOn": Array [
+    "VpcPublicSubnet2DefaultRoute97F91067": {
+      "DependsOn": [
         "VpcVPCGWBF912B6E",
       ],
-      "Properties": Object {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
+        "GatewayId": {
           "Ref": "VpcIGWD7BA715C",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "VpcPublicSubnet2RouteTable94F7E489",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet2EIP3C605A87": Object {
-      "Properties": Object {
+    "VpcPublicSubnet2EIP3C605A87": {
+      "Properties": {
         "Domain": "vpc",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet2",
           },
@@ -2915,23 +2915,23 @@ Object {
       },
       "Type": "AWS::EC2::EIP",
     },
-    "VpcPublicSubnet2NATGateway9182C01D": Object {
-      "DependsOn": Array [
+    "VpcPublicSubnet2NATGateway9182C01D": {
+      "DependsOn": [
         "VpcPublicSubnet2DefaultRoute97F91067",
         "VpcPublicSubnet2RouteTableAssociationDD5762D8",
       ],
-      "Properties": Object {
-        "AllocationId": Object {
-          "Fn::GetAtt": Array [
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
             "VpcPublicSubnet2EIP3C605A87",
             "AllocationId",
           ],
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPublicSubnet2Subnet691E08A3",
         },
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet2",
           },
@@ -2939,90 +2939,90 @@ Object {
       },
       "Type": "AWS::EC2::NatGateway",
     },
-    "VpcPublicSubnet2RouteTable94F7E489": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "VpcPublicSubnet2RouteTable94F7E489": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet2RouteTableAssociationDD5762D8": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "VpcPublicSubnet2RouteTableAssociationDD5762D8": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "VpcPublicSubnet2RouteTable94F7E489",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "VpcPublicSubnet2Subnet691E08A3",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet2Subnet691E08A3": Object {
-      "Properties": Object {
+    "VpcPublicSubnet2Subnet691E08A3": {
+      "Properties": {
         "AvailabilityZone": "dummy1b",
         "CidrBlock": "10.0.64.0/18",
         "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "TestStack/Vpc/PublicSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcVPCGWBF912B6E": Object {
-      "Properties": Object {
-        "InternetGatewayId": Object {
+    "VpcVPCGWBF912B6E": {
+      "Properties": {
+        "InternetGatewayId": {
           "Ref": "VpcIGWD7BA715C",
         },
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
     },
-    "ZoneA5DE4B68": Object {
-      "Properties": Object {
+    "ZoneA5DE4B68": {
+      "Properties": {
         "Name": "auth.test.local.",
       },
       "Type": "AWS::Route53::HostedZone",
     },
   },
-  "Rules": Object {
-    "CheckBootstrapVersion": Object {
-      "Assertions": Array [
-        Object {
-          "Assert": Object {
-            "Fn::Not": Array [
-              Object {
-                "Fn::Contains": Array [
-                  Array [
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
                     "1",
                     "2",
                     "3",
                     "4",
                     "5",
                   ],
-                  Object {
+                  {
                     "Ref": "BootstrapVersion",
                   },
                 ],

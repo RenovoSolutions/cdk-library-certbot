@@ -3,7 +3,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Renovo Solutions',
   authorAddress: 'webmaster+cdk@renovo1.com',
   projenrcTs: true,
-  cdkVersion: '2.151.0',
+  cdkVersion: '2.202.0',
+  jsiiVersion: '^5.8.0',
   defaultReleaseBranch: 'master',
   majorVersion: 2,
   name: '@renovosolutions/cdk-library-certbot',
@@ -45,7 +46,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   eslint: true,
   publishToPypi: {
     distName: 'renovosolutions.aws-cdk-certbot',
-    module: 'certbot',
+    module: 'renovosolutions_certbot',
   },
   publishToNuget: {
     dotNetNamespace: 'renovosolutions',
@@ -53,7 +54,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   jestOptions: {
     jestConfig: {
-      timers: 'fake',
+      fakeTimers: {
+        enableGlobally: true,
+      },
     },
   },
 });

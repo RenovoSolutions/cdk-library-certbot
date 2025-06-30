@@ -545,7 +545,7 @@ test('not providing zone names or zones should throw an error', () => {
       letsencryptDomains: 'test.local, www.test.local',
       letsencryptEmail: 'test@test.local',
     });
-  }).toThrowError('You must provide either hostedZoneNames or hostedZones');
+  }).toThrow('You must provide either hostedZoneNames or hostedZones');
 });
 
 test('Multiple certs in one stack does not error', () => {
@@ -575,7 +575,7 @@ test('Multiple certs in one stack does not error', () => {
       hostedZoneNames: ['example.com'],
       hostedZones: [zone],
     });
-  }).not.toThrowError();
+  }).not.toThrow();
 });
 
 test('stack should contain specific number of expected resources when efs is used', () => {
@@ -656,7 +656,7 @@ test('not providing access point when efs is used should throw an error', () => 
       hostedZones: [zone],
       certificateStorage: CertificateStorageType.EFS,
     });
-  }).toThrowError('You must provide an EFS Access Point to use EFS storage');
+  }).toThrow('You must provide an EFS Access Point to use EFS storage');
 });
 
 test('not providing vpc when efs is used should throw an error', () => {
@@ -699,6 +699,6 @@ test('not providing vpc when efs is used should throw an error', () => {
       certificateStorage: CertificateStorageType.EFS,
       efsAccessPoint,
     });
-  }).toThrowError('Cannot configure \'filesystem\' without configuring a VPC.');
+  }).toThrow('Cannot configure \'filesystem\' without configuring a VPC.');
 });
 
