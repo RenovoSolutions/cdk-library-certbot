@@ -1,33 +1,36 @@
-from unittest.mock import patch, mock_open, MagicMock
-from moto import mock_aws
+"""Test driver for the lambda."""
 import os
 import sys
-import pytest
-import boto3
 import datetime
 import pathlib
+from unittest.mock import patch, mock_open, MagicMock
+
+import pytest
+import boto3
+from moto import mock_aws
 from cryptography import x509
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.index as index
 
 mock_list_certs_response = {
-  'CertificateSummaryList': [
-    {
-      'CertificateArn': 'arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012',
-      'DomainName': 'example.com'
-    },
-    {
-      'CertificateArn': 'arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789013',
-      'DomainName': 'example2.com'
-    }
-  ]
+    "CertificateSummaryList": [
+        {
+            "CertificateArn": "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012",
+            "DomainName": "example.com",
+        },
+        {
+            "CertificateArn": "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789013",
+            "DomainName": "example2.com",
+        },
+    ]
 }
 
 mock_response = {
-  'Certificate': {
-    'CertificateArn': 'arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012',
-    'SubjectAlternativeNames': ['example.com', 'www.example.com'],
-  }
+    "Certificate": {
+        "CertificateArn": "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012",
+        "SubjectAlternativeNames": ["example.com", "www.example.com"],
+    }
 }
 
 MOCK_CERTIFICATE = b"""-----BEGIN CERTIFICATE-----
@@ -122,263 +125,380 @@ mock_cert.not_valid_after = datetime.datetime(2030, 1, 1)
 mock_cert.not_valid_before_utc = datetime.datetime(2020, 1, 1)
 mock_cert.not_valid_after_utc = datetime.datetime(2030, 1, 1)
 
-def mock_file_side_effect(*args, **kwargs):
-  filename = args[0]
-  if 'cert.pem' in filename:
-    return mock_open(read_data=MOCK_CERTIFICATE)()
-  elif 'privkey.pem' in filename:
-    return mock_open(read_data=MOCK_PRIVATE_KEY)()
-  elif 'chain.pem' in filename:
-    return mock_open(read_data=b'data')()
-  else:
-    return mock_open(read_data='data')()
+
+def mock_file_side_effect(*args, **_kwargs):
+    """Mock the open() function to return different data based on the filename."""
+    filename = args[0]
+    if "cert.pem" in filename:
+        return mock_open(read_data=MOCK_CERTIFICATE)()
+    elif "privkey.pem" in filename:
+        return mock_open(read_data=MOCK_PRIVATE_KEY)()
+    elif "chain.pem" in filename:
+        return mock_open(read_data=b"data")()
+    else:
+        return mock_open(read_data="data")()
+
 
 @pytest.fixture
 def aws_mock():
-  with mock_aws():
-    yield
+    """Mock AWS services."""
+    with mock_aws():
+        yield
+
 
 @mock_aws
-@patch('certbot.main.main')
-@patch('src.index.os.remove')
-@patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
-def test_provision_cert_creates_objects_correctly_for_s3_storage(mock_load_pem, mock_remove, mock_certbot_main):
-  # Configure mock
-  mock_certbot_main.return_value = None
+@patch("certbot.main.main")
+@patch("src.index.os.remove")
+@patch("src.index.x509.load_pem_x509_certificate", return_value=mock_cert)
+def test_provision_cert_creates_objects_correctly_for_s3_storage(
+    _mock_load_pem, _mock_remove, mock_certbot_main
+):
+    """Test provisioning of SSL certificate with S3 storage."""
+    # Configure mock
+    mock_certbot_main.return_value = None
 
-  mock_s3_client = boto3.client('s3')
-  mock_s3_client.create_bucket(Bucket='example-cert-bucket')
+    mock_s3_client = boto3.client("s3")
+    mock_s3_client.create_bucket(Bucket="example-cert-bucket")
 
-  mock_sns_client = boto3.client('sns')
-  mock_sns_client.create_topic(Name='example-topic')
+    mock_sns_client = boto3.client("sns")
+    mock_sns_client.create_topic(Name="example-topic")
 
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env detailsI provi
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
-    index.handler(event, context)
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env detailsI provi
+    event = {}
+    context = {}
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        index.handler(event, context)
 
-  # Assert the mock was called with expected arguments
-  mock_certbot_main.assert_called_once_with([
-      'certonly', '-n', '--agree-tos', '--email', 'email@example.com',
-      '--dns-route53', '-d', 'example.com', '--config-dir', '/tmp/config-dir/',
-      '--work-dir', '/tmp/work-dir/', '--logs-dir', '/tmp/logs-dir/',
-      '--preferred-chain', 'ISRG Root X1'
-  ])
+    # Assert the mock was called with expected arguments
+    mock_certbot_main.assert_called_once_with(
+        [
+            "certonly",
+            "-n",
+            "--agree-tos",
+            "--email",
+            "email@example.com",
+            "--dns-route53",
+            "-d",
+            "example.com",
+            "--key-type",
+            "ecdsa",
+            "--config-dir",
+            "/tmp/config-dir/",
+            "--work-dir",
+            "/tmp/work-dir/",
+            "--logs-dir",
+            "/tmp/logs-dir/",
+            "--preferred-chain",
+            "ISRG Root X1",
+        ]
+    )
 
-  response = mock_s3_client.list_objects_v2(Bucket='example-cert-bucket')
-  objects = response.get('Contents', [])
-  assert 'cert.pem' in [obj['Key'] for obj in objects]
-  obj = mock_s3_client.get_object(Bucket='example-cert-bucket', Key='cert.pem')
-  body = obj['Body'].read()
-  assert body == MOCK_CERTIFICATE
-  assert 'privkey.pem' in [obj['Key'] for obj in objects]
-  obj = mock_s3_client.get_object(Bucket='example-cert-bucket', Key='privkey.pem')
-  assert obj['Body'].read() == MOCK_PRIVATE_KEY
-  assert 'chain.pem' in [obj['Key'] for obj in objects]
-  obj = mock_s3_client.get_object(Bucket='example-cert-bucket', Key='chain.pem')
-  assert obj['Body'].read() == b'data'
+    response = mock_s3_client.list_objects_v2(Bucket="example-cert-bucket")
+    objects = response.get("Contents", [])
+    assert "cert.pem" in [obj["Key"] for obj in objects]
+    obj = mock_s3_client.get_object(Bucket="example-cert-bucket", Key="cert.pem")
+    body = obj["Body"].read()
+    assert body == MOCK_CERTIFICATE
+    assert "privkey.pem" in [obj["Key"] for obj in objects]
+    obj = mock_s3_client.get_object(Bucket="example-cert-bucket", Key="privkey.pem")
+    assert obj["Body"].read() == MOCK_PRIVATE_KEY
+    assert "chain.pem" in [obj["Key"] for obj in objects]
+    obj = mock_s3_client.get_object(Bucket="example-cert-bucket", Key="chain.pem")
+    assert obj["Body"].read() == b"data"
+
 
 def test_function_errors_if_storage_s3_and_bucket_not_given():
-  del os.environ['CERTIFICATE_BUCKET']
+    """Test function errors if storage is S3 and bucket is not given."""
+    del os.environ["CERTIFICATE_BUCKET"]
 
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env detailsI provi
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
-    with pytest.raises(Exception) as e:
-      index.handler(event, context)
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env detailsI provi
+    event = {}
+    context = {}
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        with pytest.raises(Exception) as e:
+            index.handler(event, context)
 
-  # assert that the index.handler function raised an exception
-  # because the bucket was not provided
-  assert 'CERTIFICATE_BUCKET is not set' in str(e.value)
+    # assert that the index.handler function raised an exception
+    # because the bucket was not provided
+    assert "CERTIFICATE_BUCKET is not set" in str(e.value)
+
 
 @mock_aws
-@patch('certbot.main.main')
-@patch('src.index.os.remove')
-@patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
-def test_provision_cert_creates_secrets_correctl_for_secretsmanager_storage(mock_load_pem, mock_remove, mock_certbot_main):
-  # Configure mock
-  mock_certbot_main.return_value = None
+@patch("certbot.main.main")
+@patch("src.index.os.remove")
+@patch("src.index.x509.load_pem_x509_certificate", return_value=mock_cert)
+def test_provision_cert_creates_secrets_correctly_for_secretsmanager_storage(
+    _mock_load_pem, _mock_remove, mock_certbot_main
+):
+    """Test provisioning of SSL certificate with Secrets Manager storage."""
+    # Configure mock
+    mock_certbot_main.return_value = None
 
-  mock_sns_client = boto3.client('sns')
-  mock_sns_client.create_topic(Name='example-topic')
+    mock_sns_client = boto3.client("sns")
+    mock_sns_client.create_topic(Name="example-topic")
 
-  os.environ['CERTIFICATE_STORAGE'] = 'secretsmanager'
-  os.environ['CERTIFICATE_SECRET_PATH'] = '/example/path/'
+    os.environ["CERTIFICATE_STORAGE"] = "secretsmanager"
+    os.environ["CERTIFICATE_SECRET_PATH"] = "/example/path/"
 
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env detailsI provi
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
-    index.handler(event, context)
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env detailsI provi
+    event = {}
+    context = {}
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        index.handler(event, context)
 
-  # Assert the mock was called with expected arguments
-  mock_certbot_main.assert_called_once_with([
-      'certonly', '-n', '--agree-tos', '--email', 'email@example.com',
-      '--dns-route53', '-d', 'example.com', '--config-dir', '/tmp/config-dir/',
-      '--work-dir', '/tmp/work-dir/', '--logs-dir', '/tmp/logs-dir/',
-      '--preferred-chain', 'ISRG Root X1'
-  ])
+    # Assert the mock was called with expected arguments
+    mock_certbot_main.assert_called_once_with(
+        [
+            "certonly",
+            "-n",
+            "--agree-tos",
+            "--email",
+            "email@example.com",
+            "--dns-route53",
+            "-d",
+            "example.com",
+            "--key-type",
+            "ecdsa",
+            "--config-dir",
+            "/tmp/config-dir/",
+            "--work-dir",
+            "/tmp/work-dir/",
+            "--logs-dir",
+            "/tmp/logs-dir/",
+            "--preferred-chain",
+            "ISRG Root X1",
+        ]
+    )
 
-  # verify the secrets were created and contain the expected values
-  secrets_client = boto3.client('secretsmanager')
-  response = secrets_client.get_secret_value(SecretId='/example/path/cert.pem')
-  assert response['SecretString'] == MOCK_CERTIFICATE.decode('utf-8')
-  response = secrets_client.get_secret_value(SecretId='/example/path/privkey.pem')
-  assert response['SecretString'] == MOCK_PRIVATE_KEY.decode('utf-8')
-  response = secrets_client.get_secret_value(SecretId='/example/path/chain.pem')
-  assert response['SecretString'] == 'data'
+    # verify the secrets were created and contain the expected values
+    secrets_client = boto3.client("secretsmanager")
+    response = secrets_client.get_secret_value(SecretId="/example/path/cert.pem")
+    assert response["SecretString"] == MOCK_CERTIFICATE.decode("utf-8")
+    response = secrets_client.get_secret_value(SecretId="/example/path/privkey.pem")
+    assert response["SecretString"] == MOCK_PRIVATE_KEY.decode("utf-8")
+    response = secrets_client.get_secret_value(SecretId="/example/path/chain.pem")
+    assert response["SecretString"] == "data"
+
 
 def test_function_errors_if_storage_secretsmanager_and_path_not_given():
-  os.environ['CERTIFICATE_STORAGE'] = 'secretsmanager'
-  del os.environ['CERTIFICATE_SECRET_PATH']
+    """Test function errors if storage is Secrets Manager and path is not given."""
+    os.environ["CERTIFICATE_STORAGE"] = "secretsmanager"
+    del os.environ["CERTIFICATE_SECRET_PATH"]
 
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env detailsI provi
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
-    with pytest.raises(Exception) as e:
-      index.handler(event, context)
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env detailsI provi
+    event = {}
+    context = {}
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        with pytest.raises(Exception) as e:
+            index.handler(event, context)
 
-  # assert that the index.handler function raised an exception
-  # because the bucket was not provided
-  assert 'CERTIFICATE_SECRET_PATH is not set' in str(e.value)
+    # assert that the index.handler function raised an exception
+    # because the bucket was not provided
+    assert "CERTIFICATE_SECRET_PATH is not set" in str(e.value)
+
 
 @mock_aws
-@patch('certbot.main.main')
-@patch('src.index.os.remove')
-@patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
-def test_provision_cert_behaves_correctly_for_ssm_storage(mock_load_pem, mock_remove, mock_certbot_main):
-  # Configure mock
-  mock_certbot_main.return_value = None
+@patch("certbot.main.main")
+@patch("src.index.os.remove")
+@patch("src.index.x509.load_pem_x509_certificate", return_value=mock_cert)
+def test_provision_cert_behaves_correctly_for_ssm_storage(
+    _mock_load_pem, _mock_remove, mock_certbot_main
+):
+    """Test provisioning of SSL certificate with SSM storage."""
+    # Configure mock
+    mock_certbot_main.return_value = None
 
-  mock_sns_client = boto3.client('sns')
-  mock_sns_client.create_topic(Name='example-topic')
+    mock_sns_client = boto3.client("sns")
+    mock_sns_client.create_topic(Name="example-topic")
 
-  os.environ['CERTIFICATE_STORAGE'] = 'ssm_secure'
-  os.environ['CERTIFICATE_PARAMETER_PATH'] = '/example/path/'
+    os.environ["CERTIFICATE_STORAGE"] = "ssm_secure"
+    os.environ["CERTIFICATE_PARAMETER_PATH"] = "/example/path/"
 
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env detailsI provi
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
-    index.handler(event, context)
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env detailsI provi
+    event = {}
+    context = {}
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        index.handler(event, context)
 
-  # Assert the mock was called with expected arguments
-  mock_certbot_main.assert_called_once_with([
-      'certonly', '-n', '--agree-tos', '--email', 'email@example.com',
-      '--dns-route53', '-d', 'example.com', '--config-dir', '/tmp/config-dir/',
-      '--work-dir', '/tmp/work-dir/', '--logs-dir', '/tmp/logs-dir/',
-      '--preferred-chain', 'ISRG Root X1'
-  ])
+    # Assert the mock was called with expected arguments
+    mock_certbot_main.assert_called_once_with(
+        [
+            "certonly",
+            "-n",
+            "--agree-tos",
+            "--email",
+            "email@example.com",
+            "--dns-route53",
+            "-d",
+            "example.com",
+            "--key-type",
+            "ecdsa",
+            "--config-dir",
+            "/tmp/config-dir/",
+            "--work-dir",
+            "/tmp/work-dir/",
+            "--logs-dir",
+            "/tmp/logs-dir/",
+            "--preferred-chain",
+            "ISRG Root X1",
+        ]
+    )
 
-  # verify the secrets were created and contain the expected values
-  ssm_client = boto3.client('ssm')
-  response = ssm_client.get_parameter(Name='/example/path/cert.pem', WithDecryption=True)
-  assert response['Parameter']['Value'] == MOCK_CERTIFICATE.decode('utf-8')
-  response = ssm_client.get_parameter(Name='/example/path/privkey.pem', WithDecryption=True)
-  assert response['Parameter']['Value'] == MOCK_PRIVATE_KEY.decode('utf-8')
-  response = ssm_client.get_parameter(Name='/example/path/chain.pem', WithDecryption=True)
-  assert response['Parameter']['Value'] == 'data'
+    # verify the secrets were created and contain the expected values
+    ssm_client = boto3.client("ssm")
+    response = ssm_client.get_parameter(
+        Name="/example/path/cert.pem", WithDecryption=True
+    )
+    assert response["Parameter"]["Value"] == MOCK_CERTIFICATE.decode("utf-8")
+    response = ssm_client.get_parameter(
+        Name="/example/path/privkey.pem", WithDecryption=True
+    )
+    assert response["Parameter"]["Value"] == MOCK_PRIVATE_KEY.decode("utf-8")
+    response = ssm_client.get_parameter(
+        Name="/example/path/chain.pem", WithDecryption=True
+    )
+    assert response["Parameter"]["Value"] == "data"
+
 
 def test_function_errors_if_storage_ssm_and_path_not_given():
-  os.environ['CERTIFICATE_STORAGE'] = 'ssm_secure'
-  del os.environ['CERTIFICATE_PARAMETER_PATH']
+    """Test function errors if storage is SSM and path is not given."""
+    os.environ["CERTIFICATE_STORAGE"] = "ssm_secure"
+    del os.environ["CERTIFICATE_PARAMETER_PATH"]
 
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env detailsI provi
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
-    with pytest.raises(Exception) as e:
-      index.handler(event, context)
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env details provided
+    event = {}
+    context = {}
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        with pytest.raises(Exception) as e:
+            index.handler(event, context)
 
-  # assert that the index.handler function raised an exception
-  # because the bucket was not provided
-  assert 'CERTIFICATE_PARAMETER_PATH is not set' in str(e.value)
+    # assert that the index.handler function raised an exception
+    # because the bucket was not provided
+    assert "CERTIFICATE_PARAMETER_PATH is not set" in str(e.value)
+
 
 @mock_aws
-@patch('certbot.main.main')
-@patch('src.index.os.remove')
-@patch('src.index.x509.load_pem_x509_certificate', return_value=mock_cert)
-def test_provision_cert_behaves_correctly_for_efs_storage(mock_load_pem, mock_remove, mock_certbot_main):
-  # Configure mock
-  mock_certbot_main.return_value = None
+@patch("certbot.main.main")
+@patch("src.index.os.remove")
+@patch("src.index.x509.load_pem_x509_certificate", return_value=mock_cert)
+def test_provision_cert_behaves_correctly_for_efs_storage(
+    _mock_load_pem, _mock_remove, mock_certbot_main
+):
+    """Test provisioning of SSL certificate with EFS storage."""
+    # Configure mock
+    mock_certbot_main.return_value = None
 
-  mock_sns_client = boto3.client('sns')
-  mock_sns_client.create_topic(Name='example-topic')
+    mock_sns_client = boto3.client("sns")
+    mock_sns_client.create_topic(Name="example-topic")
 
-  os.environ['CERTIFICATE_STORAGE'] = 'efs'
+    os.environ["CERTIFICATE_STORAGE"] = "efs"
 
-  # Create the EFS_PATH directory
-  pathlib.Path(os.environ['EFS_PATH'] + '/').mkdir(parents=True, exist_ok=True)
+    # Create the EFS_PATH directory
+    pathlib.Path(os.environ["EFS_PATH"] + "/").mkdir(parents=True, exist_ok=True)
 
-  # Use just the first domain given if there are multiple
-  domain_dir = '/tmp/config-dir/live/' + os.environ['LETSENCRYPT_DOMAINS'].split(',')[0]
+    # Use just the first domain given if there are multiple
+    domain_dir = (
+        "/tmp/config-dir/live/" + os.environ["LETSENCRYPT_DOMAINS"].split(",")[0]
+    )
 
-  # Write the test data to real files since they are copied by path
-  pathlib.Path(domain_dir).mkdir(parents=True, exist_ok=True)
-  with open(domain_dir + '/cert.pem', 'wb') as file:
-    file.write(MOCK_CERTIFICATE)
-  with open(domain_dir + '/privkey.pem', 'wb') as file:
-    file.write(MOCK_PRIVATE_KEY)
-  with open(domain_dir + '/chain.pem', 'wb') as file:
-    file.write(b'data')
+    # Write the test data to real files since they are copied by path
+    pathlib.Path(domain_dir).mkdir(parents=True, exist_ok=True)
+    with open(domain_dir + "/cert.pem", "wb") as file:
+        file.write(MOCK_CERTIFICATE)
+    with open(domain_dir + "/privkey.pem", "wb") as file:
+        file.write(MOCK_PRIVATE_KEY)
+    with open(domain_dir + "/chain.pem", "wb") as file:
+        file.write(b"data")
 
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env details provided
-  event = {}
-  context = {}
-  with patch('src.index.open', side_effect=mock_file_side_effect, create=True):
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env details provided
+    event = {}
+    context = {}
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        index.handler(event, context)
+
+    # Assert the mock was called with expected arguments
+    mock_certbot_main.assert_called_once_with(
+        [
+            "certonly",
+            "-n",
+            "--agree-tos",
+            "--email",
+            "email@example.com",
+            "--dns-route53",
+            "-d",
+            "example.com",
+            "--key-type",
+            "ecdsa",
+            "--config-dir",
+            "/tmp/config-dir/",
+            "--work-dir",
+            "/tmp/work-dir/",
+            "--logs-dir",
+            "/tmp/logs-dir/",
+            "--preferred-chain",
+            "ISRG Root X1",
+        ]
+    )
+
+    # verify the files were created and contain the expected values
+    assert os.path.exists(os.environ["EFS_PATH"] + "/cert.pem")
+    with open(os.environ["EFS_PATH"] + "/cert.pem", "rb") as file:
+        contents = file.read()
+        assert contents == MOCK_CERTIFICATE
+    assert os.path.exists(os.environ["EFS_PATH"] + "/privkey.pem")
+    with open(os.environ["EFS_PATH"] + "/privkey.pem", "rb") as file:
+        contents = file.read()
+        assert contents == MOCK_PRIVATE_KEY
+    assert os.path.exists(os.environ["EFS_PATH"] + "/chain.pem")
+    with open(os.environ["EFS_PATH"] + "/chain.pem", "rb") as file:
+        contents = file.read()
+        assert contents == b"data"
+
+
+@patch("certbot.main.main")
+def test_provision_cert_respects_dry_run_env_var(mock_certbot_main, aws_mock):
+    """Test function respects DRY_RUN environment variable."""
+    # Configure mock
+    mock_certbot_main.return_value = None
+
+    # Set dry run to skip file operations since we are
+    # only testing the arguments passed to certbot
+    os.environ["DRY_RUN"] = "True"
+
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env details
+    event = {}
+    context = {}
     index.handler(event, context)
 
-  # Assert the mock was called with expected arguments
-  mock_certbot_main.assert_called_once_with([
-      'certonly', '-n', '--agree-tos', '--email', 'email@example.com',
-      '--dns-route53', '-d', 'example.com', '--config-dir', '/tmp/config-dir/',
-      '--work-dir', '/tmp/work-dir/', '--logs-dir', '/tmp/logs-dir/',
-      '--preferred-chain', 'ISRG Root X1'
-  ])
-
-  # verify the files were created and contain the expected values
-  assert os.path.exists(os.environ['EFS_PATH'] + '/cert.pem')
-  with open(os.environ['EFS_PATH'] + '/cert.pem', 'rb') as file:
-    contents = file.read()
-    assert contents == MOCK_CERTIFICATE
-  assert os.path.exists(os.environ['EFS_PATH'] + '/privkey.pem')
-  with open(os.environ['EFS_PATH'] + '/privkey.pem', 'rb') as file:
-    contents = file.read()
-    assert contents == MOCK_PRIVATE_KEY
-  assert os.path.exists(os.environ['EFS_PATH'] + '/chain.pem')
-  with open(os.environ['EFS_PATH'] + '/chain.pem', 'rb') as file:
-    contents = file.read()
-    assert contents == b'data'
-
-@patch('certbot.main.main')
-def test_provision_cert_respects_dry_run_env_var(mock_certbot_main, aws_mock):
-  # Configure mock
-  mock_certbot_main.return_value = None
-
-  # Set dry run to skip file operations since we are
-  # only testing the arguments passed to certbot
-  os.environ['DRY_RUN'] = 'True'
-
-  # Event details dont matter, function is triggered on
-  # a schedule and uses env details
-  event = {}
-  context = {}
-  index.handler(event, context)
-
-  # Assert the mock was called with expected arguments
-  mock_certbot_main.assert_called_once_with([
-      'certonly', '-n', '--agree-tos', '--email', 'email@example.com',
-      '--dns-route53', '-d', 'example.com', '--config-dir', '/tmp/config-dir/',
-      '--work-dir', '/tmp/work-dir/', '--logs-dir', '/tmp/logs-dir/',
-      '--preferred-chain', 'ISRG Root X1', '--dry-run'
-  ])
+    # Assert the mock was called with expected arguments
+    mock_certbot_main.assert_called_once_with(
+        [
+            "certonly",
+            "-n",
+            "--agree-tos",
+            "--email",
+            "email@example.com",
+            "--dns-route53",
+            "-d",
+            "example.com",
+            "--key-type",
+            "ecdsa",
+            "--config-dir",
+            "/tmp/config-dir/",
+            "--work-dir",
+            "/tmp/work-dir/",
+            "--logs-dir",
+            "/tmp/logs-dir/",
+            "--preferred-chain",
+            "ISRG Root X1",
+            "--dry-run",
+        ]
+    )
