@@ -1,6 +1,6 @@
-pytest
-moto
-boto3
-certbot
-certbot-dns-route53
-cryptography
+pytest >= 8.4.1
+moto >= 5.1.9
+boto3 >= 1.40.6
+certbot >= 4.2.0
+certbot-dns-route53 >= 4.2.0
+cryptography >= 45.0.6
