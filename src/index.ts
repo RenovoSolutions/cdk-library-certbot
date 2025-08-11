@@ -262,12 +262,12 @@ export class Certbot extends Construct {
 
     // Create the Lambda function
     this.handler = new lambda.Function(this, 'handler', {
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_13,
       role,
       architecture: props.architecture || lambda.Architecture.X86_64,
       code: lambda.Code.fromAsset(functionDir, {
         bundling: {
-          image: lambda.Runtime.PYTHON_3_10.bundlingImage,
+          image: lambda.Runtime.PYTHON_3_13.bundlingImage,
           command: [
             'bash', '-c', bundlingCmds.join(' && '),
           ],
