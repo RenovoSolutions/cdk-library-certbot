@@ -161,26 +161,39 @@ def provision_cert(email, domains, storage_method, keytype):
 
 def should_provision(domains):
     """
-    Determine if a new certificate should be provisioned,
-    or there is an existing one that is ok.
+    Determine if a new certificate should be provisioned.
+    Returns True if:
+      - No existing cert found, or
+      - The existing cert expires soon, or
+      - The domains differ from those in the current ACM certificate.
     """
     existing_cert = find_existing_cert(domains)
     if existing_cert:
-        print("INFO: Cert already exists. Checking date for reissue.")
+        print("INFO: Cert already exists. Checking domains and expiry date.")
+
+        # --- Check for domain mismatch ---
+        existing_domains = set(
+            [existing_cert["Certificate"]["DomainName"]]
+            + existing_cert["Certificate"].get("SubjectAlternativeNames", [])
+        )
+        env_domains = set(d.strip() for d in domains.split(','))
+
+        if existing_domains != env_domains:
+            print("INFO: Domain mismatch detected.")
+            print(f"Existing domains: {existing_domains}")
+            print(f"Environment domains: {env_domains}")
+            return True
+
+        # --- Check for expiry (reissue days) ---
         now = datetime.datetime.now(datetime.timezone.utc)
         not_after = existing_cert["Certificate"]["NotAfter"]
-        reissue = (not_after - now).days <= int(os.environ["REISSUE_DAYS"])
-        if reissue:
-            print(
-                f'INFO: Cert will expire sometime in the next '
-                f'{os.environ["REISSUE_DAYS"]} days so will be reissued.'
-            )
-            return reissue
+        reissue_days = int(os.environ["REISSUE_DAYS"])
+        reissue = (not_after - now).days <= reissue_days
 
-        print(
-            f'INFO: Cert wont expire in next '
-            f'{os.environ["REISSUE_DAYS"]} days so will NOT be reissued.'
-        )
+        if reissue:
+            print(f"INFO: Cert will expire in ≤ {reissue_days} days, will be reissued.")
+        else:
+            print(f"INFO: Cert valid for more than {reissue_days} days, no reissue needed.")
         return reissue
 
     print("INFO: Cert not found in ACM. Will issue new cert.")
