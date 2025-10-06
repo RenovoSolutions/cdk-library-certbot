@@ -11,16 +11,22 @@ from moto import mock_aws
 from cryptography import x509
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import src.index as index
+import src.index as index # pylint: disable=wrong-import-position
 
 mock_list_certs_response = {
     "CertificateSummaryList": [
         {
-            "CertificateArn": "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012",
+            "CertificateArn": (
+                "arn:aws:acm:region:123456789012:certificate/"
+                "12345678-1234-1234-1234-123456789012"
+            ),
             "DomainName": "example.com",
         },
         {
-            "CertificateArn": "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789013",
+            "CertificateArn": (
+                "arn:aws:acm:region:123456789012:certificate/"
+                "12345678-1234-1234-1234-123456789013"
+            ),
             "DomainName": "example2.com",
         },
     ]
@@ -28,7 +34,10 @@ mock_list_certs_response = {
 
 mock_response = {
     "Certificate": {
-        "CertificateArn": "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012",
+        "CertificateArn": (
+            "arn:aws:acm:region:123456789012:certificate/"
+            "12345678-1234-1234-1234-123456789012"
+        ),
         "SubjectAlternativeNames": ["example.com", "www.example.com"],
     }
 }
@@ -463,7 +472,7 @@ def test_provision_cert_behaves_correctly_for_efs_storage(
 
 
 @patch("certbot.main.main")
-def test_provision_cert_respects_dry_run_env_var(mock_certbot_main, aws_mock):
+def test_provision_cert_respects_dry_run_env_var(mock_certbot_main):
     """Test function respects DRY_RUN environment variable."""
     # Configure mock
     mock_certbot_main.return_value = None
