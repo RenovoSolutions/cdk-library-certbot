@@ -502,3 +502,73 @@ def test_provision_cert_respects_dry_run_env_var(mock_certbot_main, aws_mock):
             "--dry-run",
         ]
     )
+
+@mock_aws
+@patch("certbot.main.main")
+@patch("src.index.get_cert_info")
+@patch("src.index.find_existing_cert")
+@patch("src.index.upload_cert_to_acm")
+def test_provision_reissues_if_san_changed(
+    mock_upload_cert_to_acm, mock_find_existing_cert, mock_get_cert_info, mock_certbot_main
+):
+    """Test reprovisioning of SSL certificate when Subject Alternative Names (SANs) change."""
+
+    # Configure mocks
+    mock_certbot_main.return_value = None
+    mock_get_cert_info.return_value = "Mocked certificate info"
+    mock_upload_cert_to_acm.return_value = None
+
+    mock_find_existing_cert.return_value = {
+        "Certificate": {
+            "CertificateArn": (
+                "arn:aws:acm:region:123456789012:certificate/"
+                "12345678-1234-1234-1234-123456789012"
+            ),
+            "DomainName": "example.com",
+            "SubjectAlternativeNames": ["example.com"],
+            "NotAfter": datetime.datetime(2030, 1, 1, tzinfo=datetime.timezone.utc),
+        }
+    }
+
+    mock_s3_client = boto3.client("s3")
+    mock_s3_client.create_bucket(Bucket="example-cert-bucket")
+
+    mock_sns_client = boto3.client("sns")
+    mock_sns_client.create_topic(Name="example-topic")
+
+    # Event details dont matter, function is triggered on
+    # a schedule and uses env details
+    event = {}
+    context = {}
+
+    # Override the domains to include additional SANs
+    # This should trigger a reissue since the mocked `find_existing_cert`
+    # only returns a cert with the base domain and no SANs
+    os.environ['LETSENCRYPT_DOMAINS'] = 'example.com, www.example.com, api.example.com'
+
+    with patch("src.index.open", side_effect=mock_file_side_effect, create=True):
+        index.handler(event, context)
+
+    # Assert the mock was called (again) with expected arguments
+    mock_certbot_main.assert_called_with(
+        [
+            "certonly",
+            "-n",
+            "--agree-tos",
+            "--email",
+            "email@example.com",
+            "--dns-route53",
+            "-d",
+            "example.com, www.example.com, api.example.com",
+            "--key-type",
+            "ecdsa",
+            "--config-dir",
+            "/tmp/config-dir/",
+            "--work-dir",
+            "/tmp/work-dir/",
+            "--logs-dir",
+            "/tmp/logs-dir/",
+            "--preferred-chain",
+            "ISRG Root X1",
+        ]
+    )
