@@ -254,9 +254,15 @@ export class Certbot extends Construct {
 
     const functionDir = path.join(__dirname, '../function/src');
 
+    // Determine the platform for pip based on the Lambda architecture
+    const architecture = props.architecture || lambda.Architecture.X86_64;
+    const pipPlatform = architecture === lambda.Architecture.ARM_64
+      ? 'manylinux2014_aarch64'
+      : 'manylinux2014_x86_64';
+
     const bundlingCmds = [
       'mkdir -p /asset-output',
-      'pip install -r /asset-input/requirements.txt -t /asset-output',
+      `pip install -r /asset-input/requirements.txt -t /asset-output --platform ${pipPlatform} --implementation cp --python-version 3.13 --only-binary=:all: --upgrade`,
       'cp index.py /asset-output/index.py',
     ];
 
@@ -264,7 +270,7 @@ export class Certbot extends Construct {
     this.handler = new lambda.Function(this, 'handler', {
       runtime: lambda.Runtime.PYTHON_3_13,
       role,
-      architecture: props.architecture || lambda.Architecture.X86_64,
+      architecture,
       code: lambda.Code.fromAsset(functionDir, {
         bundling: {
           image: lambda.Runtime.PYTHON_3_13.bundlingImage,

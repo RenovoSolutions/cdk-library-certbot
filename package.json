@@ -17,7 +17,6 @@
     "eslint": "npx projen eslint",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
-    "package:dotnet": "npx projen package:dotnet",
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
@@ -40,10 +39,10 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^2",
     "@types/jest": "^30.0.0",
-    "@types/node": "^18",
+    "@types/node": "^24",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "aws-cdk-lib": "2.219.0",
+    "aws-cdk-lib": "2.233.0",
     "commit-and-tag-version": "^12",
     "constructs": "10.0.5",
     "eslint": "^9",
@@ -52,22 +51,22 @@
     "jest": "^30.2.0",
     "jest-junit": "^16",
     "jsii": "^5.8.0",
-    "jsii-diff": "^1.115.0",
+    "jsii-diff": "^1.122.0",
     "jsii-docgen": "^10.5.0",
-    "jsii-pacmak": "^1.115.0",
+    "jsii-pacmak": "^1.122.0",
     "jsii-rosetta": "^5.8.0",
-    "projen": "^0.97.0",
-    "ts-jest": "^29.4.4",
+    "projen": "^0.98.30",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.219.0",
+    "aws-cdk-lib": "^2.233.0",
     "constructs": "^10.0.5"
   },
   "dependencies": {
     "@jest/globals": "^30.2.0",
-    "@renovosolutions/cdk-library-one-time-event": "^2.1.125"
+    "@renovosolutions/cdk-library-one-time-event": "^2.1.126"
   },
   "bundledDependencies": [
     "@jest/globals"
@@ -142,10 +141,6 @@
       "python": {
         "distName": "renovosolutions.aws-cdk-certbot",
         "module": "renovosolutions_certbot"
-      },
-      "dotnet": {
-        "namespace": "renovosolutions",
-        "packageId": "Renovo.AWSCDK.Certbot"
       }
     },
     "tsc": {
