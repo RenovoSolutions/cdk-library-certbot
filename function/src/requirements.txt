@@ -1,4 +1,4 @@
-boto3 >= 1.40.45
-certbot >= 5.0.0
-certbot-dns-route53 >= 5.0.0
-cryptography >= 46.0.2
+boto3 >= 1.42.17
+certbot >= 5.2.2
+certbot-dns-route53 >= 5.2.2
+cryptography >= 46.0.3

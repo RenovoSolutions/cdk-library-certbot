@@ -95,7 +95,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.219.0",
+      "version": "^2.233.0",
       "type": "peer"
     },
     {
@@ -105,7 +105,7 @@
     },
     {
       "name": "@renovosolutions/cdk-library-one-time-event",
-      "version": "^2.1.125",
+      "version": "^2.1.126",
       "type": "runtime"
     }
   ],
